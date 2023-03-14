@@ -1,7 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useLocation, NavigateFunction, Location } from 'react-router-dom';
 
-type GlobalContextValue = { navigate: NavigateFunction; location: Location; section: Section };
+type GlobalContextValue = {
+  navigate: NavigateFunction;
+  location: Location;
+  section: Section;
+};
 type GlobalContextProviderProps = { children: ReactNode };
 type Section = 'learn' | 'main';
 

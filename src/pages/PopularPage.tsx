@@ -1,4 +1,16 @@
+import { useContext } from 'react';
+import kanjiContext from '../contexts/kanjiContext';
+import KanjiGrid from '../elements/KanjiGrid';
+
 const PopularPage = () => {
-  return <main role="main">PopularPage</main>;
+  const { popularKanjis, setPopularKanjis, selectedKanjis, setSelectedKanjis } =
+    useContext(kanjiContext);
+
+  return (
+    <main role="main">
+      <h1>PopularPage</h1>
+      <KanjiGrid kanjis={popularKanjis} />
+    </main>
+  );
 };
 export default PopularPage;
