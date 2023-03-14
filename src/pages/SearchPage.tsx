@@ -8,11 +8,11 @@ const SearchPage = () => {
     useContext(kanjiContext);
 
   return (
-    <main role="main">
+    <div className="mainContent">
       <h1>Поиск кандзи</h1>
       <SearchBar />
       <KanjiGrid kanjis={searchKanjis} />
-    </main>
+    </div>
   );
 };
 export default SearchPage;

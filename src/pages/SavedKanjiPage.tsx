@@ -7,10 +7,10 @@ const SavedKanjiPage = () => {
     useContext(kanjiContext);
 
   return (
-    <main role="main">
+    <div className="mainContent">
       <h1>Сохранённые кандзи</h1>
       <KanjiGrid kanjis={savedKanjis} />
-    </main>
+    </div>
   );
 };
 export default SavedKanjiPage;

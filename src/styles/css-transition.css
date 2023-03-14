@@ -1,0 +1,24 @@
+@layer css-transition {
+  .AnimatedRoute-enter {
+    position: absolute;
+    transform: translateY(4rem);
+    width: calc(100% - var(--app-padding) * 2);
+    opacity: 0;
+  }
+  .AnimatedRoute-enter-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.2s ease-out;
+  }
+  .AnimatedRoute-exit {
+    position: absolute;
+    transform: translateY(0);
+    opacity: 1;
+    width: calc(100% - var(--app-padding) * 2);
+  }
+  .AnimatedRoute-exit-active {
+    transition: all 0.15s ease-in;
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}

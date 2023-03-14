@@ -1,4 +1,4 @@
 const LearnByMeaningPage = () => {
-  return <main role="main">LearnByMeaningPage</main>;
+  return <div className="mainContent">LearnByMeaningPage</div>;
 };
 export default LearnByMeaningPage;

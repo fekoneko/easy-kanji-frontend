@@ -46,6 +46,10 @@
     text-align: center;
     color: var(--primary-text-color);
     background-color: transparent;
+    transition: background-color var(--transition-params), color var(--transition-params);
+  }
+  nav > a:hover {
+    background-color: var(--hover-color);
   }
   nav > a.active {
     color: var(--bg-color);
@@ -54,6 +58,8 @@
 
   main {
     flex: 1 1;
+  }
+  main .mainContent {
     display: flex;
     flex-direction: column;
     gap: 1rem;

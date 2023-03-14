@@ -2,6 +2,7 @@
 @import url(layout.css);
 @import url(main-section.css);
 @import url(learn-section.css);
+@import url(css-transition.css);
 
 :root {
   --bg-color: white;
@@ -12,6 +13,8 @@
   --secondary-text-color: #717171;
   --border-style: 2px solid var(--secondary-text-color);
   --focus-border-style: 2px solid var(--primary-text-color);
+  --transition-params: 0.1s linear;
+  --hover-color: #dfdfdf;
   --min-w: 12rem;
   --min-h: 10rem;
 }

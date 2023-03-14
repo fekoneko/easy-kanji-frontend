@@ -7,10 +7,10 @@ const PopularPage = () => {
     useContext(kanjiContext);
 
   return (
-    <main role="main">
+    <div className="mainContent">
       <h1>Популярные кандзи</h1>
       <KanjiGrid kanjis={popularKanjis} />
-    </main>
+    </div>
   );
 };
 export default PopularPage;

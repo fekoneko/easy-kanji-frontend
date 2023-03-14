@@ -6,10 +6,10 @@ const SelectedPage = () => {
   const { selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
 
   return (
-    <main role="main">
+    <div className="mainContent">
       <h1>Выбранные кандзи</h1>
       <KanjiGrid kanjis={selectedKanjis} />
-    </main>
+    </div>
   );
 };
 export default SelectedPage;

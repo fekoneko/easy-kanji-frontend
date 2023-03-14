@@ -1,4 +1,4 @@
 const LearnByWritingPage = () => {
-  return <main role="main">LearnByWritingPage</main>;
+  return <div className="mainContent">LearnByWritingPage</div>;
 };
 export default LearnByWritingPage;
