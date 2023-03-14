@@ -1,0 +1,22 @@
+@layer main-section {
+  .kanjiGrid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.6rem;
+  }
+
+  .kanjiCell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.1rem 0.6rem;
+    background-color: var(--bg-color);
+  }
+  .kanjiCell .kanjiWriting {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  .kanjiCell.selected {
+    background-color: var(--secondary-color);
+  }
+}

@@ -8,7 +8,7 @@ const PopularPage = () => {
 
   return (
     <main role="main">
-      <h1>PopularPage</h1>
+      <h1>Популярные кандзи</h1>
       <KanjiGrid kanjis={popularKanjis} />
     </main>
   );

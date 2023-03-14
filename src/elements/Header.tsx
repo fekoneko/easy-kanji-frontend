@@ -7,11 +7,17 @@ const Header = () => {
 
   return (
     <header>
-      <h1 role="banner">EasyKanji</h1>
+      <Link className="siteTitle" to="/" role="banner">
+        EasyKanji
+      </Link>
       {section === 'learn' ? (
-        <Link to="/">Закончить обучение</Link>
+        <Link className="learnButton" to="/">
+          Закончить обучение
+        </Link>
       ) : (
-        <Link to="/learn">Режим обучения</Link>
+        <Link className="learnButton" to="/learn">
+          Режим обучения
+        </Link>
       )}
     </header>
   );

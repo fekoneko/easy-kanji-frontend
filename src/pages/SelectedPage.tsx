@@ -7,7 +7,7 @@ const SelectedPage = () => {
 
   return (
     <main role="main">
-      <h1>SelectedPage</h1>
+      <h1>Выбранные кандзи</h1>
       <KanjiGrid kanjis={selectedKanjis} />
     </main>
   );

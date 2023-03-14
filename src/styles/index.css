@@ -1,0 +1,17 @@
+@import url(general.css);
+@import url(layout.css);
+@import url(main-section.css);
+@import url(learn-section.css);
+
+:root {
+  --bg-color: white;
+  --app-padding: 15%;
+  --primary-color: #4b50f7;
+  --secondary-color: #bbbbbb;
+  --primary-text-color: black;
+  --secondary-text-color: #717171;
+  --border-style: 2px solid var(--secondary-text-color);
+  --focus-border-style: 2px solid var(--primary-text-color);
+  --min-w: 12rem;
+  --min-h: 10rem;
+}

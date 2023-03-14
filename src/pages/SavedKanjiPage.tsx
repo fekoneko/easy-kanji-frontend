@@ -8,7 +8,7 @@ const SavedKanjiPage = () => {
 
   return (
     <main role="main">
-      <h1>SavedKanjiPage</h1>
+      <h1>Сохранённые кандзи</h1>
       <KanjiGrid kanjis={savedKanjis} />
     </main>
   );

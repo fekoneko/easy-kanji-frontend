@@ -11,12 +11,11 @@ const KanjiCell = ({ kanji }: KanjiCellProps) => {
 
   return (
     <button
-      className="kanjiCell"
+      className={`kanjiCell${isKanjiSelected(selectedKanjis, kanji) ? ' selected' : ''}`}
       onClick={() => selectDeselectKanji(selectedKanjis, setSelectedKanjis, kanji)}
     >
       <p className="kanjiWriting">{kanji.writing}</p>
       <p className="kanjiMeaning">{kanji.meaning}</p>
-      <p className="kanjiMeaning">{isKanjiSelected(selectedKanjis, kanji) ? 'selected' : ''}</p>
     </button>
   );
 };

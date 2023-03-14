@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import globalContext from '../contexts/globalContext';
 
 const Nav = () => {
@@ -9,14 +9,15 @@ const Nav = () => {
     <nav role="navigation">
       {section === 'learn' ? (
         <>
-          <Link to="/learn/by-meaning">По значению</Link>
-          <Link to="/learn/by-writing">По чтению</Link>
+          <NavLink to="/learn/by-meaning">По значению</NavLink>
+          <NavLink to="/learn/by-writing">По чтению</NavLink>
         </>
       ) : (
         <>
-          <Link to="/popular">Популярные</Link>
-          <Link to="/saved">Сохранённые</Link>
-          <Link to="/search">Поиск</Link>
+          <NavLink to="/popular">Популярные</NavLink>
+          <NavLink to="/saved">Сохранённые</NavLink>
+          <NavLink to="/search">Поиск</NavLink>
+          <NavLink to="/selected">Выбранные</NavLink>
         </>
       )}
     </nav>
