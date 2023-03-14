@@ -45,8 +45,8 @@ const App = () => {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </main>
+        <Footer />
       </KanjiContextProvider>
-      <Footer />
     </div>
   );
 };

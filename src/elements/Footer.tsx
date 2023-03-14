@@ -1,7 +1,9 @@
+import ControlPanel from './ControlPanel';
+
 const Footer = () => {
   return (
     <footer role="contentinfo">
-      <p>Footer</p>
+      <ControlPanel />
     </footer>
   );
 };

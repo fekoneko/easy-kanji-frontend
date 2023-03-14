@@ -1,6 +1,7 @@
 @layer css-transition {
   .AnimatedRoute-enter {
     position: absolute;
+    z-index: 1;
     transform: translateY(4rem);
     width: calc(100% - var(--app-padding) * 2);
     opacity: 0;
@@ -12,6 +13,7 @@
   }
   .AnimatedRoute-exit {
     position: absolute;
+    z-index: 0;
     transform: translateY(0);
     opacity: 1;
     width: calc(100% - var(--app-padding) * 2);

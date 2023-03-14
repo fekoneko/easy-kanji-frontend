@@ -1,0 +1,134 @@
+{
+  "popular": [
+    {
+      "id": 1,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 1"
+    },
+    {
+      "id": 2,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 2"
+    },
+    {
+      "id": 3,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 3"
+    },
+    {
+      "id": 4,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 4"
+    },
+    {
+      "id": 5,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 5"
+    },
+    {
+      "id": 6,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 6"
+    },
+    {
+      "id": 7,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 7"
+    },
+    {
+      "id": 8,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 8"
+    },
+    {
+      "id": 9,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 9"
+    },
+    {
+      "id": 10,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 10"
+    },
+    {
+      "id": 11,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 11"
+    },
+    {
+      "id": 12,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 12"
+    }
+  ],
+  "saved": [
+    {
+      "id": 3,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 3"
+    },
+    {
+      "id": 4,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 4"
+    },
+    {
+      "id": 5,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 5"
+    }
+  ],
+  "search": [
+    {
+      "id": 2,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 2"
+    },
+    {
+      "id": 69,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 69"
+    },
+    {
+      "id": 8,
+      "writing": "人",
+      "onReadings": ["ニン", "ジン"],
+      "kunReadings": ["ひと"],
+      "meaning": "человек 8"
+    }
+  ]
+}
