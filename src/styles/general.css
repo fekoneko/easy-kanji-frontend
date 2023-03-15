@@ -11,6 +11,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
+    overflow: hidden;
   }
 
   a {
@@ -58,13 +59,5 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background-color: #979797;
-  }
-
-  .controlPanel button {
-    border: none;
-    background-color: transparent;
-  }
-  .controlPanel button:hover {
-    text-decoration: underline;
   }
 }

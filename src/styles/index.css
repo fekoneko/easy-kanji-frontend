@@ -11,6 +11,8 @@
   --secondary-color: #bbbbbb;
   --primary-text-color: black;
   --secondary-text-color: #717171;
+  --card-front-color: #7e86f2;
+  --card-back-color: white;
   --border-style: 2px solid var(--secondary-text-color);
   --focus-border-style: 2px solid var(--primary-text-color);
   --transition-params: 0.1s linear;

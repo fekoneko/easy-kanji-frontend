@@ -1,26 +1,57 @@
 @layer css-transition {
-  .AnimatedRoute-enter {
+  .animatedRoute-enter {
     position: absolute;
     z-index: 1;
     transform: translateY(4rem);
     width: calc(100% - var(--app-padding) * 2);
     opacity: 0;
   }
-  .AnimatedRoute-enter-active {
+  .animatedRoute-enter-active {
     transform: translateY(0);
     opacity: 1;
     transition: all 0.2s ease-out;
   }
-  .AnimatedRoute-exit {
+  .animatedRoute-exit {
     position: absolute;
     z-index: 0;
     transform: translateY(0);
     opacity: 1;
     width: calc(100% - var(--app-padding) * 2);
   }
-  .AnimatedRoute-exit-active {
+  .animatedRoute-exit-active {
     transition: all 0.15s ease-in;
     opacity: 0;
     transform: translateY(2rem);
+  }
+
+  .kanjiCard-enter.left {
+    transform: translateX(-100vw);
+  }
+  .kanjiCard-exit-active.left {
+    transform: translateX(100vw);
+  }
+  .kanjiCard-enter.right {
+    transform: translateX(100vw);
+  }
+  .kanjiCard-exit-active.right {
+    transform: translateX(-100vw);
+  }
+  .kanjiCard-enter {
+    position: absolute;
+  }
+  .kanjiCard-enter-active,
+  .kanjiCard-enter-active.left,
+  .kanjiCard-enter-active.right {
+    transform: translateX(0);
+    transition: all 0.15s ease-out;
+  }
+  .kanjiCard-exit {
+    transform: translateX(0);
+    position: absolute;
+  }
+  .kanjiCard-exit-active,
+  .kanjiCard-exit-active.left,
+  .kanjiCard-exit-active.right {
+    transition: all 0.15s ease-in;
   }
 }

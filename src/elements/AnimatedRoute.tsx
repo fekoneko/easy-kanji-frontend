@@ -16,7 +16,7 @@ const AnimatedRoute = ({ absolutePath, element }: AnimatedRouteProps) => {
       in={location.pathname === absolutePath}
       unmountOnExit
       timeout={200}
-      classNames="AnimatedRoute"
+      classNames="animatedRoute"
       nodeRef={nodeRef}
     >
       <div ref={nodeRef}>{element}</div>
