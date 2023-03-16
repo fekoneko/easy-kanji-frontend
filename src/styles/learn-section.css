@@ -16,6 +16,9 @@
     width: var(--card-width);
     aspect-ratio: 2/3;
   }
+  .kanjiCardContainer.center {
+    z-index: 1;
+  }
   .kanjiCardContainer.left .kanjiCard,
   .kanjiCardContainer.right .kanjiCard {
     scale: 0.8;
@@ -29,6 +32,9 @@
     background-color: var(--bg-color);
     box-shadow: 0 0 1rem #0000003e;
     transition: opacity 0.3s ease, scale 0.3s ease;
+  }
+  .kanjiCard.zoom {
+    scale: 1.1;
   }
   .kanjiCard.front .kanjiCardInner {
     color: var(--bg-color);

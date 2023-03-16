@@ -7,7 +7,7 @@ const SearchPage = () => {
   const { searchKanjis } = useContext(kanjiContext);
 
   return (
-    <div className="mainContent">
+    <div className="scrollContent">
       <h1>Поиск кандзи</h1>
       <SearchBar />
       <KanjiGrid kanjis={searchKanjis} />

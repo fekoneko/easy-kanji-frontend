@@ -32,15 +32,20 @@ const KanjiCard = ({
 }: KanjiCardProps) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const [side, setSide] = useState<Side>('front');
-  const sideContent = side === 'front' ? frontSide : backSide;
-  const windowWidth = useWindowWidth();
+  const windowWidth = useWindowWidth({ wait: 10 });
+  const [zoom, setZoom] = useState<boolean>(false);
   const spacePressed = useKeyPressed(' ');
+
+  const sideContent = side === 'front' ? frontSide : backSide;
 
   const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
 
   useEffect(() => {
     if (spacePressed && positionOnScreen === 'center') {
+      setZoom(true);
       turnCard();
+    } else {
+      setZoom(false);
     }
   }, [spacePressed]);
 
@@ -59,7 +64,20 @@ const KanjiCard = ({
           transform: `translateX(${(windowWidth / 3) * queueOrder}px)`,
         }}
       >
-        <button className={`kanjiCard ${side}`} onClick={turnCard}>
+        <button
+          className={`kanjiCard ${side} ${zoom ? ' zoom' : ''}`}
+          onClick={(e) => e.preventDefault()}
+          onMouseDown={(e) => {
+            if (e.button === 0) {
+              setZoom(true);
+              turnCard();
+            }
+          }}
+          onMouseUp={(e) => e.button === 0 && setZoom(false)}
+          onMouseLeave={() => zoom && setZoom(false)}
+          onBlur={() => zoom && setZoom(false)}
+          tabIndex={-1}
+        >
           <div className="kanjiCardInner">
             {sideContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
             {sideContent.meaning && (

@@ -58,14 +58,20 @@
 
   main {
     flex: 1 1;
+    padding-right: calc(var(--app-padding) - 10px) !important; /*Space for scrollbar*/
     overflow-x: hidden;
     overflow-y: scroll;
-    padding-right: calc(var(--app-padding) - 10px) !important; /*Space for scrollbar*/
   }
-  main .mainContent {
+  main:has(.onScreenContent) {
+    padding-right: var(--app-padding) !important;
+    overflow-y: hidden;
+  }
+  .scrollContent,
+  .onScreenContent {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
     min-height: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;

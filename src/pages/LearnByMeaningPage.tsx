@@ -17,7 +17,7 @@ const backSide: SideContent = {
 
 const LearnByMeaningPage = () => {
   return (
-    <div className="mainContent">
+    <div className="onScreenContent ">
       <LearnUI frontSide={frontSide} backSide={backSide} />
     </div>
   );

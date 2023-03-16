@@ -6,7 +6,7 @@ const SavedKanjiPage = () => {
   const { savedKanjis } = useContext(kanjiContext);
 
   return (
-    <div className="mainContent">
+    <div className="scrollContent">
       <h1>Сохранённые кандзи</h1>
       <KanjiGrid kanjis={savedKanjis} />
     </div>

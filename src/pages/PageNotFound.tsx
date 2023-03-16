@@ -1,6 +1,6 @@
 const PageNotFound = () => {
   return (
-    <div className="mainContent">
+    <div className="scrollContent">
       <h1>Страница не найдена</h1>
     </div>
   );

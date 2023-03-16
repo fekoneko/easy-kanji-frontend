@@ -6,7 +6,7 @@ const PopularPage = () => {
   const { popularKanjis } = useContext(kanjiContext);
 
   return (
-    <div className="mainContent">
+    <div className="scrollContent">
       <h1>Популярные кандзи</h1>
       <KanjiGrid kanjis={popularKanjis} />
     </div>
