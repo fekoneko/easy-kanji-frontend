@@ -16,6 +16,7 @@
   --border-style: 2px solid var(--secondary-text-color);
   --focus-border-style: 2px solid var(--primary-text-color);
   --transition-params: 0.1s linear;
+  --kanji-card-transition: transform 0.3s ease, opacity 0.3s ease;
   --hover-color: #dfdfdf;
   --min-w: 12rem;
   --min-h: 10rem;

@@ -18,7 +18,7 @@ type KanjiCardProps = {
   frontSide: SideContent;
   backSide: SideContent;
   shown: boolean;
-  onExit: () => any;
+  position: 'left' | 'center' | 'right';
   animationDirection: Direction;
   main: boolean;
 };
@@ -28,19 +28,19 @@ const KanjiCard = ({
   frontSide,
   backSide,
   shown,
-  onExit,
+  position,
   animationDirection,
   main,
 }: KanjiCardProps) => {
   const { lastPressedKey } = useContext(globalContext);
   const nodeRef = useRef(null);
   const [side, setSide] = useState<Side>('front');
+  const [entered, setEntered] = useState<boolean>(true);
   const sideContent = side === 'front' ? frontSide : backSide;
 
   const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
 
   useEffect(() => {
-    if (animationDirection) return;
     if (lastPressedKey === ' ' && main) {
       turnCard();
     }
@@ -50,10 +50,12 @@ const KanjiCard = ({
     <CSSTransition
       in={shown}
       unmountOnExit
-      timeout={150}
+      timeout={300}
       classNames="kanjiCard"
       nodeRef={nodeRef}
-      onExited={onExit}
+      onEnter={() => setEntered(false)}
+      onEntered={() => setEntered(true)}
+      onExit={() => setEntered(false)}
     >
       <button
         ref={nodeRef}
@@ -61,6 +63,14 @@ const KanjiCard = ({
           animationDirection !== null ? animationDirection : ''
         }`}
         onClick={turnCard}
+        style={{
+          ...(position === 'left'
+            ? { transform: 'translateX(-30vw) scale(0.85)' }
+            : position === 'right'
+            ? { transform: 'translateX(30vw) scale(0.85)' }
+            : {}),
+          ...(entered ? { transition: 'var(--kanji-card-transition)' } : {}),
+        }}
       >
         {sideContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
         {sideContent.meaning && (

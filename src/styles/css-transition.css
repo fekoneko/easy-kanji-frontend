@@ -1,6 +1,5 @@
 @layer css-transition {
   .animatedRoute-enter {
-    position: absolute;
     z-index: 1;
     transform: translateY(4rem);
     width: calc(100% - var(--app-padding) * 2);
@@ -12,7 +11,6 @@
     transition: all 0.2s ease-out;
   }
   .animatedRoute-exit {
-    position: absolute;
     z-index: 0;
     transform: translateY(0);
     opacity: 1;
@@ -25,33 +23,39 @@
   }
 
   .kanjiCard-enter.left {
-    transform: translateX(-100vw);
+    transform: translateX(-60vw) scale(0.6) !important;
+  }
+  .kanjiCard-enter-active.left {
+    transform: translateX(-30vw) scale(0.85) !important;
   }
   .kanjiCard-exit-active.left {
-    transform: translateX(100vw);
+    transform: translateX(60vw) scale(0.6) !important;
   }
   .kanjiCard-enter.right {
-    transform: translateX(100vw);
+    transform: translateX(60vw) scale(0.6) !important;
+  }
+  .kanjiCard-enter-active.right {
+    transform: translateX(30vw) scale(0.85) !important;
   }
   .kanjiCard-exit-active.right {
-    transform: translateX(-100vw);
+    transform: translateX(-60vw) scale(0.6) !important;
   }
   .kanjiCard-enter {
-    position: absolute;
+    opacity: 0;
   }
   .kanjiCard-enter-active,
   .kanjiCard-enter-active.left,
   .kanjiCard-enter-active.right {
-    transform: translateX(0);
-    transition: all 0.15s ease-out;
+    opacity: 1;
+    transition: var(--kanji-card-transition);
   }
   .kanjiCard-exit {
-    transform: translateX(0);
-    position: absolute;
+    opacity: 1;
   }
   .kanjiCard-exit-active,
   .kanjiCard-exit-active.left,
   .kanjiCard-exit-active.right {
-    transition: all 0.15s ease-in;
+    opacity: 0;
+    transition: var(--kanji-card-transition);
   }
 }
