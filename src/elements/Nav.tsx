@@ -10,7 +10,7 @@ const Nav = () => {
       {section === 'learn' ? (
         <>
           <NavLink to="/learn/by-meaning">По значению</NavLink>
-          <NavLink to="/learn/by-writing">По чтению</NavLink>
+          <NavLink to="/learn/by-writing">По написанию</NavLink>
         </>
       ) : (
         <>

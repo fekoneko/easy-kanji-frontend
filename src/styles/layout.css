@@ -21,7 +21,7 @@
     gap: 1rem;
     color: var(--bg-color);
     padding-top: 0.1rem;
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.35rem;
     background-color: var(--primary-color);
   }
   header .siteTitle {
@@ -41,7 +41,7 @@
     display: flex;
   }
   nav > a {
-    padding: 0.2rem;
+    padding: 0.2rem 0.2rem 0.4rem 0.2rem;
     flex: 1 1;
     text-align: center;
     color: var(--primary-text-color);

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import globalContext from '../contexts/globalContext';
 import { Kanji } from '../contexts/kanjiContext';
-import { Direction } from '../pages/LearnByMeaningPage';
+import { Direction } from '../elements/LearnUI';
 
 type Side = 'front' | 'back';
 
