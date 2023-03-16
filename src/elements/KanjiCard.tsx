@@ -39,13 +39,15 @@ const KanjiCard = ({
   const sideContent = side === 'front' ? frontSide : backSide;
 
   const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
+  const zoomIn = () => setZoom(true);
+  const zoomOut = () => setTimeout(() => setZoom(false), 50);
 
   useEffect(() => {
     if (spacePressed && positionOnScreen === 'center') {
-      setZoom(true);
+      zoomIn();
       turnCard();
     } else {
-      setZoom(false);
+      zoomOut();
     }
   }, [spacePressed]);
 
@@ -69,13 +71,13 @@ const KanjiCard = ({
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
             if (e.button === 0) {
-              setZoom(true);
+              zoomIn();
               turnCard();
             }
           }}
-          onMouseUp={(e) => e.button === 0 && setZoom(false)}
-          onMouseLeave={() => zoom && setZoom(false)}
-          onBlur={() => zoom && setZoom(false)}
+          onMouseUp={(e) => e.button === 0 && zoomOut()}
+          onMouseLeave={() => zoom && zoomOut()}
+          onBlur={() => zoom && zoomOut()}
           tabIndex={-1}
         >
           <div className="kanjiCardInner">

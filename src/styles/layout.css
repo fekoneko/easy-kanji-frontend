@@ -16,6 +16,7 @@
   }
 
   header {
+    z-index: 100;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -38,6 +39,7 @@
   }
 
   nav {
+    z-index: 100;
     display: flex;
   }
   nav > a {
@@ -78,6 +80,7 @@
   }
 
   footer {
+    z-index: 100;
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
     color: var(--secondary-text-color);

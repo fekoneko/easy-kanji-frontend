@@ -16,16 +16,25 @@ export const selectDeselectKanji = (
 };
 
 export const isKanjiArraySelected = (selectedKanjis: Kanji[], array: Kanji[]): boolean =>
-  array.every(
-    (kanji) => selectedKanjis.findIndex((selectedKanji) => selectedKanji.id === kanji.id) !== -1
-  );
+  array.every((kanji) => isKanjiSelected(selectedKanjis, kanji));
+
+export const kanjiArraySelectedCount = (selectedKanjis: Kanji[], array: Kanji[]): number => {
+  let count = 0;
+  array.forEach((kanji) => isKanjiSelected(selectedKanjis, kanji) && count++);
+  return count;
+};
 
 export const selectKanjiArray = (
   setSelectedKanjis: React.Dispatch<React.SetStateAction<Kanji[]>>,
   arrayToSelect: Kanji[]
 ): void => {
+  const noRepetetiveIdsArray = arrayToSelect.filter(
+    (kanjiToSelect, kanjiToSelectIndex) =>
+      kanjiToSelectIndex ===
+      arrayToSelect.findIndex((kanjiToCompare) => kanjiToSelect.id === kanjiToCompare.id)
+  );
   setSelectedKanjis((prev) => {
-    const filteredArray = arrayToSelect.filter((kanjiToSelect) =>
+    const filteredArray = noRepetetiveIdsArray.filter((kanjiToSelect) =>
       prev.every((selectedKanji) => kanjiToSelect.id !== selectedKanji.id)
     );
     return [...prev, ...filteredArray];

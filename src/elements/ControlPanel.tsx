@@ -5,6 +5,7 @@ import kanjiContext, { Kanji } from '../contexts/kanjiContext';
 import {
   deselectKanjiArray,
   isKanjiArraySelected,
+  kanjiArraySelectedCount,
   selectKanjiArray,
 } from '../controllers/kanjiController';
 
@@ -14,8 +15,6 @@ const ControlPanel = () => {
   const { popularKanjis, savedKanjis, searchKanjis, selectedKanjis, setSelectedKanjis } =
     useContext(kanjiContext);
 
-  let selectedCount: number | null = null;
-  let allCount: number | null = null;
   let displayedKanjis: null | Kanji[] = null;
   if (section === 'main') {
     switch (location.pathname) {
@@ -29,8 +28,6 @@ const ControlPanel = () => {
         displayedKanjis = searchKanjis;
         break;
     }
-    if (displayedKanjis) allCount = displayedKanjis?.length;
-    selectedCount = selectedKanjis.length;
   }
 
   const deselectDisplayed = () => {
@@ -52,7 +49,9 @@ const ControlPanel = () => {
       {section === 'main' ? (
         location.pathname !== '/selected' ? (
           <>
-            <p>{`выделено ${selectedCount} из ${allCount}`}</p>
+            <p>{`выделено ${
+              displayedKanjis ? kanjiArraySelectedCount(selectedKanjis, displayedKanjis) : '?'
+            } из ${displayedKanjis?.length}`}</p>
             {displayedKanjis && isKanjiArraySelected(selectedKanjis, displayedKanjis) ? (
               <button onClick={deselectDisplayed}>снять выделение</button>
             ) : (
@@ -61,7 +60,7 @@ const ControlPanel = () => {
           </>
         ) : (
           <>
-            <p>{`выделено ${selectedCount}`}</p>
+            <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
             <button onClick={clearSelection}>очистить список</button>
           </>
         )
