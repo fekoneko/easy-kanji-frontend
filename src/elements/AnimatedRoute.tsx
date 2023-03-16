@@ -9,7 +9,7 @@ type AnimatedRouteProps = {
 
 const AnimatedRoute = ({ absolutePath, element }: AnimatedRouteProps) => {
   const { location } = useContext(globalContext);
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   return (
     <CSSTransition

@@ -1,31 +1,46 @@
 @layer learn-section {
   .learnUI {
-    flex: 1 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex: 1 1;
   }
 
-  .kanjiCard {
+  .kanjiQueue {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .kanjiCardContainer {
     position: absolute;
+    width: var(--card-width);
+    aspect-ratio: 2/3;
+  }
+  .kanjiCardContainer.left .kanjiCard,
+  .kanjiCardContainer.right .kanjiCard {
+    scale: 0.8;
+  }
+  .kanjiCard {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
     gap: 0.2rem;
-    width: 15rem;
-    aspect-ratio: 2/3;
+    width: 100%;
+    height: 100%;
     padding: 0.5rem;
-    text-align: center;
     border-radius: 0.5rem;
     border: 0.18rem solid var(--primary-text-color);
+    background-color: var(--bg-color);
     box-shadow: 0 0 1rem #0000003e;
+    text-align: center;
+    transition: opacity 0.3s ease, scale 0.3s ease;
   }
-  .kanjiCard.frontSide {
+  .kanjiCard.front {
     color: var(--bg-color);
     background-color: var(--card-front-color);
   }
-  .kanjiCard.backSide {
+  .kanjiCard.back {
     background-color: var(--card-back-color);
   }
   .kanjiCard .kanjiWriting {
