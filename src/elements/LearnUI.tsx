@@ -1,8 +1,8 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useContext, useEffect, useState } from 'react';
-import globalContext from '../contexts/globalContext';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiCard, { SideContent } from '../elements/KanjiCard';
+import useKeyPressed from '../hooks/useKeyPressed';
 
 type LearnUIProps = {
   frontSide: SideContent;
@@ -10,19 +10,20 @@ type LearnUIProps = {
 };
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
-  const { lastPressedKey } = useContext(globalContext);
   const { selectedKanjis } = useContext(kanjiContext);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth();
+  const arrowLeftPressed = useKeyPressed('ArrowLeft');
+  const arrowRightPressed = useKeyPressed('ArrowRight');
 
   useEffect(() => {
-    if (lastPressedKey === 'ArrowLeft' && currentIndex > 0) {
+    if (arrowLeftPressed && currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     }
-    if (lastPressedKey === 'ArrowRight' && currentIndex < selectedKanjis.length - 1) {
+    if (arrowRightPressed && currentIndex < selectedKanjis.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
-  }, [lastPressedKey]);
+  }, [arrowLeftPressed, arrowRightPressed]);
 
   return (
     <section className="learnUI">

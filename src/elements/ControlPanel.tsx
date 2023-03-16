@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import globalContext from '../contexts/globalContext';
 import kanjiContext, { Kanji } from '../contexts/kanjiContext';
 import {
@@ -8,7 +9,8 @@ import {
 } from '../controllers/kanjiController';
 
 const ControlPanel = () => {
-  const { section, location } = useContext(globalContext);
+  const { section } = useContext(globalContext);
+  const location = useLocation();
   const { popularKanjis, savedKanjis, searchKanjis, selectedKanjis, setSelectedKanjis } =
     useContext(kanjiContext);
 

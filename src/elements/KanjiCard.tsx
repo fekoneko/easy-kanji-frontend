@@ -1,8 +1,8 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import globalContext from '../contexts/globalContext';
 import { Kanji } from '../contexts/kanjiContext';
+import useKeyPressed from '../hooks/useKeyPressed';
 
 type Side = 'front' | 'back';
 
@@ -30,19 +30,19 @@ const KanjiCard = ({
   positionOnScreen,
   queueOrder,
 }: KanjiCardProps) => {
-  const { lastPressedKey } = useContext(globalContext);
   const nodeRef = useRef<HTMLDivElement>(null);
   const [side, setSide] = useState<Side>('front');
   const sideContent = side === 'front' ? frontSide : backSide;
   const windowWidth = useWindowWidth();
+  const spacePressed = useKeyPressed(' ');
 
   const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
 
   useEffect(() => {
-    if (lastPressedKey === ' ' && positionOnScreen === 'center') {
+    if (spacePressed && positionOnScreen === 'center') {
       turnCard();
     }
-  }, [lastPressedKey]);
+  }, [spacePressed]);
 
   return (
     <CSSTransition
@@ -60,30 +60,34 @@ const KanjiCard = ({
         }}
       >
         <button className={`kanjiCard ${side}`} onClick={turnCard}>
-          {sideContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
-          {sideContent.meaning && (
-            <p className={`kanjiMeaning${!sideContent.writing ? ' main' : ''}`}>{kanji.meaning}</p>
-          )}
-          {sideContent.onReadings && (
-            <p className="kanjiOnReadings">
-              {kanji.onReadings.map((reading, index) => (
-                <span key={index}>
-                  {reading}
-                  {index < kanji.onReadings.length - 1 && '、'}
-                </span>
-              ))}
-            </p>
-          )}
-          {sideContent.kunReadings && (
-            <p className="kanjiKunReadings">
-              {kanji.kunReadings.map((reading, index) => (
-                <span key={index}>
-                  {reading}
-                  {index < kanji.kunReadings.length - 1 && '、'}
-                </span>
-              ))}
-            </p>
-          )}
+          <div className="kanjiCardInner">
+            {sideContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
+            {sideContent.meaning && (
+              <p className={`kanjiMeaning${!sideContent.writing ? ' main' : ''}`}>
+                {kanji.meaning}
+              </p>
+            )}
+            {sideContent.onReadings && (
+              <p className="kanjiOnReadings">
+                {kanji.onReadings.map((reading, index) => (
+                  <span key={index}>
+                    {reading}
+                    {index < kanji.onReadings.length - 1 && '、'}
+                  </span>
+                ))}
+              </p>
+            )}
+            {sideContent.kunReadings && (
+              <p className="kanjiKunReadings">
+                {kanji.kunReadings.map((reading, index) => (
+                  <span key={index}>
+                    {reading}
+                    {index < kanji.kunReadings.length - 1 && '、'}
+                  </span>
+                ))}
+              </p>
+            )}
+          </div>
         </button>
       </div>
     </CSSTransition>

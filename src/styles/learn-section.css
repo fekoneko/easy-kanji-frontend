@@ -21,11 +21,6 @@
     scale: 0.8;
   }
   .kanjiCard {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    gap: 0.2rem;
     width: 100%;
     height: 100%;
     padding: 0.5rem;
@@ -33,14 +28,13 @@
     border: 0.18rem solid var(--primary-text-color);
     background-color: var(--bg-color);
     box-shadow: 0 0 1rem #0000003e;
-    text-align: center;
     transition: opacity 0.3s ease, scale 0.3s ease;
   }
-  .kanjiCard.front {
+  .kanjiCard.front .kanjiCardInner {
     color: var(--bg-color);
     background-color: var(--card-front-color);
   }
-  .kanjiCard.back {
+  .kanjiCard.back .kanjiCardInner {
     background-color: var(--card-back-color);
   }
   .kanjiCard .kanjiWriting {
@@ -59,5 +53,18 @@
     border-radius: 0.08rem;
     background-color: var(--secondary-text-color);
     opacity: 0.5;
+  }
+  .kanjiCardInner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.2rem;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.18rem dashed var(--card-front-color);
+    text-align: center;
   }
 }

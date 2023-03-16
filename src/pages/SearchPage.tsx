@@ -4,8 +4,7 @@ import KanjiGrid from '../elements/KanjiGrid';
 import SearchBar from '../elements/SearchBar';
 
 const SearchPage = () => {
-  const { searchKanjis, setSearchKanjis, selectedKanjis, setSelectedKanjis } =
-    useContext(kanjiContext);
+  const { searchKanjis } = useContext(kanjiContext);
 
   return (
     <div className="mainContent">

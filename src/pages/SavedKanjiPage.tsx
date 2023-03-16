@@ -3,8 +3,7 @@ import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../elements/KanjiGrid';
 
 const SavedKanjiPage = () => {
-  const { savedKanjis, setSavedKanjis, selectedKanjis, setSelectedKanjis } =
-    useContext(kanjiContext);
+  const { savedKanjis } = useContext(kanjiContext);
 
   return (
     <div className="mainContent">

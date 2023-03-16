@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import globalContext from '../contexts/globalContext';
 
 type AnimatedRouteProps = {
   absolutePath: string;
@@ -8,7 +8,7 @@ type AnimatedRouteProps = {
 };
 
 const AnimatedRoute = ({ absolutePath, element }: AnimatedRouteProps) => {
-  const { location } = useContext(globalContext);
+  const location = useLocation();
   const nodeRef = useRef<HTMLDivElement>(null);
 
   return (
