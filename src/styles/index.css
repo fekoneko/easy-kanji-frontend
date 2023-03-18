@@ -4,6 +4,7 @@
 @import url(learn-section.css);
 @import url(css-transition.css);
 @import url(modal-window.css);
+@import url(form.css);
 
 :root {
   --bg-color: white;
@@ -21,4 +22,5 @@
   --hover-color: #dfdfdf;
   --min-w: 12rem;
   --min-h: 10rem;
+  --hint-color: #f96c8d;
 }

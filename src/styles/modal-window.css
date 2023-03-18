@@ -14,5 +14,7 @@
   .modalWindow {
     background-color: var(--bg-color);
     box-shadow: 0 0 0.5rem black;
+    padding: 1rem;
+    text-align: center;
   }
 }

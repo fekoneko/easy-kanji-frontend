@@ -62,7 +62,7 @@ const SignUpForm = () => {
       </fieldset>
       {(showAllHints || usernameFocus) && username && !usernameValid ? (
         <p className="inputHint" id="usernameHint">
-          От 4 до 24 символов. Должен начинальтя с буквы. Разрешены латинские буквы, цифры, дефисы и
+          От 4 до 24 символов. Должен начинаться с буквы. Разрешены латинские буквы, цифры, дефисы и
           нижние подчёркивания.
         </p>
       ) : (
