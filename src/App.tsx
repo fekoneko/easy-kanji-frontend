@@ -11,11 +11,23 @@ import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
 import AnimatedRoute from './elements/AnimatedRoute';
 import PageNotFound from './pages/PageNotFound';
+import ModalWindow from './elements/ModalWindow';
+import { ReactNode, useState } from 'react';
+
+export type showModalFunction = (modalContents: ReactNode) => void;
 
 const App = () => {
+  const [modalWindowShown, setModalWindowShown] = useState(false);
+  const [modalContents, setModalContents] = useState<ReactNode>(null);
+
+  const showModal = (modalContents: ReactNode) => {
+    setModalWindowShown(true);
+    setModalContents(modalContents);
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header showModal={showModal} />
       <Nav />
       <KanjiContextProvider>
         <main role="main">
@@ -47,6 +59,9 @@ const App = () => {
         </main>
         <Footer />
       </KanjiContextProvider>
+      <ModalWindow shown={modalWindowShown} handleClose={() => setModalWindowShown(false)}>
+        {modalContents}
+      </ModalWindow>
     </div>
   );
 };

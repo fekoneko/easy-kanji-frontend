@@ -37,6 +37,14 @@
     align-items: center;
     color: var(--bg-color);
   }
+  header .userButton {
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+  }
+  header .userButton:hover {
+    text-decoration: underline;
+  }
 
   nav {
     z-index: 100;
