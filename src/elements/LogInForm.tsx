@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 const LogInForm = () => {
   const [username, setUsername] = useState<string>('');
@@ -40,10 +40,12 @@ const LogInForm = () => {
   return (
     <form className="LogInForm styledForm" onSubmit={handleSubmit}>
       <fieldset>
+        <label htmlFor="usernameInput">Имя пользователя:</label>
         <input
           id="usernameInput"
           type="text"
           autoFocus
+          placeholder="Введите логин"
           autoComplete="off"
           required
           onChange={(e) => setUsername(e.target.value)}
@@ -54,18 +56,21 @@ const LogInForm = () => {
           onBlur={() => setUsernameFocus(false)}
         />
       </fieldset>
-      <p
-        className={
-          'inputHint' +
-          ((showAllHints || usernameFocus) && username && !usernameValid ? '' : ' hidden')
-        }
-        id="usernameHint"
-      ></p>
+
+      {(showAllHints || usernameFocus) && username && !usernameValid ? (
+        <p className="inputHint" id="usernameHint">
+          Пользователя с таким именем не существует
+        </p>
+      ) : (
+        <></>
+      )}
 
       <fieldset>
+        <label htmlFor="passwordInput">Пароль:</label>
         <input
           id="passwordInput"
           type="password"
+          placeholder="Введите пароль"
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -75,13 +80,16 @@ const LogInForm = () => {
           onBlur={() => setPasswordFocus(false)}
         />
       </fieldset>
-      <p
-        className={
-          'inputHint' +
-          ((showAllHints || passwordFocus) && password && !passwordValid ? '' : ' hidden')
-        }
-        id="passwordHint"
-      ></p>
+
+      {(showAllHints || passwordFocus) && password && !passwordValid ? (
+        <p className="inputHint" id="passwordHint">
+          Пароль введён неверно
+        </p>
+      ) : (
+        <></>
+      )}
+
+      <button type="submit">Войти</button>
     </form>
   );
 };
