@@ -3,6 +3,7 @@
 @import url(main-section.css);
 @import url(learn-section.css);
 @import url(css-transition.css);
+@import url(modal-window.css);
 
 :root {
   --bg-color: white;

@@ -1,0 +1,18 @@
+@layer modal-window {
+  .modalWindowBG {
+    z-index: 99999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000076;
+  }
+  .modalWindow {
+    background-color: var(--bg-color);
+    box-shadow: 0 0 0.5rem black;
+  }
+}
