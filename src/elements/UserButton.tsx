@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { showModalFunction } from '../App';
 import globalContext from '../contexts/globalContext';
-import LogInForm from './LogInForm';
+import UserModal from './UserModal';
 
 type UserButtonProps = {
   showModal: showModalFunction;
@@ -11,7 +11,7 @@ const UserButton = ({ showModal }: UserButtonProps) => {
   const { auth, setAuth } = useContext(globalContext);
 
   const handleLogIn = () => {
-    showModal(<LogInForm />);
+    showModal(<UserModal />);
   };
   const handleLogOut = () => {
     setAuth(null);
