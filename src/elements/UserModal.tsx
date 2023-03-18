@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LogInForm from './LogInForm';
+import SignUpForm from './SignUpForm';
 
 type Mode = 'reg' | 'log';
 
@@ -11,7 +12,7 @@ const UserModal = () => {
       return (
         <>
           <h1>Регистрация</h1>
-          <form>form here</form>
+          <SignUpForm />
           <p>
             Уже есть аккаунт?{' '}
             <a
