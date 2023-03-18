@@ -49,7 +49,7 @@ const SignUpForm = () => {
           id="usernameInput"
           type="text"
           autoFocus
-          placeholder="Придумайте имя пользователя…"
+          placeholder="Придумайте логин…"
           autoComplete="off"
           required
           onChange={(e) => setUsername(e.target.value)}
@@ -90,7 +90,7 @@ const SignUpForm = () => {
           От 8 до 24 символов. Должен включать заглавные и строчные латинские буквы, цифры и
           специальные символы. Разрешённые символы: <span aria-label="восклицательный знак">!</span>{' '}
           <span aria-label="собака">@</span> <span aria-label="решётка">#</span>{' '}
-          <span aria-label="знак доллара">$</span> <span aria-label="процент">%</span>
+          <span aria-label="знак доллара">$</span> <span aria-label="процент">%</span>.
         </p>
       ) : (
         <></>
@@ -114,7 +114,7 @@ const SignUpForm = () => {
       </fieldset>
       {(showAllHints || confirmFocus) && confirm && !confirmValid ? (
         <p className="inputHint" id="confirmHint">
-          Пароли не совпадают!
+          Пароли не совпадают
         </p>
       ) : (
         <></>

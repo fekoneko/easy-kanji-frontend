@@ -14,8 +14,9 @@ const UserModal = () => {
           <h1>Регистрация</h1>
           <SignUpForm />
           <p>
-            Уже есть аккаунт?{' '}
+            Уже есть акаунт?{' '}
             <a
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 setMode('log');
@@ -33,8 +34,9 @@ const UserModal = () => {
           <h1>Вход</h1>
           <LogInForm />
           <p>
-            Нет аккаунта?{' '}
+            Нет акаунта?{' '}
             <a
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 setMode('reg');

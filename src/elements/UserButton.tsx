@@ -21,11 +21,11 @@ const UserButton = ({ showModal }: UserButtonProps) => {
     <>
       {auth ? (
         <button onClick={handleLogOut} className="userButton">
-          Log Out
+          Выйти
         </button>
       ) : (
         <button onClick={handleLogIn} className="userButton">
-          Log In
+          Войти
         </button>
       )}
     </>

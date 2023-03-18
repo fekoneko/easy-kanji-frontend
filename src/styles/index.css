@@ -1,10 +1,10 @@
 @import url(general.css);
+@import url(form.css);
 @import url(layout.css);
 @import url(main-section.css);
 @import url(learn-section.css);
 @import url(css-transition.css);
 @import url(modal-window.css);
-@import url(form.css);
 
 :root {
   --bg-color: white;
@@ -13,8 +13,10 @@
   --secondary-color: #bbbbbb;
   --primary-text-color: black;
   --secondary-text-color: #717171;
+  --a-color: var(--primary-color);
   --card-front-color: #7e86f2;
   --card-back-color: white;
+  --hint-color: #eb6886;
   --card-width: 16rem;
   --border-style: 2px solid var(--secondary-text-color);
   --focus-border-style: 2px solid var(--primary-text-color);
@@ -22,5 +24,4 @@
   --hover-color: #dfdfdf;
   --min-w: 12rem;
   --min-h: 10rem;
-  --hint-color: #f96c8d;
 }

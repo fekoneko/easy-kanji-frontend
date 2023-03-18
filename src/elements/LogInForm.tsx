@@ -40,12 +40,12 @@ const LogInForm = () => {
   return (
     <form className="LogInForm styledForm" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="usernameInput">Имя пользователя:</label>
+        <label htmlFor="usernameInput">Логин:</label>
         <input
           id="usernameInput"
           type="text"
           autoFocus
-          placeholder="Введите логин"
+          placeholder="Введите логин…"
           autoComplete="off"
           required
           onChange={(e) => setUsername(e.target.value)}
@@ -70,7 +70,7 @@ const LogInForm = () => {
         <input
           id="passwordInput"
           type="password"
-          placeholder="Введите пароль"
+          placeholder="Введите пароль…"
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
