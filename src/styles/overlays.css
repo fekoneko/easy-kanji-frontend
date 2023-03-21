@@ -1,0 +1,44 @@
+@layer overlays {
+  .modalWindowBG,
+  .tooltipBG {
+    z-index: 99999;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .modalWindow,
+  .tooltipContent {
+    border: var(--overlay-border-style);
+    background-color: var(--bg-color);
+    box-shadow: var(--shadow-style);
+    text-align: center;
+  }
+
+  .modalWindowBG {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000076;
+  }
+  .modalWindow {
+    padding: 1.2rem;
+  }
+
+  .tooltip {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+  }
+  .tooltipPointer {
+    z-index: 1;
+    align-self: center;
+    width: 1rem;
+    margin: -1px;
+    fill: var(--primary-color);
+  }
+  .tooltipContent {
+    padding: 0.4rem;
+  }
+}

@@ -3,20 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Kanji } from '../contexts/kanjiContext';
 import useKeyPressed from '../hooks/useKeyPressed';
+import KanjiView, { ViewContent } from './KanjiView';
 
 type Side = 'front' | 'back';
 
-export type SideContent = {
-  writing: boolean;
-  meaning: boolean;
-  onReadings: boolean;
-  kunReadings: boolean;
-};
-
 type KanjiCardProps = {
   kanji: Kanji;
-  frontSide: SideContent;
-  backSide: SideContent;
+  frontSide: ViewContent;
+  backSide: ViewContent;
   shown: boolean;
   positionOnScreen: 'left' | 'center' | 'right';
   queueOrder: number;
@@ -36,7 +30,7 @@ const KanjiCard = ({
   const [zoom, setZoom] = useState<boolean>(false);
   const spacePressed = useKeyPressed(' ');
 
-  const sideContent = side === 'front' ? frontSide : backSide;
+  const viewContent = side === 'front' ? frontSide : backSide;
 
   const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
   const zoomIn = () => setZoom(true);
@@ -80,34 +74,7 @@ const KanjiCard = ({
           onBlur={() => zoom && zoomOut()}
           tabIndex={-1}
         >
-          <div className="kanjiCardInner">
-            {sideContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
-            {sideContent.meaning && (
-              <p className={`kanjiMeaning${!sideContent.writing ? ' main' : ''}`}>
-                {kanji.meaning}
-              </p>
-            )}
-            {sideContent.onReadings && (
-              <p className="kanjiOnReadings">
-                {kanji.onReadings.map((reading, index) => (
-                  <span key={index}>
-                    {reading}
-                    {index < kanji.onReadings.length - 1 && '、'}
-                  </span>
-                ))}
-              </p>
-            )}
-            {sideContent.kunReadings && (
-              <p className="kanjiKunReadings">
-                {kanji.kunReadings.map((reading, index) => (
-                  <span key={index}>
-                    {reading}
-                    {index < kanji.kunReadings.length - 1 && '、'}
-                  </span>
-                ))}
-              </p>
-            )}
-          </div>
+          <KanjiView kanji={kanji} viewContent={viewContent} />
         </button>
       </div>
     </CSSTransition>

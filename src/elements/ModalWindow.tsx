@@ -1,4 +1,4 @@
-import { ForwardedRef, ReactNode, useImperativeHandle, useRef } from 'react';
+import { ReactNode } from 'react';
 
 type ModalWindowProps = {
   shown?: boolean;

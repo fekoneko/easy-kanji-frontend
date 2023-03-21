@@ -1,12 +1,13 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useContext, useEffect, useState } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiCard, { SideContent } from '../elements/KanjiCard';
+import KanjiCard from '../elements/KanjiCard';
 import useKeyPressed from '../hooks/useKeyPressed';
+import { ViewContent } from './KanjiView';
 
 type LearnUIProps = {
-  frontSide: SideContent;
-  backSide: SideContent;
+  frontSide: ViewContent;
+  backSide: ViewContent;
 };
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
