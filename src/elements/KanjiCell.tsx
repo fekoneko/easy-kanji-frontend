@@ -12,34 +12,20 @@ const KanjiCell = ({ kanji }: KanjiCellProps) => {
   const { selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
   const cellRef = useRef<HTMLButtonElement>(null);
   const [tooltipShown, setTooltipShown] = useState(false);
-  const [tooltipPositionWhenDown, setTooltipPositionWhenDown] = useState<{
-    x: number;
-    y: number;
-  }>({ x: 0, y: 0 });
-  const [tooltipPositionWhenUp, setTooltipPositionWhenUp] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-  const [tooltipWidth, setTooltipWidth] = useState<number>(100);
+  const showTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const showTooltip = () => {
-    setTooltipShown(true);
-    if (cellRef.current) {
-      const cellRect = cellRef.current.getBoundingClientRect();
-      setTooltipPositionWhenDown({
-        x: cellRect.left + cellRect.width! / 2,
-        y: cellRect.bottom,
-      });
-      setTooltipPositionWhenUp({
-        x: cellRect.left + cellRect.width! / 2,
-        y: cellRect.top,
-      });
-      if (cellRect.width > 10) setTooltipWidth(cellRect.width - 10);
-    }
+  const waitAndShowTooltip = () => {
+    const showTooltip = () => {
+      if (!cellRef.current) return;
+      setTooltipShown(true);
+    };
+    if (showTimeoutRef.current !== null) clearTimeout(showTimeoutRef.current);
+    showTimeoutRef.current = setTimeout(showTooltip, 200);
   };
 
   const hideTooltip = () => {
     setTooltipShown(false);
+    if (showTimeoutRef.current !== null) clearTimeout(showTimeoutRef.current);
   };
 
   return (
@@ -48,21 +34,13 @@ const KanjiCell = ({ kanji }: KanjiCellProps) => {
         ref={cellRef}
         className={`kanjiCell${isKanjiSelected(selectedKanjis, kanji) ? ' selected' : ''}`}
         onClick={() => selectDeselectKanji(selectedKanjis, setSelectedKanjis, kanji)}
-        onMouseEnter={showTooltip}
+        onMouseEnter={waitAndShowTooltip}
         onMouseLeave={hideTooltip}
-        onFocus={showTooltip}
-        onBlur={hideTooltip}
       >
         <p className="kanjiWriting">{kanji.writing}</p>
         <p className="kanjiMeaning">{kanji.meaning}</p>
       </button>
-      <Tooltip
-        shown={tooltipShown}
-        handleClose={() => setTooltipShown(false)}
-        positionWhenDown={tooltipPositionWhenDown}
-        positionWhenUp={tooltipPositionWhenUp}
-        width={tooltipWidth}
-      >
+      <Tooltip shown={tooltipShown} handleClose={() => setTooltipShown(false)} anchorRef={cellRef}>
         <KanjiView
           kanji={kanji}
           viewContent={{ writing: true, meaning: true, onReadings: true, kunReadings: true }}

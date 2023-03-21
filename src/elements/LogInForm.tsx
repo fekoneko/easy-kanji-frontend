@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import Tooltip from './Tooltip';
 
 const LogInForm = () => {
   const [username, setUsername] = useState<string>('');
@@ -7,7 +8,10 @@ const LogInForm = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordValid, setPasswordValid] = useState<boolean>(true);
   const [passwordFocus, setPasswordFocus] = useState<boolean>(false);
-  const [showAllHints, setShowAllHints] = useState<boolean>(false);
+  const [showFirstHint, setShowFirstHint] = useState<boolean>(false);
+
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!usernameValid) setUsernameValid(true); // will be actually checked on submit
@@ -17,7 +21,7 @@ const LogInForm = () => {
     if (!passwordValid) setPasswordValid(true); // will be actually checked on submit
   }, [password]);
 
-  useEffect(() => setShowAllHints(false), [usernameFocus, passwordFocus]);
+  useEffect(() => setShowFirstHint(false), [usernameFocus, passwordFocus]);
 
   const validateForm = async (): Promise<[usernameValid: boolean, passwordValid: boolean]> => {
     // TODO check on server
@@ -32,16 +36,30 @@ const LogInForm = () => {
     if (curUsernameValid && curPasswordValid) {
       // TODO
     } else {
-      setShowAllHints(true);
+      setShowFirstHint(true);
       // TODO
     }
   };
+
+  let usernameHintShown = false;
+  let passwordHintShown = false;
+  if (showFirstHint) {
+    if (!usernameValid) {
+      usernameHintShown = true;
+    } else if (!passwordValid) {
+      passwordHintShown = true;
+    }
+  } else {
+    usernameHintShown = usernameFocus && !!username && !usernameValid;
+    passwordHintShown = passwordFocus && !!password && !passwordValid;
+  }
 
   return (
     <form className="LogInForm styledForm" onSubmit={handleSubmit}>
       <fieldset>
         <label htmlFor="usernameInput">Логин:</label>
         <input
+          ref={usernameRef}
           id="usernameInput"
           type="text"
           autoFocus
@@ -56,18 +74,14 @@ const LogInForm = () => {
           onBlur={() => setUsernameFocus(false)}
         />
       </fieldset>
-
-      {(showAllHints || usernameFocus) && username && !usernameValid ? (
-        <p className="inputHint" id="usernameHint">
-          Пользователя с таким именем не существует
-        </p>
-      ) : (
-        <></>
-      )}
+      <Tooltip id="usernameHint" shown={usernameHintShown} anchorRef={usernameRef}>
+        Пользователя с таким именем не существует
+      </Tooltip>
 
       <fieldset>
         <label htmlFor="passwordInput">Пароль:</label>
         <input
+          ref={passwordRef}
           id="passwordInput"
           type="password"
           placeholder="Введите пароль…"
@@ -80,14 +94,9 @@ const LogInForm = () => {
           onBlur={() => setPasswordFocus(false)}
         />
       </fieldset>
-
-      {(showAllHints || passwordFocus) && password && !passwordValid ? (
-        <p className="inputHint" id="passwordHint">
-          Пароль введён неверно
-        </p>
-      ) : (
-        <></>
-      )}
+      <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
+        Пароль введён неверно
+      </Tooltip>
 
       <button type="submit">Войти</button>
     </form>

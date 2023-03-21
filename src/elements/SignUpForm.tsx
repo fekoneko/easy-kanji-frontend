@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import Tooltip from './Tooltip';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -13,7 +14,11 @@ const SignUpForm = () => {
   const [confirm, setConfirm] = useState<string>('');
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
-  const [showAllHints, setShowAllHints] = useState<boolean>(false);
+  const [showFirstHint, setShowFirstHint] = useState<boolean>(false);
+
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmRef = useRef<HTMLInputElement>(null);
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
@@ -23,7 +28,7 @@ const SignUpForm = () => {
   useEffect(() => setPasswordValid(validatePassword()), [password]);
   useEffect(() => setConfirmValid(validateConfirm()), [confirm, password]);
 
-  useEffect(() => setShowAllHints(false), [usernameFocus, passwordFocus, confirmFocus]);
+  useEffect(() => setShowFirstHint(false), [usernameFocus, passwordFocus, confirmFocus]);
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -36,16 +41,34 @@ const SignUpForm = () => {
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
       // TODO
     } else {
-      setShowAllHints(true);
+      setShowFirstHint(true);
       // TODO
     }
   };
+
+  let usernameHintShown = false;
+  let passwordHintShown = false;
+  let confirmHintShown = false;
+  if (showFirstHint) {
+    if (!usernameValid) {
+      usernameHintShown = true;
+    } else if (!passwordValid) {
+      passwordHintShown = true;
+    } else if (!confirmValid) {
+      confirmHintShown = true;
+    }
+  } else {
+    usernameHintShown = usernameFocus && !!username && !usernameValid;
+    passwordHintShown = passwordFocus && !!password && !passwordValid;
+    confirmHintShown = confirmFocus && !!confirm && !confirmValid;
+  }
 
   return (
     <form className="RegistrationForm styledForm" onSubmit={handleSubmit}>
       <fieldset>
         <label htmlFor="usernameInput">Логин:</label>
         <input
+          ref={usernameRef}
           id="usernameInput"
           type="text"
           autoFocus
@@ -60,18 +83,15 @@ const SignUpForm = () => {
           onBlur={() => setUsernameFocus(false)}
         />
       </fieldset>
-      {(showAllHints || usernameFocus) && username && !usernameValid ? (
-        <p className="inputHint" id="usernameHint">
-          От 4 до 24 символов. Должен начинаться с буквы. Разрешены латинские буквы, цифры, дефисы и
-          нижние подчёркивания.
-        </p>
-      ) : (
-        <></>
-      )}
+      <Tooltip id="usernameHint" shown={usernameHintShown} anchorRef={usernameRef}>
+        От 4 до 24 символов. Должен начинаться с буквы. Разрешены латинские буквы, цифры, дефисы и
+        нижние подчёркивания.
+      </Tooltip>
 
       <fieldset>
         <label htmlFor="passwordInput">Пароль:</label>
         <input
+          ref={passwordRef}
           id="passwordInput"
           type="password"
           placeholder="Придумайте пароль…"
@@ -85,20 +105,17 @@ const SignUpForm = () => {
           onBlur={() => setPasswordFocus(false)}
         />
       </fieldset>
-      {(showAllHints || passwordFocus) && password && !passwordValid ? (
-        <p className="inputHint" id="passwordHint">
-          От 8 до 24 символов. Должен включать заглавные и строчные латинские буквы, цифры и
-          специальные символы. Разрешённые символы: <span aria-label="восклицательный знак">!</span>{' '}
-          <span aria-label="собака">@</span> <span aria-label="решётка">#</span>{' '}
-          <span aria-label="знак доллара">$</span> <span aria-label="процент">%</span>.
-        </p>
-      ) : (
-        <></>
-      )}
+      <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
+        От 8 до 24 символов. Должен включать заглавные и строчные латинские буквы, цифры и
+        специальные символы. Разрешённые символы: <span aria-label="восклицательный знак">!</span>{' '}
+        <span aria-label="собака">@</span> <span aria-label="решётка">#</span>{' '}
+        <span aria-label="знак доллара">$</span> <span aria-label="процент">%</span>.
+      </Tooltip>
 
       <fieldset>
         <label htmlFor="confirmInput">Подтвердите пароль:</label>
         <input
+          ref={confirmRef}
           id="confirmInput"
           type="password"
           placeholder="Введите пароль ещё раз…"
@@ -112,13 +129,9 @@ const SignUpForm = () => {
           onBlur={() => setConfirmFocus(false)}
         />
       </fieldset>
-      {(showAllHints || confirmFocus) && confirm && !confirmValid ? (
-        <p className="inputHint" id="confirmHint">
-          Пароли не совпадают
-        </p>
-      ) : (
-        <></>
-      )}
+      <Tooltip id="confirmHint" shown={confirmHintShown} anchorRef={confirmRef}>
+        Пароли не совпадают
+      </Tooltip>
 
       <button type="submit">Зарегистрироваться</button>
     </form>

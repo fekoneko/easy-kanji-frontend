@@ -9,7 +9,7 @@
   .animatedRoute-enter-active {
     transform: translateY(0);
     opacity: 1;
-    transition: all 0.2s ease-out;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
   }
   .animatedRoute-exit {
     position: absolute;
@@ -19,7 +19,7 @@
     width: calc(100% - var(--app-padding) * 2);
   }
   .animatedRoute-exit-active {
-    transition: all 0.15s ease-in;
+    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
     opacity: 0;
     transform: translateY(2rem);
   }
@@ -35,5 +35,62 @@
   }
   .kanjiCardContainer-exit-active .kanjiCard {
     opacity: 0;
+  }
+
+  .tooltip-enter,
+  .modalWindowTransition-enter .modalWindow {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  .tooltip-enter-active,
+  .modalWindowTransition-enter-active .modalWindow {
+    transform: translateY(0);
+    opacity: 1;
+    transition: opacity var(--transition-params), transform var(--transition-params);
+  }
+  .tooltip-exit,
+  .modalWindowTransition-exit .modalWindow {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .tooltip-exit-active,
+  .modalWindowTransition-exit-active .modalWindow {
+    transform: translateY(2rem);
+    opacity: 0;
+    transition: opacity var(--transition-params), transform var(--transition-params);
+  }
+
+  .modalWindowTransition-enter .modalWindowBG {
+    opacity: 0;
+  }
+  .modalWindowTransition-enteractive .modalWindowBG {
+    opacity: 1;
+    transition: opacity var(--transition-params);
+  }
+  .modalWindowTransition-exit .modalWindowBG {
+    opacity: 1;
+  }
+  .modalWindowTransition-exit-active .modalWindowBG {
+    opacity: 0;
+    transition: opacity var(--transition-params);
+  }
+
+  .inputHint-enter {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  .inputHint-enter-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: opacity var(--transition-params), transform var(--transition-params);
+  }
+  .inputHint-exit {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  .inputHint-exit-active {
+    opacity: 0;
+    transform: scaleY(0);
+    transition: opacity var(--transition-params), transform var(--transition-params);
   }
 }

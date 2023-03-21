@@ -1,72 +1,69 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as TooltipPointer } from '../assets/tooltipPointer.svg';
+import useOnClickOutside from '../hooks/useOnClickOutside';
 
-type TooltipProps = {
+type TooltipProps<T extends HTMLElement = HTMLElement> = {
+  anchorRef: RefObject<T>;
   shown?: boolean;
   handleClose?: () => any;
-  positionWhenDown: { x: number; y: number };
-  positionWhenUp: { x: number; y: number };
-  width: number;
+  className?: string;
+  id?: string;
   children?: ReactNode;
 };
 
-const Tooltip = ({
-  shown,
-  handleClose,
-  positionWhenDown,
-  positionWhenUp,
-  width,
-  children,
-}: TooltipProps) => {
+const Tooltip = ({ anchorRef, shown, handleClose, className, id, children }: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [tooltipDirection, setTooltipDirection] = useState<'up' | 'down'>('down');
-  const [coordinates, setCoordinates] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [tooltipWidth, setTooltipWidth] = useState<number>(0);
 
   useEffect(() => {
     const updateTooltipDirection = () => {
-      if (!tooltipRef.current) return;
+      if (!tooltipRef.current || !anchorRef.current) return;
+      const anchorRect = anchorRef.current.getBoundingClientRect();
       const tooltipHeight = tooltipRef.current.offsetHeight;
-      if (positionWhenDown.y + tooltipHeight > window.innerHeight) {
+
+      setTooltipWidth(anchorRect.width);
+      if (anchorRect.bottom + tooltipHeight > window.innerHeight) {
         setTooltipDirection('up');
-        setCoordinates({ x: positionWhenUp.x - width / 2, y: positionWhenUp.y - tooltipHeight });
+        setTooltipPosition({
+          x: anchorRect.left,
+          y: anchorRect.top - tooltipHeight,
+        });
       } else {
         setTooltipDirection('down');
-        setCoordinates({ x: positionWhenDown.x - width / 2, y: positionWhenDown.y });
+        setTooltipPosition({
+          x: anchorRect.left,
+          y: anchorRect.bottom,
+        });
       }
     };
     updateTooltipDirection();
-  }, [shown]);
+  }, [shown, anchorRef, tooltipRef, tooltipRef.current?.offsetHeight]);
+
+  useOnClickOutside(tooltipRef, () => {
+    if (handleClose) handleClose();
+  });
 
   return (
-    <>
-      {shown ? (
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            if (handleClose) handleClose();
-          }}
-          className="tooltipBG"
-        >
-          <div
-            ref={tooltipRef}
-            className="tooltip"
-            style={{ left: coordinates.x, top: coordinates.y, width }}
-          >
-            {tooltipDirection === 'down' ? <TooltipPointer className="tooltipPointer" /> : <></>}
-            <div className="tooltipContent" onClick={(e) => e.stopPropagation()}>
-              {children}
-            </div>
-            {tooltipDirection === 'up' ? (
-              <TooltipPointer className="tooltipPointer" style={{ transform: 'rotate(180deg)' }} />
-            ) : (
-              <></>
-            )}
-          </div>
+    <CSSTransition in={shown} unmountOnExit timeout={200} classNames="tooltip" nodeRef={tooltipRef}>
+      <div
+        ref={tooltipRef}
+        className="tooltip"
+        style={{ left: tooltipPosition.x, top: tooltipPosition.y, width: tooltipWidth }}
+      >
+        {tooltipDirection === 'down' ? <TooltipPointer className="tooltipPointer" /> : <></>}
+        <div className={`tooltipContent${className ? ` ${className}` : ''}`} id={id}>
+          {children}
         </div>
-      ) : (
-        <></>
-      )}
-    </>
+        {tooltipDirection === 'up' ? (
+          <TooltipPointer className="tooltipPointer" style={{ transform: 'rotate(180deg)' }} />
+        ) : (
+          <></>
+        )}
+      </div>
+    </CSSTransition>
   );
 };
 export default Tooltip;
