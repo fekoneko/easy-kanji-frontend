@@ -3,10 +3,10 @@ import { useLocation } from 'react-router-dom';
 import globalContext from '../contexts/globalContext';
 import kanjiContext, { Kanji } from '../contexts/kanjiContext';
 import {
-  deselectKanjiArray,
-  isKanjiArraySelected,
-  kanjiArraySelectedCount,
-  selectKanjiArray,
+  removeKanjisFromList,
+  isKanjisInList,
+  getCountOfKanjisInList,
+  addKanjisToList,
 } from '../controllers/kanjiController';
 
 const ControlPanel = () => {
@@ -32,12 +32,12 @@ const ControlPanel = () => {
 
   const deselectDisplayed = () => {
     if (!displayedKanjis) return;
-    deselectKanjiArray(setSelectedKanjis, displayedKanjis);
+    removeKanjisFromList(setSelectedKanjis, displayedKanjis);
   };
 
   const selectDisplayed = () => {
     if (!displayedKanjis) return;
-    selectKanjiArray(setSelectedKanjis, displayedKanjis);
+    addKanjisToList(setSelectedKanjis, displayedKanjis);
   };
 
   const clearSelection = () => {
@@ -50,9 +50,9 @@ const ControlPanel = () => {
         location.pathname !== '/selected' ? (
           <>
             <p>{`выделено ${
-              displayedKanjis ? kanjiArraySelectedCount(selectedKanjis, displayedKanjis) : '?'
+              displayedKanjis ? getCountOfKanjisInList(selectedKanjis, displayedKanjis) : '?'
             } из ${displayedKanjis?.length}`}</p>
-            {displayedKanjis && isKanjiArraySelected(selectedKanjis, displayedKanjis) ? (
+            {displayedKanjis && isKanjisInList(selectedKanjis, displayedKanjis) ? (
               <button onClick={deselectDisplayed}>снять выделение</button>
             ) : (
               <button onClick={selectDisplayed}>выделить всё</button>

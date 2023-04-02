@@ -61,7 +61,24 @@
   button {
     transition: background-color var(--transition-params);
   }
-  button:hover {
+  button:hover,
+  button:focus {
     background-color: var(--hover-color);
+  }
+
+  .controlButton {
+    display: flex;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: none !important;
+    background-color: transparent !important;
+    padding: 0.5rem;
+  }
+  .controlButton > * {
+    fill: var(--primary-text-color);
+  }
+  .controlButton:hover > * {
+    fill: var(--primary-color);
   }
 }

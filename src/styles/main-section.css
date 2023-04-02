@@ -4,19 +4,29 @@
     grid-template-columns: repeat(2, calc(50% - 0.3rem));
     gap: 0.6rem;
   }
-
   .kanjiCell {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .kanjiCell .controlButton {
+    position: absolute;
+    right: 0.5rem;
+  }
+
+  .kanjiCell .kanjiCellInner {
+    flex: 1 1;
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.1rem 0.6rem;
+    padding: 0.1rem 2.8rem 0.1rem 0.6rem;
     transition: background-color var(--transition-params);
+  }
+  .kanjiCell.selected > .kanjiCellInner {
+    background-color: var(--secondary-color);
   }
   .kanjiCell .kanjiWriting {
     font-size: 2rem;
     font-weight: bold;
-  }
-  .kanjiCell.selected {
-    background-color: var(--secondary-color);
   }
 }

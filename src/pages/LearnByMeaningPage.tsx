@@ -1,14 +1,14 @@
-import { SideContent } from '../elements/KanjiCard';
+import { ViewContent } from '../elements/KanjiView';
 import LearnUI from '../elements/LearnUI';
 
-const frontSide: SideContent = {
+const frontSide: ViewContent = {
   writing: false,
   meaning: true,
   onReadings: false,
   kunReadings: false,
 };
 
-const backSide: SideContent = {
+const backSide: ViewContent = {
   writing: true,
   meaning: true,
   onReadings: true,
