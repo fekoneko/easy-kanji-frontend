@@ -1,5 +1,5 @@
-import { ViewContent } from '../elements/KanjiView';
-import LearnUI from '../elements/LearnUI';
+import { ViewContent } from '../components/KanjiView';
+import LearnUI from '../components/LearnUI';
 
 const frontSide: ViewContent = {
   writing: true,

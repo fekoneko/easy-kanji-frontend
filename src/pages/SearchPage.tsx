@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiGrid from '../elements/KanjiGrid';
-import SearchBar from '../elements/SearchBar';
+import KanjiGrid from '../components/KanjiGrid';
+import SearchBar from '../components/SearchBar';
 
 const SearchPage = () => {
   const { searchKanjis } = useContext(kanjiContext);

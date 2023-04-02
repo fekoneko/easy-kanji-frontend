@@ -1,17 +1,17 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { KanjiContextProvider } from './contexts/kanjiContext';
-import Footer from './elements/Footer';
-import Header from './elements/Header';
-import Nav from './elements/Nav';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Nav from './components/Nav';
 import LearnByMeaningPage from './pages/LearnByMeaningPage';
 import LearnByWritingPage from './pages/LearnByWritingPage';
 import PopularPage from './pages/PopularPage';
 import SavedKanjiPage from './pages/SavedKanjiPage';
 import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
-import AnimatedRoute from './elements/AnimatedRoute';
+import AnimatedRoute from './components/AnimatedRoute';
 import PageNotFound from './pages/PageNotFound';
-import ModalWindow from './elements/ModalWindow';
+import ModalWindow from './components/ModalWindow';
 import { ReactNode, useState } from 'react';
 
 export type showModalFunction = (modalContents: ReactNode) => void;

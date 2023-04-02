@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiGrid from '../elements/KanjiGrid';
+import KanjiGrid from '../components/KanjiGrid';
 
 const SelectedPage = () => {
   const { selectedKanjis } = useContext(kanjiContext);
