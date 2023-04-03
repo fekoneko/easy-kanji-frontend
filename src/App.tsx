@@ -12,13 +12,14 @@ import SelectedPage from './pages/SelectedPage';
 import AnimatedRoute from './components/AnimatedRoute';
 import PageNotFound from './pages/PageNotFound';
 import ModalWindow from './components/ModalWindow';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 
 export type showModalFunction = (modalContents: ReactNode) => void;
 
 const App = () => {
   const [modalWindowShown, setModalWindowShown] = useState(false);
   const [modalContents, setModalContents] = useState<ReactNode>(null);
+  const mainRef = useRef<HTMLElement>(null);
 
   const showModal = (modalContents: ReactNode) => {
     setModalWindowShown(true);
@@ -30,7 +31,7 @@ const App = () => {
       <Header showModal={showModal} />
       <Nav />
       <KanjiContextProvider>
-        <main role="main">
+        <main role="main" ref={mainRef}>
           <Routes>
             <Route path="/">
               <Route index element={<Navigate to="popular" />} />

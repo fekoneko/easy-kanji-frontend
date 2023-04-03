@@ -1,6 +1,7 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import useOnClickOutside from '../hooks/useOnClickOutside';
+import useOnClick from '../hooks/useOnClick';
+import useKeyPressed from '../hooks/useKeyPressed';
 
 type ModalWindowProps = {
   shown?: boolean;
@@ -11,10 +12,19 @@ type ModalWindowProps = {
 const ModalWindow = ({ shown, handleClose, children }: ModalWindowProps) => {
   const modalWindowBGRef = useRef<HTMLDivElement>(null);
   const modalWindowRef = useRef<HTMLDivElement>(null);
+  const escapePressed = useKeyPressed('Escape');
 
-  useOnClickOutside(modalWindowRef, () => {
-    if (handleClose) handleClose();
-  });
+  useEffect(() => {
+    if (escapePressed && handleClose) handleClose();
+  }, [escapePressed]);
+
+  useOnClick(
+    modalWindowRef,
+    () => {
+      if (handleClose) handleClose();
+    },
+    'outside'
+  );
 
   return (
     <CSSTransition

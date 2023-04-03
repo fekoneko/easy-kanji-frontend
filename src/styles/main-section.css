@@ -14,16 +14,20 @@
     right: 0.5rem;
   }
 
-  .kanjiCell .kanjiCellInner {
+  .kanjiCellButton {
     flex: 1 1;
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0.1rem 2.8rem 0.1rem 0.6rem;
+    background-color: var(--background-color);
     transition: background-color var(--transition-params);
   }
-  .kanjiCell.selected > .kanjiCellInner {
-    background-color: var(--secondary-color);
+  .kanjiCellButton:focus {
+    outline: var(--primary-text-color) solid 1px;
+  }
+  .kanjiCell.selected > .kanjiCellButton {
+    background-color: var(--selected-cell-color);
   }
   .kanjiCell .kanjiWriting {
     font-size: 2rem;

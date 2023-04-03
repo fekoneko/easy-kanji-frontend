@@ -1,7 +1,7 @@
 import { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as TooltipPointer } from '../assets/tooltipPointer.svg';
-import useOnClickOutside from '../hooks/useOnClickOutside';
+import useOnClick from '../hooks/useOnClick';
 
 type TooltipProps<T extends HTMLElement = HTMLElement> = {
   anchorRef: RefObject<T>;
@@ -42,9 +42,13 @@ const Tooltip = ({ anchorRef, shown, handleClose, className, id, children }: Too
     updateTooltipDirection();
   }, [shown, anchorRef, tooltipRef, tooltipRef.current?.offsetHeight]);
 
-  useOnClickOutside(tooltipRef, () => {
-    if (handleClose) handleClose();
-  });
+  useOnClick(
+    tooltipRef,
+    () => {
+      if (handleClose) handleClose();
+    },
+    'outside'
+  );
 
   return (
     <CSSTransition in={shown} unmountOnExit timeout={200} classNames="tooltip" nodeRef={tooltipRef}>
