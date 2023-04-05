@@ -57,7 +57,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     return (
       <div className="errorMessage">
         <p className="errorTip">
-          Для обучения Вы ни одного Кандзи
+          Для обучения Вы выбрали ни одного Кандзи
           <br />
           Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
         </p>
