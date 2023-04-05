@@ -1,16 +1,17 @@
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useContext, useEffect, useState } from 'react';
 import { Kanji } from '../contexts/kanjiContext';
 import useKeyPressed from '../hooks/useKeyPressed';
 import KanjiCell from './KanjiCell';
+import globalContext from '../contexts/globalContext';
 
 const COLUMNS_COUNT = 2;
 
 type KanjiGridProps = {
   kanjis: Kanji[];
-  mainRef: RefObject<HTMLElement>;
 };
 
-const KanjiGrid = ({ kanjis, mainRef }: KanjiGridProps) => {
+const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
+  const { inSectionPath } = useContext(globalContext);
   const arrowLeftPressed = useKeyPressed('ArrowLeft');
   const arrowRightPressed = useKeyPressed('ArrowRight');
   const arrowUpPressed = useKeyPressed('ArrowUp');
@@ -73,6 +74,25 @@ const KanjiGrid = ({ kanjis, mainRef }: KanjiGridProps) => {
         ))}
       </section>
     );
-  else return null; // TODO: 'No Kanji' message here
+  else
+    return (
+      <div className="errorMessage">
+        {inSectionPath === 'popular' ? (
+          <h2 className="errorTip">Пустой список</h2>
+        ) : inSectionPath === 'saved' ? (
+          <p className="errorTip">
+            Вы пока не сохранили ни одного Кандзи <br />
+            Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
+          </p>
+        ) : inSectionPath === 'search' ? (
+          <p className="errorTip">Здесь пока что пусто</p>
+        ) : inSectionPath === 'selected' ? (
+          <p className="errorTip">
+            Вы пока выбрали ни одного Кандзи <br />
+            Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
+          </p>
+        ) : null}
+      </div>
+    );
 };
 export default KanjiGrid;

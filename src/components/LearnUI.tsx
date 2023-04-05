@@ -26,31 +26,42 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     }
   }, [arrowLeftPressed, arrowRightPressed]);
 
-  return (
-    <section className="learnUI">
-      <div
-        className="kanjiQueue"
-        style={{
-          transform: `translateX(calc(${
-            -(windowWidth / 3) * currentIndex
-          }px - var(--card-width) / 2))`,
-        }}
-      >
-        {selectedKanjis.map((kanji, index) => (
-          <KanjiCard
-            key={index}
-            kanji={kanji}
-            frontSide={frontSide}
-            backSide={backSide}
-            shown={Math.abs(index - currentIndex) <= 1}
-            positionOnScreen={
-              index === currentIndex ? 'center' : index - currentIndex < 0 ? 'left' : 'right'
-            }
-            queueOrder={index}
-          />
-        ))}
+  if (selectedKanjis.length !== 0) {
+    return (
+      <section className="learnUI">
+        <div
+          className="kanjiQueue"
+          style={{
+            transform: `translateX(calc(${
+              -(windowWidth / 3) * currentIndex
+            }px - var(--card-width) / 2))`,
+          }}
+        >
+          {selectedKanjis.map((kanji, index) => (
+            <KanjiCard
+              key={index}
+              kanji={kanji}
+              frontSide={frontSide}
+              backSide={backSide}
+              shown={Math.abs(index - currentIndex) <= 1}
+              positionOnScreen={
+                index === currentIndex ? 'center' : index - currentIndex < 0 ? 'left' : 'right'
+              }
+              queueOrder={index}
+            />
+          ))}
+        </div>
+      </section>
+    );
+  } else
+    return (
+      <div className="errorMessage">
+        <p className="errorTip">
+          Для обучения Вы ни одного Кандзи
+          <br />
+          Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
+        </p>
       </div>
-    </section>
-  );
+    );
 };
 export default LearnUI;
