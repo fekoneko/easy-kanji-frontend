@@ -1,5 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import testKanjiData from './testKanjiData.json';
+import { createContext, ReactNode, useState } from 'react';
 
 export type Kanji = {
   id: number;
@@ -28,12 +27,6 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [savedKanjis, setSavedKanjis] = useState<Kanji[]>([]);
   const [searchKanjis, setSearchKanjis] = useState<Kanji[]>([]);
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
-
-  useEffect(() => {
-    setPopularKanjis(testKanjiData.popular);
-    setSavedKanjis(testKanjiData.saved);
-    setSearchKanjis(testKanjiData.search);
-  }, []); // TODO: remove + remove import
 
   return (
     <kanjiContext.Provider

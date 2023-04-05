@@ -42,7 +42,6 @@ export const GlobalContextProvider = ({ children }: GlobalContextProviderProps) 
     };
     const getInSectionPath = (section: Section): InSectionPath => {
       const uncheckedPath = location.pathname.substring(section === 'learn' ? 7 : 1);
-      console.log(uncheckedPath);
       if (IN_SECTION_PATHES.includes(uncheckedPath)) return uncheckedPath as InSectionPath;
       else return null;
     };
