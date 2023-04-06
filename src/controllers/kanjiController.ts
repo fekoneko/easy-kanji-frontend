@@ -3,6 +3,8 @@ import { Kanji } from '../contexts/kanjiContext';
 export const isKanjiInList = (kanjiList: Kanji[], kanji: Kanji): boolean =>
   kanjiList.findIndex((kanjiFromList) => kanjiFromList.id === kanji.id) !== -1;
 
+export const getKanjisIds = (kanjis: Kanji[]): number[] => kanjis.map((kanji) => kanji.id);
+
 export const changeKanjiInList = (
   setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
   kanjiToChange: Kanji
