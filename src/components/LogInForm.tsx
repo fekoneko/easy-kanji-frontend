@@ -55,7 +55,7 @@ const LogInForm = () => {
   }
 
   return (
-    <form className="LogInForm styledForm" onSubmit={handleSubmit}>
+    <form className="LogInForm" onSubmit={handleSubmit}>
       <fieldset>
         <label htmlFor="usernameInput">Логин:</label>
         <input

@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .modalWindow > form {
     min-width: 16rem;
     width: 50vw;
     max-width: 30rem;
@@ -80,31 +83,5 @@
   }
   .controlButton:hover > * {
     fill: var(--primary-color);
-  }
-
-  .errorMessage {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    bottom: 3rem;
-  }
-
-  .errorMessage .errorTitle {
-    font-size: 6rem;
-    margin-bottom: -2rem;
-  }
-
-  .errorMessage .errorDescription {
-    font-size: 2rem;
-    margin-top: 1rem;
-  }
-
-  .errorMessage .errorTip {
-    font-size: 1.2rem;
-    position: relative;
-    top: 9rem;
-    line-height: 2rem;
   }
 }

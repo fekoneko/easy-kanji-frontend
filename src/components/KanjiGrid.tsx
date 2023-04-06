@@ -1,8 +1,7 @@
-import { RefObject, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Kanji } from '../contexts/kanjiContext';
 import useKeyPressed from '../hooks/useKeyPressed';
 import KanjiCell from './KanjiCell';
-import globalContext from '../contexts/globalContext';
 
 const COLUMNS_COUNT = 2;
 
@@ -11,7 +10,6 @@ type KanjiGridProps = {
 };
 
 const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
-  const { inSectionPath } = useContext(globalContext);
   const arrowLeftPressed = useKeyPressed('ArrowLeft');
   const arrowRightPressed = useKeyPressed('ArrowRight');
   const arrowUpPressed = useKeyPressed('ArrowUp');
@@ -61,38 +59,17 @@ const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
     }
   }, [arrowDownPressed]);
 
-  if (kanjis.length > 0)
-    return (
-      <section className="kanjiGrid">
-        {kanjis.map((kanji, index) => (
-          <KanjiCell
-            key={index}
-            kanji={kanji}
-            focus={focusIndex === index}
-            setFocus={() => setFocusIndex(index)}
-          />
-        ))}
-      </section>
-    );
-  else
-    return (
-      <div className="errorMessage">
-        {inSectionPath === 'popular' ? (
-          <h2 className="errorTip">Пустой список</h2>
-        ) : inSectionPath === 'saved' ? (
-          <p className="errorTip">
-            Вы пока не сохранили ни одного Кандзи <br />
-            Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
-          </p>
-        ) : inSectionPath === 'search' ? (
-          <p className="errorTip">Здесь пока что пусто</p>
-        ) : inSectionPath === 'selected' ? (
-          <p className="errorTip">
-            Вы пока выбрали ни одного Кандзи <br />
-            Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
-          </p>
-        ) : null}
-      </div>
-    );
+  return (
+    <section className="kanjiGrid">
+      {kanjis.map((kanji, index) => (
+        <KanjiCell
+          key={index}
+          kanji={kanji}
+          focus={focusIndex === index}
+          setFocus={() => setFocusIndex(index)}
+        />
+      ))}
+    </section>
+  );
 };
 export default KanjiGrid;

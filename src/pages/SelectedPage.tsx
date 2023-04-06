@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/KanjiGrid';
+import { Link } from 'react-router-dom';
 
 const SelectedPage = () => {
   const { selectedKanjis } = useContext(kanjiContext);
@@ -8,7 +9,16 @@ const SelectedPage = () => {
   return (
     <div className="scrollContent">
       <h1>Выбранные кандзи</h1>
-      <KanjiGrid kanjis={selectedKanjis} />
+      {selectedKanjis.length > 0 ? (
+        <KanjiGrid kanjis={selectedKanjis} />
+      ) : (
+        <div className="contentPlaceholder">
+          <p>Вы пока не выбрали ни одного Кандзи</p>
+          <p>
+            Перейти в раздел <Link to="/popular">Популярные</Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 };

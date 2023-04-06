@@ -20,7 +20,13 @@ const PopularPage = () => {
   return (
     <div className="scrollContent">
       <h1>Популярные кандзи</h1>
-      <KanjiGrid kanjis={popularKanjis} />
+      {popularKanjis.length > 0 ? (
+        <KanjiGrid kanjis={popularKanjis} />
+      ) : (
+        <div className="contentPlaceholder">
+          <p>Тут пока ничего нет</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,13 +1,14 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, RefObject, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 type AnimatedRouteProps = {
   absolutePath: string;
   element: ReactNode;
+  mainRef?: RefObject<HTMLElement>;
 };
 
-const AnimatedRoute = ({ absolutePath, element }: AnimatedRouteProps) => {
+const AnimatedRoute = ({ absolutePath, mainRef, element }: AnimatedRouteProps) => {
   const location = useLocation();
   const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -19,7 +20,13 @@ const AnimatedRoute = ({ absolutePath, element }: AnimatedRouteProps) => {
       classNames="animatedRoute"
       nodeRef={nodeRef}
     >
-      <div ref={nodeRef}>{element}</div>
+      <div
+        className="animatedRoute"
+        style={mainRef?.current ? { height: mainRef.current.offsetHeight } : {}}
+        ref={nodeRef}
+      >
+        {element}
+      </div>
     </CSSTransition>
   );
 };

@@ -34,7 +34,13 @@ const SearchPage = () => {
     <div className="scrollContent">
       <h1>Поиск кандзи</h1>
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
-      <KanjiGrid kanjis={searchKanjis} />
+      {searchKanjis.length > 0 ? (
+        <KanjiGrid kanjis={searchKanjis} />
+      ) : (
+        <div className="contentPlaceholder">
+          <p>По запросу ничего не найдено</p>
+        </div>
+      )}
     </div>
   );
 };

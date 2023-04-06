@@ -64,7 +64,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <form className="RegistrationForm styledForm" onSubmit={handleSubmit}>
+    <form className="RegistrationForm" onSubmit={handleSubmit}>
       <fieldset>
         <label htmlFor="usernameInput">Логин:</label>
         <input

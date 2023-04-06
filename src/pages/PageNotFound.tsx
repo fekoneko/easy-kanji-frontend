@@ -1,11 +1,15 @@
+import { Link } from 'react-router-dom';
+
 const PageNotFound = () => {
   return (
-    <div className="scrollContent errorMessage">
-      <h1 className="errorTitle">404</h1>
-      <h1 className="errorDescription">Страница не найдена</h1>
-      <p className="errorTip">
-        Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
-      </p>
+    <div className="scrollContent">
+      <div className="contentPlaceholder">
+        <h1>404</h1>
+        <h2>Страница не найдена</h2>
+        <p>
+          Перейдите в раздел <Link to="/popular">Популярные</Link>
+        </p>
+      </div>
     </div>
   );
 };

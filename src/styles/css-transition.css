@@ -9,7 +9,7 @@
   .animatedRoute-enter-active {
     transform: translateY(0);
     opacity: 1;
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, height 0.2s ease-out;
   }
   .animatedRoute-exit {
     position: absolute;
@@ -19,7 +19,7 @@
     width: calc(100% - var(--app-padding) * 2);
   }
   .animatedRoute-exit-active {
-    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
+    transition: opacity 0.15s ease-in, transform 0.15s ease-in, height 0.15s ease-in;
     opacity: 0;
     transform: translateY(2rem);
   }

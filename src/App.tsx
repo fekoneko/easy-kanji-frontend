@@ -41,10 +41,26 @@ const App = () => {
                   path={path}
                   element={
                     <>
-                      <AnimatedRoute absolutePath="/popular" element={<PopularPage />} />
-                      <AnimatedRoute absolutePath="/saved" element={<SavedKanjiPage />} />
-                      <AnimatedRoute absolutePath="/search" element={<SearchPage />} />
-                      <AnimatedRoute absolutePath="/selected" element={<SelectedPage />} />
+                      <AnimatedRoute
+                        absolutePath="/popular"
+                        mainRef={mainRef}
+                        element={<PopularPage />}
+                      />
+                      <AnimatedRoute
+                        absolutePath="/saved"
+                        mainRef={mainRef}
+                        element={<SavedKanjiPage />}
+                      />
+                      <AnimatedRoute
+                        absolutePath="/search"
+                        mainRef={mainRef}
+                        element={<SearchPage />}
+                      />
+                      <AnimatedRoute
+                        absolutePath="/selected"
+                        mainRef={mainRef}
+                        element={<SelectedPage />}
+                      />
                     </>
                   }
                 />

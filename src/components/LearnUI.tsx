@@ -4,6 +4,7 @@ import kanjiContext from '../contexts/kanjiContext';
 import KanjiCard from './KanjiCard';
 import useKeyPressed from '../hooks/useKeyPressed';
 import { ViewContent } from './KanjiView';
+import { Link } from 'react-router-dom';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -55,11 +56,10 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     );
   } else
     return (
-      <div className="errorMessage">
-        <p className="errorTip">
-          Для обучения Вы выбрали ни одного Кандзи
-          <br />
-          Перейдите в раздел <a href="http://localhost:5173/popular">Популярные</a>
+      <div className="contentPlaceholder">
+        <p>Выберите кандзи для обучения</p>
+        <p>
+          Перейти в раздел <Link to="/popular">Популярные</Link>
         </p>
       </div>
     );
