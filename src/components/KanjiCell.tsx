@@ -8,6 +8,7 @@ import { ReactComponent as SaveKanjiIcon } from '../assets/saveKanji.svg';
 import { ReactComponent as KanjiSavedIcon } from '../assets/kanjiSaved.svg';
 import useKeyPressed from '../hooks/useKeyPressed';
 import useOnClick from '../hooks/useOnClick';
+import kanjisApi from '../api/kanjisApi';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -26,6 +27,12 @@ const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
   const kanjiSelected = useMemo(() => isKanjiInList(selectedKanjis, kanji), [selectedKanjis]);
   const enterPressed = useKeyPressed('Enter');
   const spacePressed = useKeyPressed(' ');
+
+  const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
+  const saveKanji = () => {
+    changeKanjiInList(setSavedKanjis, kanji);
+    kanjisApi.addKanji('saved', kanji);
+  };
 
   useOnClick(
     cellButtonRef,
@@ -66,9 +73,6 @@ const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
     setTooltipShown(false);
     if (showTimeoutRef.current !== null) clearTimeout(showTimeoutRef.current);
   };
-
-  const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
-  const saveKanji = () => changeKanjiInList(setSavedKanjis, kanji);
 
   return (
     <>

@@ -38,7 +38,11 @@ const SearchPage = () => {
         <KanjiGrid kanjis={searchKanjis} />
       ) : (
         <div className="contentPlaceholder">
-          <p>По запросу ничего не найдено</p>
+          {searchRequest !== '' ? (
+            <p>По запросу ничего не найдено</p>
+          ) : (
+            <p>Введите поисковой запрос</p>
+          )}
         </div>
       )}
     </div>

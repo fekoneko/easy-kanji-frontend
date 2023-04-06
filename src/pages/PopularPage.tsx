@@ -5,14 +5,11 @@ import kanjisApi from '../api/kanjisApi';
 
 const PopularPage = () => {
   const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const updatePopularKanjis = async () => {
-      const newPopularKanjis = await kanjisApi.getKanjiListPart('popular', 1, 100, setError);
+      const newPopularKanjis = await kanjisApi.getKanjiListPart('popular', 1, 100);
       if (newPopularKanjis) setPopularKanjis(newPopularKanjis);
-      setIsLoading(false);
     };
     updatePopularKanjis();
   }, []);

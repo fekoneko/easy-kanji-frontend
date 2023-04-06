@@ -31,7 +31,8 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [searchKanjis, setSearchKanjis] = useState<Kanji[]>([]);
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
 
-  const selectedKanjisLoaded = useRef<boolean>(false);
+  const selectedKanjisLoaded = useRef(false);
+  const savedKanjisFetched = useRef(false);
 
   useEffect(() => {
     const loadSelectedKanjis = async () => {
@@ -54,6 +55,14 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
     };
     saveSelectedKanjis();
   }, [selectedKanjis]);
+
+  useEffect(() => {
+    const fetchSavedKanjis = async () => {
+      const newSavedKanjis = await kanjisApi.getKanjiList('saved');
+      if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
+    };
+    fetchSavedKanjis();
+  }, []);
 
   return (
     <kanjiContext.Provider
