@@ -1,61 +1,53 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import Tooltip from './Tooltip';
+import globalContext from '../contexts/globalContext';
+import userApi from '../api/userApi';
 
-const LogInForm = () => {
+type SignInFormProps = {
+  onLoggedIn?: (e: FormEvent) => any;
+};
+
+const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const [username, setUsername] = useState<string>('');
   const [usernameValid, setUsernameValid] = useState<boolean>(true);
   const [usernameFocus, setUsernameFocus] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordValid, setPasswordValid] = useState<boolean>(true);
   const [passwordFocus, setPasswordFocus] = useState<boolean>(false);
-  const [showFirstHint, setShowFirstHint] = useState<boolean>(false);
+  const [signInErrorStatus, setSignInErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
+
+  const { setAuth } = useContext(globalContext);
 
   useEffect(() => {
-    if (!usernameValid) setUsernameValid(true); // will be actually checked on submit
-  }, [username]);
+    if (signInErrorStatus) setSignInErrorStatus(null);
+  }, [username, password]);
 
   useEffect(() => {
-    if (!passwordValid) setPasswordValid(true); // will be actually checked on submit
-  }, [password]);
-
-  useEffect(() => setShowFirstHint(false), [usernameFocus, passwordFocus]);
-
-  const validateForm = async (): Promise<[usernameValid: boolean, passwordValid: boolean]> => {
-    // TODO check on server
-    return [false, false];
-  };
+    if (signInErrorStatus === 404) {
+      setUsernameValid(false);
+      setPasswordValid(true);
+      usernameRef.current?.focus();
+    } else if (signInErrorStatus === 400) {
+      setUsernameValid(true);
+      setPasswordValid(false);
+      passwordRef.current?.focus();
+    }
+  }, [signInErrorStatus]);
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    const [curUsernameValid, curPasswordValid] = await validateForm();
-    setUsernameValid(curUsernameValid);
-    setPasswordValid(curPasswordValid);
-    if (curUsernameValid && curPasswordValid) {
-      // TODO
-    } else {
-      setShowFirstHint(true);
-      // TODO
-    }
+    const newAuth = await userApi.signIn(username, password, setSignInErrorStatus);
+    if (!newAuth) return;
+    setAuth(newAuth);
+    if (onLoggedIn) onLoggedIn(e);
   };
 
-  let usernameHintShown = false;
-  let passwordHintShown = false;
-  if (showFirstHint) {
-    if (!usernameValid) {
-      usernameHintShown = true;
-    } else if (!passwordValid) {
-      passwordHintShown = true;
-    }
-  } else {
-    usernameHintShown = usernameFocus && !!username && !usernameValid;
-    passwordHintShown = passwordFocus && !!password && !passwordValid;
-  }
-
   return (
-    <form className="LogInForm" onSubmit={handleSubmit}>
+    <form className="SignInForm" onSubmit={handleSubmit}>
       <fieldset>
         <label htmlFor="usernameInput">Логин:</label>
         <input
@@ -74,7 +66,7 @@ const LogInForm = () => {
           onBlur={() => setUsernameFocus(false)}
         />
       </fieldset>
-      <Tooltip id="usernameHint" shown={usernameHintShown} anchorRef={usernameRef}>
+      <Tooltip id="usernameHint" shown={!usernameValid && usernameFocus} anchorRef={usernameRef}>
         Пользователя с таким именем не существует
       </Tooltip>
 
@@ -94,12 +86,17 @@ const LogInForm = () => {
           onBlur={() => setPasswordFocus(false)}
         />
       </fieldset>
-      <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
+      <Tooltip id="passwordHint" shown={!passwordValid && passwordFocus} anchorRef={passwordRef}>
         Пароль введён неверно
       </Tooltip>
 
-      <button type="submit">Войти</button>
+      <button ref={submitRef} type="submit">
+        Войти
+      </button>
+      <Tooltip id="passwordHint" shown={!!signInErrorStatus} anchorRef={submitRef}>
+        Ошибка авторизации
+      </Tooltip>
     </form>
   );
 };
-export default LogInForm;
+export default SignInForm;

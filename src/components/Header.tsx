@@ -1,14 +1,15 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { showModalFunction } from '../App';
+import { closeModalFunction, showModalFunction } from '../App';
 import globalContext from '../contexts/globalContext';
 import UserButton from './UserButton';
 
 type HeaderProps = {
   showModal: showModalFunction;
+  closeModal: closeModalFunction;
 };
 
-const Header = ({ showModal }: HeaderProps) => {
+const Header = ({ showModal, closeModal }: HeaderProps) => {
   const { section } = useContext(globalContext);
 
   return (
@@ -25,7 +26,7 @@ const Header = ({ showModal }: HeaderProps) => {
           Режим обучения
         </Link>
       )}
-      <UserButton showModal={showModal} />
+      <UserButton showModal={showModal} closeModal={closeModal} />
     </header>
   );
 };

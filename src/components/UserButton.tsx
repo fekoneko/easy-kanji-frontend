@@ -1,17 +1,18 @@
 import { useContext } from 'react';
-import { showModalFunction } from '../App';
+import { closeModalFunction, showModalFunction } from '../App';
 import globalContext from '../contexts/globalContext';
 import UserModal from './UserModal';
 
 type UserButtonProps = {
   showModal: showModalFunction;
+  closeModal: closeModalFunction;
 };
 
-const UserButton = ({ showModal }: UserButtonProps) => {
+const UserButton = ({ showModal, closeModal }: UserButtonProps) => {
   const { auth, setAuth } = useContext(globalContext);
 
-  const handleLogIn = () => {
-    showModal(<UserModal />);
+  const handleSignIn = () => {
+    showModal(<UserModal closeModal={closeModal} />);
   };
   const handleLogOut = () => {
     setAuth(null);
@@ -24,7 +25,7 @@ const UserButton = ({ showModal }: UserButtonProps) => {
           Выйти
         </button>
       ) : (
-        <button onClick={handleLogIn} className="userButton">
+        <button onClick={handleSignIn} className="userButton">
           Войти
         </button>
       )}

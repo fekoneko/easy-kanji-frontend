@@ -1,10 +1,16 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import Tooltip from './Tooltip';
+import globalContext from '../contexts/globalContext';
+import userApi from '../api/userApi';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const SignUpForm = () => {
+type SignUpFormProps = {
+  onSignedUp?: (e: FormEvent) => any;
+};
+
+const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const [username, setUsername] = useState<string>('');
   const [usernameValid, setUsernameValid] = useState<boolean>(false);
   const [usernameFocus, setUsernameFocus] = useState<boolean>(false);
@@ -14,21 +20,34 @@ const SignUpForm = () => {
   const [confirm, setConfirm] = useState<string>('');
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
-  const [showFirstHint, setShowFirstHint] = useState<boolean>(false);
+  const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmRef = useRef<HTMLInputElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
+
+  const { setAuth } = useContext(globalContext);
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
   const validateConfirm = (): boolean => confirm === password;
 
-  useEffect(() => setUsernameValid(validateUsername()), [username]);
-  useEffect(() => setPasswordValid(validatePassword()), [password]);
-  useEffect(() => setConfirmValid(validateConfirm()), [confirm, password]);
+  useEffect(() => {
+    setUsernameValid(validateUsername());
+  }, [username]);
 
-  useEffect(() => setShowFirstHint(false), [usernameFocus, passwordFocus, confirmFocus]);
+  useEffect(() => {
+    setPasswordValid(validatePassword());
+  }, [password]);
+
+  useEffect(() => {
+    setConfirmValid(validateConfirm());
+  }, [confirm, password]);
+
+  useEffect(() => {
+    setSignUpErrorStatus(null);
+  }, [username, password, confirm]);
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -39,29 +58,20 @@ const SignUpForm = () => {
     setPasswordValid(curPasswordValid);
     setConfirmValid(curConfirmValid);
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
-      // TODO
+      const newAuth = await userApi.signUp(username, password, setSignUpErrorStatus);
+      if (!newAuth) return;
+      setAuth(newAuth);
+      if (onSignedUp) onSignedUp(e);
     } else {
-      setShowFirstHint(true);
-      // TODO
+      if (!curUsernameValid) usernameRef.current?.focus();
+      else if (!curPasswordValid) passwordRef.current?.focus();
+      else if (!curConfirmValid) confirmRef.current?.focus();
     }
   };
 
-  let usernameHintShown = false;
-  let passwordHintShown = false;
-  let confirmHintShown = false;
-  if (showFirstHint) {
-    if (!usernameValid) {
-      usernameHintShown = true;
-    } else if (!passwordValid) {
-      passwordHintShown = true;
-    } else if (!confirmValid) {
-      confirmHintShown = true;
-    }
-  } else {
-    usernameHintShown = usernameFocus && !!username && !usernameValid;
-    passwordHintShown = passwordFocus && !!password && !passwordValid;
-    confirmHintShown = confirmFocus && !!confirm && !confirmValid;
-  }
+  const usernameHintShown = usernameFocus && (!!username || !!signUpErrorStatus) && !usernameValid;
+  const passwordHintShown = passwordFocus && (!!password || !!signUpErrorStatus) && !passwordValid;
+  const confirmHintShown = confirmFocus && (!!confirm || !!signUpErrorStatus) && !confirmValid;
 
   return (
     <form className="RegistrationForm" onSubmit={handleSubmit}>
@@ -78,7 +88,7 @@ const SignUpForm = () => {
           onChange={(e) => setUsername(e.target.value)}
           value={username}
           aria-describedby="usernameHint"
-          aria-invalid={usernameValid || !username ? 'false' : 'true'}
+          aria-invalid={!usernameValid && !!username}
           onFocus={() => setUsernameFocus(true)}
           onBlur={() => setUsernameFocus(false)}
         />
@@ -100,7 +110,7 @@ const SignUpForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           aria-describedby="passwordHint"
-          aria-invalid={passwordValid || !password ? 'false' : 'true'}
+          aria-invalid={!passwordValid && !!password}
           onFocus={() => setPasswordFocus(true)}
           onBlur={() => setPasswordFocus(false)}
         />
@@ -124,7 +134,7 @@ const SignUpForm = () => {
           onChange={(e) => setConfirm(e.target.value)}
           value={confirm}
           aria-describedby="confirmHint"
-          aria-invalid={confirmValid || !confirm ? 'false' : 'true'}
+          aria-invalid={!confirmValid && !!confirm}
           onFocus={() => setConfirmFocus(true)}
           onBlur={() => setConfirmFocus(false)}
         />
@@ -133,7 +143,12 @@ const SignUpForm = () => {
         Пароли не совпадают
       </Tooltip>
 
-      <button type="submit">Зарегистрироваться</button>
+      <button ref={submitRef} type="submit">
+        Зарегистрироваться
+      </button>
+      <Tooltip id="passwordHint" shown={!!signUpErrorStatus} anchorRef={submitRef}>
+        Ошибка регистрации
+      </Tooltip>
     </form>
   );
 };

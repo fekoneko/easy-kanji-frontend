@@ -2,7 +2,7 @@ import axios from 'axios';
 import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
 import { Kanji } from '../contexts/kanjiContext';
 
-const kanjisAxios = axios.create({ baseURL: `${import.meta.env.VITE_API_URL}/kanjis` });
+const kanjisAxios = axios.create({ baseURL: `${import.meta.env.VITE_API_URL}/api/kanjis` });
 
 type KanjiListName = 'popular' | 'saved';
 

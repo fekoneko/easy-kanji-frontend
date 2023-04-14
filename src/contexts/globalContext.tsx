@@ -1,18 +1,20 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-type Auth = {
+export type Auth = {
   username: string;
   password: string;
   roles: Array<number>;
   accessToken: string;
 };
 
+export type SetAuth = Dispatch<SetStateAction<Auth | null>>;
+
 type GlobalContextValue = {
   section: Section;
   inSectionPath: InSectionPath;
   auth: Auth | null;
-  setAuth: React.Dispatch<React.SetStateAction<Auth | null>>;
+  setAuth: SetAuth;
 };
 type GlobalContextProviderProps = { children: ReactNode };
 type Section = 'learn' | 'main';

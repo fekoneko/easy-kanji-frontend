@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import LogInForm from './LogInForm';
+import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
+import { closeModalFunction } from '../App';
 
 type Mode = 'reg' | 'log';
 
-const UserModal = () => {
+type UserModalProps = {
+  closeModal: closeModalFunction;
+};
+
+const UserModal = ({ closeModal }: UserModalProps) => {
   const [mode, setMode] = useState<Mode>('log');
 
   switch (mode) {
@@ -12,7 +17,7 @@ const UserModal = () => {
       return (
         <>
           <h1>Регистрация</h1>
-          <SignUpForm />
+          <SignUpForm onSignedUp={closeModal} />
           <p>
             Уже есть акаунт?{' '}
             <a
@@ -32,7 +37,7 @@ const UserModal = () => {
       return (
         <>
           <h1>Вход</h1>
-          <LogInForm />
+          <SignInForm onLoggedIn={closeModal} />
           <p>
             Нет акаунта?{' '}
             <a

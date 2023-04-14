@@ -14,7 +14,8 @@ import PageNotFound from './pages/PageNotFound';
 import ModalWindow from './components/ModalWindow';
 import { ReactNode, useRef, useState } from 'react';
 
-export type showModalFunction = (modalContents: ReactNode) => void;
+export type showModalFunction = (modalContents: ReactNode) => any;
+export type closeModalFunction = () => any;
 
 const App = () => {
   const [modalWindowShown, setModalWindowShown] = useState(false);
@@ -26,9 +27,13 @@ const App = () => {
     setModalContents(modalContents);
   };
 
+  const closeModal = () => {
+    setModalWindowShown(false);
+  };
+
   return (
     <div className="App">
-      <Header showModal={showModal} />
+      <Header showModal={showModal} closeModal={closeModal} />
       <Nav />
       <KanjiContextProvider>
         <main role="main" ref={mainRef}>
@@ -76,7 +81,7 @@ const App = () => {
         </main>
         <Footer />
       </KanjiContextProvider>
-      <ModalWindow shown={modalWindowShown} handleClose={() => setModalWindowShown(false)}>
+      <ModalWindow shown={modalWindowShown} handleClose={() => closeModal()}>
         {modalContents}
       </ModalWindow>
     </div>
