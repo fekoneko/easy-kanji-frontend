@@ -1,68 +1,59 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
 import { Kanji } from '../contexts/kanjiContext';
-import { Dispatch, SetStateAction } from 'react';
 
 const kanjisAxios = axios.create({ baseURL: `${import.meta.env.VITE_API_URL}/kanjis` });
 
 type KanjiListName = 'popular' | 'saved';
-type SetError = Dispatch<SetStateAction<Error | null>>;
 
 export default {
-  async catchAxiosErrors<T>(
-    getResponse: () => Promise<AxiosResponse<T>>,
-    setError?: SetError
-  ): Promise<T | null> {
-    let response: AxiosResponse<T> | null = null;
-    try {
-      response = await getResponse();
-      if (setError) setError(null);
-    } catch (err) {
-      if (setError) setError(err as Error);
-    } finally {
-      return response ? response.data : null;
-    }
+  async getKanjiById(id: number, setErrorStatus?: SetErrorStatus): Promise<Kanji | null> {
+    return await catchAxiosErrors(() => kanjisAxios.get(`/${id}`), setErrorStatus);
   },
 
-  async getKanjiById(id: number, setError?: SetError): Promise<Kanji | null> {
-    return await this.catchAxiosErrors(() => kanjisAxios.get(`/${id}`), setError);
+  async getKanjisByIds(ids: number[], setErrorStatus?: SetErrorStatus): Promise<Kanji[] | null> {
+    return await catchAxiosErrors(() => kanjisAxios.get(`/`, { params: { ids } }), setErrorStatus);
   },
 
-  async getKanjisByIds(ids: number[], setError?: SetError): Promise<Kanji[] | null> {
-    return await this.catchAxiosErrors(() => kanjisAxios.get(`/`, { params: { ids } }), setError);
-  },
-
-  async getKanjiList(listName: KanjiListName, setError?: SetError): Promise<Kanji[] | null> {
-    return await this.catchAxiosErrors(() => kanjisAxios.get(`/${listName}`), setError);
+  async getKanjiList(
+    listName: KanjiListName,
+    setErrorStatus?: SetErrorStatus
+  ): Promise<Kanji[] | null> {
+    return await catchAxiosErrors(() => kanjisAxios.get(`/${listName}`), setErrorStatus);
   },
 
   async getKanjiListPart(
     listName: KanjiListName,
     startIndex: number,
     endIndex: number,
-    setError?: SetError
+    setErrorStatus?: SetErrorStatus
   ): Promise<Kanji[] | null> {
-    return await this.catchAxiosErrors(
+    return await catchAxiosErrors(
       () => kanjisAxios.get(`/${listName}`, { params: { s: startIndex, e: endIndex } }),
-      setError
+      setErrorStatus
     );
   },
 
-  async searchKanjis(request: string, setError?: SetError): Promise<Kanji[] | null> {
-    return await this.catchAxiosErrors(
+  async searchKanjis(request: string, setErrorStatus?: SetErrorStatus): Promise<Kanji[] | null> {
+    return await catchAxiosErrors(
       () => kanjisAxios.get('/search', { params: { s: request } }),
-      setError
+      setErrorStatus
     );
   },
 
-  async addKanji(listName: KanjiListName, newKanji: Kanji, setError?: SetError): Promise<any> {
-    return await this.catchAxiosErrors(() => kanjisAxios.post(`/${listName}`, newKanji), setError);
+  async addKanji(
+    listName: KanjiListName,
+    newKanji: Kanji,
+    setErrorStatus?: SetErrorStatus
+  ): Promise<any> {
+    return await catchAxiosErrors(() => kanjisAxios.post(`/${listName}`, newKanji), setErrorStatus);
   },
 
-  async editKanji(id: number, editedKanji: Kanji, setError?: SetError): Promise<any> {
-    return await this.catchAxiosErrors(() => kanjisAxios.put(`/${id}`, editedKanji), setError);
+  async editKanji(id: number, editedKanji: Kanji, setErrorStatus?: SetErrorStatus): Promise<any> {
+    return await catchAxiosErrors(() => kanjisAxios.put(`/${id}`, editedKanji), setErrorStatus);
   },
 
-  async deleteKanji(id: number, setError?: SetError): Promise<any> {
-    return await this.catchAxiosErrors(() => kanjisAxios.delete(`/${id}`), setError);
+  async deleteKanji(id: number, setErrorStatus?: SetErrorStatus): Promise<any> {
+    return await catchAxiosErrors(() => kanjisAxios.delete(`/${id}`), setErrorStatus);
   },
 };

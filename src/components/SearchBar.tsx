@@ -16,7 +16,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
         autoFocus
         role="search"
         type="text"
-        placeholder="Поиск кандзи"
+        placeholder="Введите кандзи, его чтение или значение"
         value={searchRequest}
         onChange={(e) => setSearchRequest(e.target.value)}
       />

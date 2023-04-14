@@ -8,14 +8,13 @@ import { useSearchParams } from 'react-router-dom';
 const SearchPage = () => {
   const { searchKanjis, setSearchKanjis } = useContext(kanjiContext);
   const [searchRequest, setSearchRequest] = useState<string>('');
-  const [error, setError] = useState<Error | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const updateSearchKanjis = async () => {
       const searchParamsRequest = searchParams.get('s');
       if (!searchParamsRequest) return;
-      const newSearchKanjis = await kanjisApi.searchKanjis(searchParamsRequest, setError);
+      const newSearchKanjis = await kanjisApi.searchKanjis(searchParamsRequest);
       if (!newSearchKanjis) return;
       setSearchKanjis(newSearchKanjis);
     };
