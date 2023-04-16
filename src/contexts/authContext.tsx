@@ -3,7 +3,7 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useState } from 're
 export type Auth = {
   username: string;
   password: string;
-  roles: Array<number>;
+  roles: string[];
   accessToken: string;
 };
 

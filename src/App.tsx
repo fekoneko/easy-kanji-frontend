@@ -12,6 +12,7 @@ import SelectedPage from './pages/SelectedPage';
 import AnimatedRoutes from './components/routing/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
 import NavigateOnce from './components/routing/NavigateOnce';
+import AuthRequired from './components/routing/AuthRequired';
 
 const App = () => {
   return (
@@ -24,9 +25,11 @@ const App = () => {
             <Route path="">
               <Route index element={<NavigateOnce to="popular" />} />
               <Route path="popular" element={<PopularPage />} />
-              <Route path="saved" element={<SavedKanjiPage />} />
               <Route path="search" element={<SearchPage />} />
               <Route path="selected" element={<SelectedPage />} />
+              <Route element={<AuthRequired />}>
+                <Route path="saved" element={<SavedKanjiPage />} />
+              </Route>
             </Route>
             <Route path="learn">
               <Route index element={<NavigateOnce to="by-meaning" />} />
