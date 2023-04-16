@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { closeModalFunction } from '../App';
+import useModal from '../hooks/useModal';
 
 type Mode = 'reg' | 'log';
 
-type UserModalProps = {
-  closeModal: closeModalFunction;
-};
-
-const UserModal = ({ closeModal }: UserModalProps) => {
+const UserModal = () => {
   const [mode, setMode] = useState<Mode>('log');
+  const { closeModal } = useModal();
 
   switch (mode) {
     case 'reg':

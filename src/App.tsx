@@ -11,29 +11,12 @@ import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
 import AnimatedRoutes from './components/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
-import ModalWindow from './components/ModalWindow';
-import { ReactNode, useState } from 'react';
 import NavigateOnce from './components/NavigateOnce';
 
-export type showModalFunction = (modalContents: ReactNode) => any;
-export type closeModalFunction = () => any;
-
 const App = () => {
-  const [modalWindowShown, setModalWindowShown] = useState(false);
-  const [modalContents, setModalContents] = useState<ReactNode>(null);
-
-  const showModal = (modalContents: ReactNode) => {
-    setModalWindowShown(true);
-    setModalContents(modalContents);
-  };
-
-  const closeModal = () => {
-    setModalWindowShown(false);
-  };
-
   return (
     <div className="App">
-      <Header showModal={showModal} closeModal={closeModal} />
+      <Header />
       <Nav />
       <KanjiContextProvider>
         <main role="main">
@@ -55,9 +38,6 @@ const App = () => {
         </main>
         <Footer />
       </KanjiContextProvider>
-      <ModalWindow shown={modalWindowShown} handleClose={() => closeModal()}>
-        {modalContents}
-      </ModalWindow>
     </div>
   );
 };

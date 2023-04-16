@@ -1,17 +1,13 @@
-import { closeModalFunction, showModalFunction } from '../App';
 import UserModal from './UserModal';
 import useAuth from '../hooks/useAuth';
+import useModal from '../hooks/useModal';
 
-type UserButtonProps = {
-  showModal: showModalFunction;
-  closeModal: closeModalFunction;
-};
-
-const UserButton = ({ showModal, closeModal }: UserButtonProps) => {
+const UserButton = () => {
   const { auth, setAuth } = useAuth();
+  const { showModal, closeModal } = useModal();
 
   const handleSignIn = () => {
-    showModal(<UserModal closeModal={closeModal} />);
+    showModal(<UserModal />);
   };
   const handleLogOut = () => {
     setAuth(null);
