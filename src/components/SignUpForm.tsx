@@ -1,7 +1,7 @@
-import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from './Tooltip';
-import globalContext from '../contexts/globalContext';
 import userApi from '../api/userApi';
+import useAuth from '../hooks/useAuth';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -27,7 +27,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const confirmRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
 
-  const { setAuth } = useContext(globalContext);
+  const { setAuth } = useAuth();
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);

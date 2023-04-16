@@ -1,20 +1,9 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
-export type Auth = {
-  username: string;
-  password: string;
-  roles: Array<number>;
-  accessToken: string;
-};
-
-export type SetAuth = Dispatch<SetStateAction<Auth | null>>;
 
 type GlobalContextValue = {
   section: Section;
   inSectionPath: InSectionPath;
-  auth: Auth | null;
-  setAuth: SetAuth;
 };
 type GlobalContextProviderProps = { children: ReactNode };
 type Section = 'learn' | 'main';
@@ -35,7 +24,6 @@ export const GlobalContextProvider = ({ children }: GlobalContextProviderProps) 
   const [section, setSection] = useState<Section>('main');
   const [inSectionPath, setInSectionPath] = useState<InSectionPath>(null);
   const location = useLocation();
-  const [auth, setAuth] = useState<Auth | null>(null);
 
   useEffect(() => {
     const getSection = (): Section => {
@@ -55,9 +43,7 @@ export const GlobalContextProvider = ({ children }: GlobalContextProviderProps) 
   }, [location.pathname]);
 
   return (
-    <globalContext.Provider value={{ section, inSectionPath, auth, setAuth }}>
-      {children}
-    </globalContext.Provider>
+    <globalContext.Provider value={{ section, inSectionPath }}>{children}</globalContext.Provider>
   );
 };
 

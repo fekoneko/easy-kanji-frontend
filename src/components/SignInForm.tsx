@@ -1,7 +1,7 @@
-import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from './Tooltip';
-import globalContext from '../contexts/globalContext';
 import userApi from '../api/userApi';
+import useAuth from '../hooks/useAuth';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
@@ -20,7 +20,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
 
-  const { setAuth } = useContext(globalContext);
+  const { setAuth } = useAuth();
 
   useEffect(() => {
     if (signInErrorStatus) setSignInErrorStatus(null);

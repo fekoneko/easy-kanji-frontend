@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
-import { Auth } from '../contexts/globalContext';
+import { Auth } from '../contexts/authContext';
 
 const usersAxios = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/users`,
