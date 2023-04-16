@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import globalContext from '../contexts/globalContext';
-import kanjiContext, { Kanji } from '../contexts/kanjiContext';
+import globalContext from '../../contexts/globalContext';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import {
   removeKanjisFromList,
   isKanjisInList,
   getCountOfKanjisInList,
   addKanjisToList,
-} from '../controllers/kanjiController';
+} from '../../controllers/kanjiController';
 
 const ControlPanel = () => {
   const { section, inSectionPath } = useContext(globalContext);

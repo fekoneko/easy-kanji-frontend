@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
-import useModal from '../hooks/useModal';
+import SignInForm from '../forms/SignInForm';
+import SignUpForm from '../forms/SignUpForm';
+import useModal from '../../hooks/useModal';
 
 type Mode = 'reg' | 'log';
 

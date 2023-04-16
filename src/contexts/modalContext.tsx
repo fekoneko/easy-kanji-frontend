@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import ModalWindow from '../components/ModalWindow';
+import ModalWindow from '../components/modals/ModalWindow';
 
 export type ShowModalFunction = (modalContents: ReactNode) => void;
 export type CloseModalFunction = () => void;

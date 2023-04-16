@@ -1,4 +1,4 @@
-import { Kanji } from '../contexts/kanjiContext';
+import { Kanji } from '../../contexts/kanjiContext';
 
 export type ViewContent = {
   writing: boolean;

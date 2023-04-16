@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import Tooltip from './Tooltip';
-import userApi from '../api/userApi';
-import useAuth from '../hooks/useAuth';
+import Tooltip from '../content/Tooltip';
+import userApi from '../../api/userApi';
+import useAuth from '../../hooks/useAuth';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;

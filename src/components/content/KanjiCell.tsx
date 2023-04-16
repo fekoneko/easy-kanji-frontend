@@ -1,14 +1,14 @@
 import { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import kanjiContext, { Kanji } from '../contexts/kanjiContext';
-import { isKanjiInList, changeKanjiInList } from '../controllers/kanjiController';
-import ControlButton from './ControlButton';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import { isKanjiInList, changeKanjiInList } from '../../controllers/kanjiController';
+import ControlButton from '../layout/ControlButton';
 import KanjiView from './KanjiView';
 import Tooltip from './Tooltip';
 import { ReactComponent as SaveKanjiIcon } from '../assets/saveKanji.svg';
 import { ReactComponent as KanjiSavedIcon } from '../assets/kanjiSaved.svg';
-import useKeyPressed from '../hooks/useKeyPressed';
-import useOnClick from '../hooks/useOnClick';
-import kanjisApi from '../api/kanjisApi';
+import useKeyPressed from '../../hooks/useKeyPressed';
+import useOnClick from '../../hooks/useOnClick';
+import kanjisApi from '../../api/kanjisApi';
 
 type KanjiCellProps = {
   kanji: Kanji;

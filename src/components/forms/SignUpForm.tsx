@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import Tooltip from './Tooltip';
-import userApi from '../api/userApi';
-import useAuth from '../hooks/useAuth';
+import Tooltip from '../content/Tooltip';
+import userApi from '../../api/userApi';
+import useAuth from '../../hooks/useAuth';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;

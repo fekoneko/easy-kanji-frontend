@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Kanji } from '../contexts/kanjiContext';
-import useKeyPressed from '../hooks/useKeyPressed';
+import { Kanji } from '../../contexts/kanjiContext';
+import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiCell from './KanjiCell';
 
 const COLUMNS_COUNT = 2;

@@ -1,9 +1,9 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useContext, useEffect, useState } from 'react';
-import kanjiContext from '../contexts/kanjiContext';
-import KanjiCard from './KanjiCard';
-import useKeyPressed from '../hooks/useKeyPressed';
-import { ViewContent } from './KanjiView';
+import kanjiContext from '../../contexts/kanjiContext';
+import KanjiCard from '../content/KanjiCard';
+import useKeyPressed from '../../hooks/useKeyPressed';
+import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
 
 type LearnUIProps = {

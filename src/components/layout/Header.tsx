@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import globalContext from '../contexts/globalContext';
+import globalContext from '../../contexts/globalContext';
 import UserButton from './UserButton';
 
 const Header = () => {

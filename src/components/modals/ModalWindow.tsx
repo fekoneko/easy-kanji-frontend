@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import useOnClick from '../hooks/useOnClick';
-import useKeyPressed from '../hooks/useKeyPressed';
-import useModal from '../hooks/useModal';
+import useOnClick from '../../hooks/useOnClick';
+import useKeyPressed from '../../hooks/useKeyPressed';
+import useModal from '../../hooks/useModal';
 
 type ModalWindowProps = {
   shown?: boolean;

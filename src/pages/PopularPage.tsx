@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiGrid from '../components/KanjiGrid';
+import KanjiGrid from '../components/content/KanjiGrid';
 import kanjisApi from '../api/kanjisApi';
 
 const PopularPage = () => {

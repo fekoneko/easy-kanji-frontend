@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiGrid from '../components/KanjiGrid';
+import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
 
 const SelectedPage = () => {

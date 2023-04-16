@@ -1,7 +1,7 @@
 import { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as TooltipPointer } from '../assets/tooltipPointer.svg';
-import useOnClick from '../hooks/useOnClick';
+import useOnClick from '../../hooks/useOnClick';
 
 type TooltipProps<T extends HTMLElement = HTMLElement> = {
   anchorRef: RefObject<T>;

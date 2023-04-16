@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import globalContext from '../contexts/globalContext';
+import globalContext from '../../contexts/globalContext';
 
 const Nav = () => {
   const { section } = useContext(globalContext);

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
-import KanjiGrid from '../components/KanjiGrid';
-import SearchBar from '../components/SearchBar';
+import KanjiGrid from '../components/content/KanjiGrid';
+import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
 

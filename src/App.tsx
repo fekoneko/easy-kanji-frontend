@@ -1,17 +1,17 @@
 import { Route } from 'react-router-dom';
 import { KanjiContextProvider } from './contexts/kanjiContext';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Nav from './components/Nav';
+import Footer from './components/layout/Footer';
+import Header from './components/layout/Header';
+import Nav from './components/layout/Nav';
 import LearnByMeaningPage from './pages/LearnByMeaningPage';
 import LearnByWritingPage from './pages/LearnByWritingPage';
 import PopularPage from './pages/PopularPage';
 import SavedKanjiPage from './pages/SavedKanjiPage';
 import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
-import AnimatedRoutes from './components/AnimatedRoutes';
+import AnimatedRoutes from './components/routing/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
-import NavigateOnce from './components/NavigateOnce';
+import NavigateOnce from './components/routing/NavigateOnce';
 
 const App = () => {
   return (

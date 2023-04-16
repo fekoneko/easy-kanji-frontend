@@ -1,8 +1,8 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { Kanji } from '../contexts/kanjiContext';
-import useKeyPressed from '../hooks/useKeyPressed';
+import { Kanji } from '../../contexts/kanjiContext';
+import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiView, { ViewContent } from './KanjiView';
 
 type Side = 'front' | 'back';
