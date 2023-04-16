@@ -14,15 +14,15 @@ const Header = ({ showModal, closeModal }: HeaderProps) => {
 
   return (
     <header>
-      <Link className="siteTitle" to="/" role="banner">
+      <Link className="siteTitle" to="/popular" role="banner">
         EasyKanji
       </Link>
       {section === 'learn' ? (
-        <Link className="learnButton" to="/">
+        <Link className="learnButton" to="/popular">
           Закончить обучение
         </Link>
       ) : (
-        <Link className="learnButton" to="/learn">
+        <Link className="learnButton" to="/learn/by-meaning">
           Режим обучения
         </Link>
       )}

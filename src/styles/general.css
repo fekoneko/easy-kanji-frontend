@@ -37,11 +37,6 @@
     background-color: #979797;
   }
 
-  .animatedRoute {
-    width: 100%;
-    height: 100%;
-  }
-
   .contentPlaceholder {
     flex-grow: 1;
     display: flex;

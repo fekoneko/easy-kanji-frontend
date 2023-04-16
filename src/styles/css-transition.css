@@ -1,27 +1,21 @@
 @layer css-transition {
   .animatedRoute-enter {
-    position: absolute;
-    z-index: 1;
-    transform: translateY(4rem);
-    width: calc(100% - var(--app-padding) * 2);
+    transform: translateY(2rem);
     opacity: 0;
   }
   .animatedRoute-enter-active {
     transform: translateY(0);
     opacity: 1;
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out, height 0.2s ease-out;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   }
   .animatedRoute-exit {
-    position: absolute;
-    z-index: 0;
     transform: translateY(0);
     opacity: 1;
-    width: calc(100% - var(--app-padding) * 2);
   }
   .animatedRoute-exit-active {
-    transition: opacity 0.15s ease-in, transform 0.15s ease-in, height 0.15s ease-in;
-    opacity: 0;
     transform: translateY(2rem);
+    opacity: 0;
+    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
   }
 
   .kanjiCardContainer-enter .kanjiCard {
