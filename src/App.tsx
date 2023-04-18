@@ -13,8 +13,11 @@ import AnimatedRoutes from './components/routing/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
 import NavigateOnce from './components/routing/NavigateOnce';
 import AuthRequired from './components/routing/AuthRequired';
+import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 
 const App = () => {
+  useAxiosInterceptors();
+
   return (
     <div className="App">
       <Header />
