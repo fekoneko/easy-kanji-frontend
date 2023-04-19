@@ -14,6 +14,7 @@ import PageNotFound from './pages/PageNotFound';
 import NavigateOnce from './components/routing/NavigateOnce';
 import AuthRequired from './components/routing/AuthRequired';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
+import FeedbackPage from './pages/FeedbackPage';
 
 const App = () => {
   useAxiosInterceptors();
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="selected" element={<SelectedPage />} />
               <Route element={<AuthRequired />}>
                 <Route path="saved" element={<SavedKanjiPage />} />
+                <Route path="feedback" element={<FeedbackPage />} />
               </Route>
             </Route>
             <Route path="learn">
