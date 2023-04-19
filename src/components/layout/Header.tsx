@@ -11,9 +11,6 @@ const Header = () => {
       <Link className="siteTitle" to="/popular" role="banner">
         EasyKanji
       </Link>
-      <Link className="learnButton" to="/user">
-        Тут что-то
-      </Link>
       {section === 'learn' ? (
         <Link className="learnButton" to="/popular">
           Закончить обучение

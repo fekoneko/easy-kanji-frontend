@@ -49,6 +49,12 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     setSignUpErrorStatus(null);
   }, [username, password, confirm]);
 
+  useEffect(() => {
+    if (signUpErrorStatus === 400) {
+      usernameRef.current?.focus();
+    }
+  }, [signUpErrorStatus]);
+
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     const curUsernameValid = validateUsername();
@@ -72,6 +78,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const usernameHintShown = usernameFocus && (!!username || !!signUpErrorStatus) && !usernameValid;
   const passwordHintShown = passwordFocus && (!!password || !!signUpErrorStatus) && !passwordValid;
   const confirmHintShown = confirmFocus && (!!confirm || !!signUpErrorStatus) && !confirmValid;
+  const usernameOccupied = signUpErrorStatus === 400 && usernameValid && passwordValid;
 
   return (
     <form className="RegistrationForm" onSubmit={handleSubmit}>
@@ -88,14 +95,21 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
           onChange={(e) => setUsername(e.target.value)}
           value={username}
           aria-describedby="usernameHint"
-          aria-invalid={!usernameValid && !!username}
+          aria-invalid={(!usernameValid || usernameOccupied) && !!username}
           onFocus={() => setUsernameFocus(true)}
           onBlur={() => setUsernameFocus(false)}
         />
       </fieldset>
-      <Tooltip id="usernameHint" shown={usernameHintShown} anchorRef={usernameRef}>
+      <Tooltip
+        id="usernameHint"
+        shown={usernameHintShown && !usernameOccupied}
+        anchorRef={usernameRef}
+      >
         От 4 до 24 символов. Должен начинаться с буквы. Разрешены латинские буквы, цифры, дефисы и
         нижние подчёркивания.
+      </Tooltip>
+      <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
+        Пользователь с таким именем уже существует
       </Tooltip>
 
       <fieldset>
@@ -146,8 +160,8 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       <button ref={submitRef} type="submit">
         Зарегистрироваться
       </button>
-      <Tooltip shown={!!signUpErrorStatus} anchorRef={submitRef}>
-        Ошибка регистрации
+      <Tooltip shown={!!signUpErrorStatus && signUpErrorStatus !== 400} anchorRef={submitRef}>
+        Неизвестная ошибка регистрации
       </Tooltip>
     </form>
   );

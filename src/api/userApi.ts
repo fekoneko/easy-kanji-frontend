@@ -24,17 +24,24 @@ export default {
   async signUp(
     username: string,
     password: string,
-    setErrorStatus?: SetErrorStatus
+    setRegErrorStatus?: SetErrorStatus,
+    setLogErrorStatus?: SetErrorStatus
   ): Promise<Auth | null> {
-    const responceData = await catchAxiosErrors<Partial<Auth>>(
+    const regResponceData = await catchAxiosErrors<Partial<Auth>>(
       () => axiosPrivate.post('/users/', { username, password }),
-      setErrorStatus
+      setRegErrorStatus
     );
-    if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
+    if (!regResponceData) return null;
+
+    const logResponceData = await this.signIn(username, password, setLogErrorStatus);
+    if (
+      typeof logResponceData?.roles === 'object' &&
+      typeof logResponceData?.accessToken === 'string'
+    ) {
       return {
         username,
-        roles: responceData.roles,
-        accessToken: responceData.accessToken,
+        roles: logResponceData.roles,
+        accessToken: logResponceData.accessToken,
       };
     } else return null;
   },

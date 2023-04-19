@@ -95,8 +95,11 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       <button ref={submitRef} type="submit">
         Войти
       </button>
-      <Tooltip shown={!!signInErrorStatus} anchorRef={submitRef}>
-        Ошибка авторизации
+      <Tooltip
+        shown={!!signInErrorStatus && ![400, 404].includes(signInErrorStatus)}
+        anchorRef={submitRef}
+      >
+        Неизвестная авторизации
       </Tooltip>
     </form>
   );
