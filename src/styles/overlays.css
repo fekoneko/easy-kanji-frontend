@@ -24,6 +24,12 @@
   .modalWindow {
     padding: 1.2rem;
   }
+  .modalWindow > * {
+    min-width: 18.5rem;
+    width: 42vw;
+    max-width: 27rem;
+    margin: 1rem 0;
+  }
 
   .tooltip {
     z-index: 100000;
@@ -41,5 +47,18 @@
   }
   .tooltipContent {
     padding: 0.4rem;
+  }
+
+  .userModal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .userModal > h1 {
+    margin-bottom: 0.5rem;
+  }
+  .userModal > button {
+    font-size: 1.1rem;
+    padding: 0.5rem;
   }
 }

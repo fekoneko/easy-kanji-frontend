@@ -2,19 +2,20 @@ import { useState } from 'react';
 import SignInForm from '../forms/SignInForm';
 import SignUpForm from '../forms/SignUpForm';
 import useModal from '../../hooks/useModal';
+import UserModal from './UserModal';
 
 type Mode = 'reg' | 'log';
 
 const AuthModal = () => {
   const [mode, setMode] = useState<Mode>('log');
-  const { closeModal } = useModal();
+  const { showModal } = useModal();
 
   switch (mode) {
     case 'reg':
       return (
         <>
           <h1>Регистрация</h1>
-          <SignUpForm onSignedUp={closeModal} />
+          <SignUpForm onSignedUp={() => showModal(<UserModal />)} />
           <p>
             Уже есть акаунт?{' '}
             <a
@@ -34,7 +35,7 @@ const AuthModal = () => {
       return (
         <>
           <h1>Вход</h1>
-          <SignInForm onLoggedIn={closeModal} />
+          <SignInForm onLoggedIn={() => showModal(<UserModal />)} />
           <p>
             Нет акаунта?{' '}
             <a

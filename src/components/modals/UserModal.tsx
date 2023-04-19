@@ -1,22 +1,39 @@
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
+import { MouseEvent } from 'react';
 
 const UserModal = () => {
   const { closeModal } = useModal();
   const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const handleProfile = () => {
+    navigate('/user');
+    closeModal();
+  };
+
+  const handleLanguageSwitch = () => {
+    // TODO
+  };
+
+  const handleThemeSwitch = () => {
+    // TODO
+  };
+
   const handleLogOut = () => {
     setAuth(null);
     closeModal();
   };
 
   return (
-    <>
-      <h1>(Аватарка) {auth?.username}</h1>
-      <h2>Аккаунт</h2>
-      <h2>Язык: "Русский"</h2>
-      <h2>Тема</h2>
+    <div className="userModal">
+      <h1>{auth?.username}</h1>
+      <button onClick={handleProfile}>Профиль</button>
+      <button onClick={handleLanguageSwitch}>Язык: русский</button>
+      <button onClick={handleThemeSwitch}>Тема: светлая</button>
       <button onClick={handleLogOut}>Выход</button>
-    </>
+    </div>
   );
 };
 export default UserModal;
