@@ -1,23 +1,24 @@
-import UserModal from '../modals/UserModal';
+import AuthModal from '../modals/AuthModal';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
+import UserModal from '../modals/userModal';
 
 const UserButton = () => {
   const { auth, setAuth } = useAuth();
-  const { showModal, closeModal } = useModal();
+  const { showModal } = useModal();
 
   const handleSignIn = () => {
-    showModal(<UserModal />);
+    showModal(<AuthModal />);
   };
-  const handleLogOut = () => {
-    setAuth(null);
+  const handleUser = () => {
+    showModal(<UserModal />);
   };
 
   return (
     <>
       {auth ? (
-        <button onClick={handleLogOut} className="userButton">
-          Выйти
+        <button onClick={handleUser} className="userButton">
+          {auth?.username}
         </button>
       ) : (
         <button onClick={handleSignIn} className="userButton">

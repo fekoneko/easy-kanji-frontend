@@ -14,9 +14,18 @@ type InSectionPath =
   | 'selected'
   | 'by-meaning'
   | 'by-writing'
+  | 'user'
   | null;
 
-const IN_SECTION_PATHES = ['popular', 'saved', 'search', 'selected', 'by-meaning', 'by-writing'];
+const IN_SECTION_PATHES = [
+  'popular',
+  'saved',
+  'search',
+  'selected',
+  'by-meaning',
+  'by-writing',
+  'user',
+];
 
 const globalContext = createContext({} as GlobalContextValue);
 

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
-import UserModal from '../modals/UserModal';
+import UserModal from '../modals/AuthModal';
 
 type AuthRequiredProps = {
   allowedRoles?: string[];

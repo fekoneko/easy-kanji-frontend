@@ -1,54 +1,22 @@
-import { useState } from 'react';
-import SignInForm from '../forms/SignInForm';
-import SignUpForm from '../forms/SignUpForm';
+import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
 
-type Mode = 'reg' | 'log';
-
 const UserModal = () => {
-  const [mode, setMode] = useState<Mode>('log');
   const { closeModal } = useModal();
+  const { auth, setAuth } = useAuth();
+  const handleLogOut = () => {
+    setAuth(null);
+    closeModal();
+  };
 
-  switch (mode) {
-    case 'reg':
-      return (
-        <>
-          <h1>Регистрация</h1>
-          <SignUpForm onSignedUp={closeModal} />
-          <p>
-            Уже есть акаунт?{' '}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setMode('log');
-              }}
-            >
-              Войдите
-            </a>
-          </p>
-        </>
-      );
-
-    default:
-      return (
-        <>
-          <h1>Вход</h1>
-          <SignInForm onLoggedIn={closeModal} />
-          <p>
-            Нет акаунта?{' '}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setMode('reg');
-              }}
-            >
-              Зарегистрируйтесь
-            </a>
-          </p>
-        </>
-      );
-  }
+  return (
+    <>
+      <h1>(Аватарка) {auth?.username}</h1>
+      <h2>Аккаунт</h2>
+      <h2>Язык: "Русский"</h2>
+      <h2>Тема</h2>
+      <button onClick={handleLogOut}>Выход</button>
+    </>
+  );
 };
 export default UserModal;

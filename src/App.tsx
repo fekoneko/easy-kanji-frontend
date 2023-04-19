@@ -13,6 +13,7 @@ import AnimatedRoutes from './components/routing/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
 import NavigateOnce from './components/routing/NavigateOnce';
 import AuthRequired from './components/routing/AuthRequired';
+import UserPage from './pages/UserPage';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
               <Route path="search" element={<SearchPage />} />
               <Route path="selected" element={<SelectedPage />} />
               <Route element={<AuthRequired />}>
+                <Route path="user" element={<UserPage />} />
                 <Route path="saved" element={<SavedKanjiPage />} />
               </Route>
             </Route>
