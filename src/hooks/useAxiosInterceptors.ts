@@ -9,6 +9,8 @@ export const useAxiosInterceptors = () => {
   const refresh = useRefreshTokenFunction();
 
   useEffect(() => {
+    if (!auth) return;
+
     const privateRequestInterceptorId = axiosPrivate.interceptors.request.use((requestConfig) => {
       if (!requestConfig.headers.Authorization && auth) {
         requestConfig.headers.Authorization = `Bearer ${auth.accessToken}`;
