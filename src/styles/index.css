@@ -15,6 +15,8 @@
   --primary-text-color: black;
   --secondary-text-color: #717171;
   --hover-color: #dfdfdf;
+  --disabled-color: #949494;
+  --disabled-bg-color: #eeeeee;
   --selected-cell-color: #d6d9ff;
   --a-color: var(--primary-color);
   --card-front-color: #7e86f2;
@@ -23,6 +25,7 @@
   --card-width: 16rem;
   --border-style: 2px solid var(--secondary-text-color);
   --overlay-border-style: 2px solid var(--primary-color);
+  --disabled-border-style: 2px solid var(--disabled-color);
   --shadow-style: 0 0 1rem #0000004f;
   --focus-border-style: 2px solid var(--primary-text-color);
   --transition-params: 0.2s ease;

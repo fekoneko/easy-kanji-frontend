@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import feedbackApi from '../../api/feedbackApi';
 import useAuth from '../../hooks/useAuth';
 import Tooltip from '../content/Tooltip';
+import { useNavigate } from 'react-router-dom';
 
 const FeedbackForm = () => {
   const { auth } = useAuth();
@@ -10,6 +11,7 @@ const FeedbackForm = () => {
   const [feedbackAnonimus, setFeedbackAnonimus] = useState(false);
   const [sendErrorStatus, setSendErrorStatus] = useState<number | null>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const FeedbackForm = () => {
       !feedbackAnonimus ? feedbackEmail : undefined,
       setSendErrorStatus
     );
+    navigate('/popular');
   };
 
   return (
@@ -36,13 +39,16 @@ const FeedbackForm = () => {
       </fieldset>
 
       <fieldset>
-        <label htmlFor="feedbackEmail">Email:</label>
+        <label htmlFor="feedbackEmail" aria-disabled={feedbackAnonimus}>
+          Email:
+        </label>
         <input
           id="feedbackEmail"
           type="email"
           placeholder="Как с вами связаться?"
           value={feedbackEmail}
           onChange={(e) => setFeedbackEmail(e.target.value)}
+          disabled={feedbackAnonimus}
         />
       </fieldset>
 
