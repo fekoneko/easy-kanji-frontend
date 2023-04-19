@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
 
 const SavedKanjiPage = () => {
-  const { savedKanjis, setSavedKanjis } = useContext(kanjiContext);
+  const { savedKanjis } = useContext(kanjiContext);
 
   return (
     <div className="scrollContent">

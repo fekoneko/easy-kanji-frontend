@@ -18,12 +18,19 @@
     gap: 0.5rem;
     border: none;
   }
+  fieldset:has(textarea) > label {
+    align-self: normal;
+  }
 
   fieldset > label {
     flex: 1 1 1rem;
     text-align: left;
   }
+  fieldset > label:first-child {
+    max-width: 6rem;
+  }
 
+  fieldset > textarea,
   fieldset > input {
     flex: 2 1 1rem;
   }
@@ -32,24 +39,35 @@
     padding: 0.5rem;
   }
 
+  textarea,
   input {
     width: 100%;
     padding: 0.5rem 0.8rem;
     background-color: var(--bg-color);
   }
+  textarea {
+    min-height: 10rem;
+  }
+  textarea:-webkit-autofill,
   input:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
   input:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
   input:-webkit-autofill:focus,
+  textarea:-webkit-autofill:active,
   input:-webkit-autofill:active {
     -webkit-text-fill-color: var(--bg-color);
+    -webkit-text-fill-color: var(--primary-text-color);
     transition: background-color 5000s ease-in-out 0s;
   }
 
+  textarea[aria-invalid='true'],
   input[aria-invalid='true'] {
     border-color: var(--hint-color) !important;
   }
 
   button,
+  textarea,
   input {
     background-color: var(--bg-color);
     font: inherit;
@@ -57,9 +75,21 @@
     color: inherit;
   }
   button:focus,
+  textarea:focus,
   input:focus {
     outline: none;
     border: var(--focus-border-style);
+  }
+  button:disabled,
+  textarea:disabled,
+  input:disabled {
+    outline: none;
+    border: var(--disabled-border-style);
+    color: var(--disabled-color);
+    background-color: var(--disabled-bg-color);
+  }
+  label[aria-disabled='true'] {
+    color: var(--disabled-color);
   }
   button {
     transition: background-color var(--transition-params);
@@ -67,6 +97,9 @@
   button:hover,
   button:focus {
     background-color: var(--hover-color);
+  }
+  input[type='checkbox'] {
+    flex: 0 0 !important;
   }
 
   .controlButton {

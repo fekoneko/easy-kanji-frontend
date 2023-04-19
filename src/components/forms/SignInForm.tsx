@@ -40,6 +40,8 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
+    setUsernameValid(true);
+    setPasswordValid(true);
     const newAuth = await userApi.signIn(username, password, setSignInErrorStatus);
     if (!newAuth) return;
     setAuth(newAuth);
@@ -93,7 +95,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       <button ref={submitRef} type="submit">
         Войти
       </button>
-      <Tooltip id="passwordHint" shown={!!signInErrorStatus} anchorRef={submitRef}>
+      <Tooltip shown={!!signInErrorStatus} anchorRef={submitRef}>
         Ошибка авторизации
       </Tooltip>
     </form>

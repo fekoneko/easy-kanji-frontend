@@ -1,16 +1,6 @@
-import axios from 'axios';
 import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
 import { Auth } from '../contexts/authContext';
-
-const usersAxios = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/users`,
-  withCredentials: true,
-});
-
-const tokensAxios = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/tokens`,
-  withCredentials: true,
-});
+import { axiosPrivate } from './axios';
 
 export default {
   async signIn(
@@ -19,13 +9,12 @@ export default {
     setErrorStatus?: SetErrorStatus
   ): Promise<Auth | null> {
     const responceData = await catchAxiosErrors<Partial<Auth>>(
-      () => tokensAxios.post('/', { username, password }),
+      () => axiosPrivate.post('/tokens/', { username, password }),
       setErrorStatus
     );
     if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
       return {
         username,
-        password,
         roles: responceData.roles,
         accessToken: responceData.accessToken,
       };
@@ -38,13 +27,12 @@ export default {
     setErrorStatus?: SetErrorStatus
   ): Promise<Auth | null> {
     const responceData = await catchAxiosErrors<Partial<Auth>>(
-      () => usersAxios.post('/', { username, password }),
+      () => axiosPrivate.post('/users/', { username, password }),
       setErrorStatus
     );
     if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
       return {
         username,
-        password,
         roles: responceData.roles,
         accessToken: responceData.accessToken,
       };

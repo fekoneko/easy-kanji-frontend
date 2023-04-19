@@ -146,7 +146,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       <button ref={submitRef} type="submit">
         Зарегистрироваться
       </button>
-      <Tooltip id="passwordHint" shown={!!signUpErrorStatus} anchorRef={submitRef}>
+      <Tooltip shown={!!signUpErrorStatus} anchorRef={submitRef}>
         Ошибка регистрации
       </Tooltip>
     </form>
