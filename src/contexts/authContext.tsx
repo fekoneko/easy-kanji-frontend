@@ -2,7 +2,6 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useState } from 're
 
 export type Auth = {
   username: string;
-  password: string;
   roles: string[];
   accessToken: string;
 };

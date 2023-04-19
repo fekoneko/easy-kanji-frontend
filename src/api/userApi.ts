@@ -15,7 +15,6 @@ export default {
     if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
       return {
         username,
-        password,
         roles: responceData.roles,
         accessToken: responceData.accessToken,
       };
@@ -34,7 +33,6 @@ export default {
     if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
       return {
         username,
-        password,
         roles: responceData.roles,
         accessToken: responceData.accessToken,
       };
