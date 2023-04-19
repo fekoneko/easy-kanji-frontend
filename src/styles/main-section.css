@@ -33,17 +33,15 @@
     font-size: 2rem;
     font-weight: bold;
   }
-  .userPage {
+  .userPageTop {
     margin: 1rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1.5rem;
   }
-  .userPage svg {
+  .userPageTop svg {
     width: 7rem;
     height: 7rem;
-  }
-  .userInfo {
   }
 }

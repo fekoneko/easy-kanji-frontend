@@ -16,6 +16,7 @@ import AuthRequired from './components/routing/AuthRequired';
 import UserPage from './pages/UserPage';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
+import EditKanjisPage from './pages/EditKanjisPage';
 
 const App = () => {
   useAxiosInterceptors();
@@ -27,23 +28,26 @@ const App = () => {
       <KanjiContextProvider>
         <main role="main">
           <AnimatedRoutes>
-            <Route path="">
-              <Route index element={<NavigateOnce to="popular" />} />
-              <Route path="popular" element={<PopularPage />} />
-              <Route path="search" element={<SearchPage />} />
-              <Route path="selected" element={<SelectedPage />} />
-              <Route element={<AuthRequired />}>
-                <Route path="user" element={<UserPage />} />
-                <Route path="saved" element={<SavedKanjiPage />} />
-                <Route path="feedback" element={<FeedbackPage />} />
-              </Route>
-            </Route>
+            <Route index element={<NavigateOnce to="popular" />} />
+            <Route path="popular" element={<PopularPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="selected" element={<SelectedPage />} />
             <Route path="learn">
               <Route index element={<NavigateOnce to="by-meaning" />} />
               <Route path="by-meaning" element={<LearnByMeaningPage />} />
               <Route path="by-writing" element={<LearnByWritingPage />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
+
+            <Route element={<AuthRequired />}>
+              <Route path="user" element={<UserPage />} />
+              <Route path="saved" element={<SavedKanjiPage />} />
+              <Route path="feedback" element={<FeedbackPage />} />
+            </Route>
+
+            <Route element={<AuthRequired allowedRoles={['Admin']} />}>
+              <Route path="edit/*" element={<EditKanjisPage />} />
+            </Route>
           </AnimatedRoutes>
         </main>
         <Footer />

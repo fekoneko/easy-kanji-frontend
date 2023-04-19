@@ -6,7 +6,7 @@ type GlobalContextValue = {
   inSectionPath: InSectionPath;
 };
 type GlobalContextProviderProps = { children: ReactNode };
-type Section = 'learn' | 'main';
+type Section = 'learn' | 'main' | 'user' | 'edit';
 type InSectionPath =
   | 'popular'
   | 'saved'
@@ -37,10 +37,14 @@ export const GlobalContextProvider = ({ children }: GlobalContextProviderProps) 
   useEffect(() => {
     const getSection = (): Section => {
       if (location.pathname.indexOf('/learn') === 0) return 'learn';
+      else if (location.pathname.indexOf('/user') === 0) return 'user';
+      else if (location.pathname.indexOf('/edit') === 0) return 'edit';
       else return 'main';
     };
     const getInSectionPath = (section: Section): InSectionPath => {
-      const uncheckedPath = location.pathname.substring(section === 'learn' ? 7 : 1);
+      const uncheckedPath = location.pathname.substring(
+        section !== 'main' ? section.length + 2 : 1
+      );
       if (IN_SECTION_PATHES.includes(uncheckedPath)) return uncheckedPath as InSectionPath;
       else return null;
     };

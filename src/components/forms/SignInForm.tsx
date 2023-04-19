@@ -99,7 +99,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
         shown={!!signInErrorStatus && ![400, 404].includes(signInErrorStatus)}
         anchorRef={submitRef}
       >
-        Неизвестная авторизации
+        Неизвестная ошибка авторизации
       </Tooltip>
     </form>
   );

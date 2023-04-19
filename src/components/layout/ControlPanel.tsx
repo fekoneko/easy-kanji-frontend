@@ -66,10 +66,12 @@ const ControlPanel = () => {
               <button onClick={clearSelection}>очистить список</button>
             </>
           )
-        ) : (
+        ) : section === 'learn' ? (
           <p style={{ textAlign: 'center' }}>
             Используйте стрелки для перемещения. Пробел переворачивает карточку
           </p>
+        ) : (
+          <></>
         )}
       </div>
     );

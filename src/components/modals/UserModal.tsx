@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
-import { MouseEvent } from 'react';
 
 const UserModal = () => {
   const { closeModal } = useModal();
