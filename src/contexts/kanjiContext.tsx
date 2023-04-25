@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
 import kanjisApi from '../api/kanjisApi';
 import { getFromLocalStorage, setInLocalStorage } from '../controllers/localStorageController';
 import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
+import userApi from '../api/userApi';
 
 export type Kanji = {
   id: number;
@@ -58,7 +59,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
 
   useEffect(() => {
     const fetchSavedKanjis = async () => {
-      const newSavedKanjis = await kanjisApi.getKanjiList('saved');
+      const newSavedKanjis = await userApi.getSavedKanjis();
       if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
     };
     fetchSavedKanjis();

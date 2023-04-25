@@ -8,7 +8,7 @@ import { ReactComponent as SaveKanjiIcon } from '../../assets/saveKanji.svg';
 import { ReactComponent as KanjiSavedIcon } from '../../assets/kanjiSaved.svg';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import useOnClick from '../../hooks/useOnClick';
-import kanjisApi from '../../api/kanjisApi';
+import userApi from '../../api/userApi';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -31,7 +31,7 @@ const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
   const saveKanji = () => {
     changeKanjiInList(setSavedKanjis, kanji);
-    kanjisApi.addKanji('saved', kanji);
+    userApi.saveKanji(kanji.id);
   };
 
   useOnClick(

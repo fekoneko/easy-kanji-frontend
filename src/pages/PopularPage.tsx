@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
-import kanjisApi from '../api/kanjisApi';
 import useDynamicScroll from '../hooks/useDynamicScroll';
 
 const PopularPage = () => {
