@@ -13,7 +13,10 @@ const SearchPage = () => {
   useEffect(() => {
     const updateSearchKanjis = async () => {
       const searchParamsRequest = searchParams.get('s');
-      if (!searchParamsRequest) return;
+      if (!searchParamsRequest) {
+        setSearchKanjis([]);
+        return;
+      }
       const newSearchKanjis = await kanjisApi.searchKanjis(searchParamsRequest);
       if (!newSearchKanjis) return;
       setSearchKanjis(newSearchKanjis);
@@ -33,7 +36,7 @@ const SearchPage = () => {
     <div className="scrollContent">
       <h1>Поиск кандзи</h1>
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
-      {searchKanjis.length > 0 && searchRequest.length > 0 ? (
+      {searchKanjis.length > 0 ? (
         <KanjiGrid kanjis={searchKanjis} />
       ) : (
         <div className="contentPlaceholder">

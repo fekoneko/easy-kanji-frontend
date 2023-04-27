@@ -20,6 +20,11 @@ const UserModal = () => {
     // TODO
   };
 
+  const handleFeedback = () => {
+    navigate('/feedback');
+    closeModal();
+  };
+
   const handleLogOut = () => {
     setAuth(null);
     closeModal();
@@ -31,6 +36,7 @@ const UserModal = () => {
       <button onClick={handleProfile}>Профиль</button>
       <button onClick={handleLanguageSwitch}>Язык: русский</button>
       <button onClick={handleThemeSwitch}>Тема: светлая</button>
+      <button onClick={handleFeedback}>Оставить отзыв</button>
       <button onClick={handleLogOut}>Выход</button>
     </div>
   );
