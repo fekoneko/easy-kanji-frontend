@@ -1,11 +1,19 @@
-import { useContext, useEffect } from 'react';
+import { RefObject, useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import useDynamicScroll from '../hooks/useDynamicScroll';
+import kanjisApi from '../api/kanjisApi';
 
-const PopularPage = () => {
+type PopularPageProps = {
+  mainRef: RefObject<HTMLElement>;
+};
+
+const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
-  useDynamicScroll(popularKanjis, setPopularKanjis);
+
+  useDynamicScroll(mainRef, popularKanjis, setPopularKanjis, (startIndex, endIndex) =>
+    kanjisApi.getKanjiListPart('popular', startIndex, endIndex)
+  );
 
   return (
     <div className="scrollContent">

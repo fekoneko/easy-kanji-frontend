@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useWindowEventListener from './useWindowEventListener';
 
 const useKeyPressed = (key: string, initialState: boolean = false) => {
   const [keyPressed, setKeyPressed] = useState<boolean>(initialState);
@@ -10,14 +11,9 @@ const useKeyPressed = (key: string, initialState: boolean = false) => {
   const handleKeyUp = (e: KeyboardEvent) => {
     if (e.key === key) setKeyPressed(false);
   };
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
+
+  useWindowEventListener('keydown', handleKeyDown);
+  useWindowEventListener('keyup', handleKeyUp);
 
   return keyPressed;
 };

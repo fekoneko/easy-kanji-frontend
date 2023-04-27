@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import KanjiGrid from '../content/KanjiGrid';
-import useDynamicScroll from '../../hooks/useDynamicScroll';
 import { PUBLIC_LIST_NAMES } from './EditKanjisUI';
 import { NavLink } from 'react-router-dom';
+import useDynamicScroll from '../../hooks/useDynamicScroll';
+import kanjisApi from '../../api/kanjisApi';
 
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
@@ -11,7 +12,11 @@ type KanjiSelectionSidebarProps = {
 };
 
 const KanjiSelectionSidebar = ({ kanjis, setKanjis }: KanjiSelectionSidebarProps) => {
-  useDynamicScroll(kanjis, setKanjis);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useDynamicScroll(scrollContainerRef, kanjis, setKanjis, (startIndex, endIndex) =>
+    kanjisApi.getKanjiListPart('popular', startIndex, endIndex)
+  );
 
   return (
     <aside>
@@ -23,7 +28,9 @@ const KanjiSelectionSidebar = ({ kanjis, setKanjis }: KanjiSelectionSidebarProps
         ))}
       </nav>
       {kanjis.length > 0 ? (
-        <KanjiGrid kanjis={kanjis} /> // TODO single column
+        <div ref={scrollContainerRef} style={{ overflowY: 'scroll' }}>
+          <KanjiGrid kanjis={kanjis} />
+        </div>
       ) : (
         <div className="contentPlaceholder">
           <p>Пустой список</p>

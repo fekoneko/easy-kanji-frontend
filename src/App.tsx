@@ -17,8 +17,11 @@ import UserPage from './pages/UserPage';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
 import EditKanjisPage from './pages/EditKanjisPage';
+import { useRef } from 'react';
 
 const App = () => {
+  const mainRef = useRef<HTMLElement>(null);
+
   useAxiosInterceptors();
 
   return (
@@ -26,10 +29,10 @@ const App = () => {
       <Header />
       <Nav />
       <KanjiContextProvider>
-        <main role="main">
+        <main role="main" ref={mainRef}>
           <AnimatedRoutes>
             <Route index element={<NavigateOnce to="popular" />} />
-            <Route path="popular" element={<PopularPage />} />
+            <Route path="popular" element={<PopularPage mainRef={mainRef} />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="selected" element={<SelectedPage />} />
             <Route path="learn">
