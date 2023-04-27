@@ -60,6 +60,10 @@ const useDynamicScroll = <T extends { id: number }>(
   useEffect(() => {
     // TODO: make shure scroll bar apears and stay on resize
     updateContent(true);
+    return () => {
+      isLoading.current = false;
+      setContent([]);
+    };
   }, []);
 };
 export default useDynamicScroll;

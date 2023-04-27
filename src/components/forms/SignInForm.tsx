@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from '../content/Tooltip';
 import userApi from '../../api/userApi';
 import useAuth from '../../hooks/useAuth';
+import useAbortController from '../../hooks/useAbortController';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
@@ -21,6 +22,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
+  const abortControllerRef = useAbortController();
 
   useEffect(() => {
     if (signInErrorStatus) setSignInErrorStatus(null);
@@ -42,7 +44,12 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
     e.preventDefault();
     setUsernameValid(true);
     setPasswordValid(true);
-    const newAuth = await userApi.signIn(username, password, setSignInErrorStatus);
+    const newAuth = await userApi.signIn(
+      username,
+      password,
+      setSignInErrorStatus,
+      abortControllerRef.current.signal
+    );
     if (!newAuth) return;
     setAuth(newAuth);
     if (onLoggedIn) onLoggedIn(e);

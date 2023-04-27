@@ -29,9 +29,11 @@ const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
   const spacePressed = useKeyPressed(' ');
 
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
+
   const saveKanji = () => {
+    if (kanjiSaved) userApi.removeKanjisFromSaved([kanji.id]);
+    else userApi.saveKanjis([kanji.id]);
     changeKanjiInList(setSavedKanjis, kanji);
-    userApi.saveKanji(kanji.id);
   };
 
   useOnClick(

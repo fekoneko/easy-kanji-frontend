@@ -6,6 +6,7 @@ import App from './App';
 import { GlobalContextProvider } from './contexts/globalContext';
 import { AuthContextProvider } from './contexts/authContext';
 import { ModalContextProvider } from './contexts/modalContext';
+import { KanjiContextProvider } from './contexts/kanjiContext';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <GlobalContextProvider>
         <AuthContextProvider>
           <ModalContextProvider>
-            <App />
+            <KanjiContextProvider>
+              <App />
+            </KanjiContextProvider>
           </ModalContextProvider>
         </AuthContextProvider>
       </GlobalContextProvider>

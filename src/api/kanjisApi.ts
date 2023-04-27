@@ -1,7 +1,6 @@
 import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
 import { Kanji } from '../contexts/kanjiContext';
 import { axiosPrivate, axiosPublic } from './axios';
-import { AxiosInstance } from 'axios';
 
 export type KanjiListName = 'popular';
 export type ServerKanji = {
@@ -34,10 +33,10 @@ export default {
   async getKanjiById(
     kanjiId: number,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji | null> {
     const serverKanji = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPublic).get<ServerKanji>(`/kanjis/${kanjiId}`),
+      () => axiosPublic.get<ServerKanji>(`/kanjis/${kanjiId}`, { signal }),
       setErrorStatus
     );
     return serverKanji && parseServerKanji(serverKanji);
@@ -46,10 +45,13 @@ export default {
   async getKanjisByIds(
     kanjiIds: number[],
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const serverKanjis = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/`, { params: { kanjiIds } }),
+      () =>
+        axiosPublic.get<ServerKanji[]>(`/kanjis/?${kanjiIds.map((id) => `ids=${id}`).join('&')}`, {
+          signal,
+        }),
       setErrorStatus
     );
     return serverKanjis && parseServerKanjis(serverKanjis);
@@ -58,10 +60,10 @@ export default {
   async getKanjiList(
     listName: KanjiListName,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const serverKanjis = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/${listName}`),
+      () => axiosPublic.get<ServerKanji[]>(`/kanjis/${listName}`, { signal }),
       setErrorStatus
     );
     return serverKanjis && parseServerKanjis(serverKanjis);
@@ -72,12 +74,13 @@ export default {
     startIndex: number,
     endIndex: number,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const serverKanjis = await catchAxiosErrors(
       () =>
-        (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/${listName}`, {
+        axiosPublic.get<ServerKanji[]>(`/kanjis/${listName}`, {
           params: { s: startIndex, e: endIndex },
+          signal,
         }),
       setErrorStatus
     );
@@ -87,12 +90,13 @@ export default {
   async searchKanjis(
     request: string,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const serverKanjis = await catchAxiosErrors(
       () =>
-        (axiosInstance ?? axiosPublic).get<ServerKanji[]>('/kanjis/search', {
-          params: { s: request },
+        axiosPublic.get<ServerKanji[]>('/kanjis/search', {
+          params: { q: request },
+          signal,
         }),
       setErrorStatus
     );
@@ -103,11 +107,10 @@ export default {
     listName: KanjiListName,
     newKanji: Kanji,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () =>
-        (axiosInstance ?? axiosPrivate).post(`/kanjis/${listName}`, formatKanjiForServer(newKanji)),
+      () => axiosPrivate.post(`/kanjis/${listName}`, formatKanjiForServer(newKanji), { signal }),
       setErrorStatus
     );
   },
@@ -116,10 +119,10 @@ export default {
     id: number,
     editedKanji: Kanji,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).put(`/kanjis/${id}`, formatKanjiForServer(editedKanji)),
+      () => axiosPrivate.put(`/kanjis/${id}`, formatKanjiForServer(editedKanji), { signal }),
       setErrorStatus
     );
   },
@@ -127,10 +130,10 @@ export default {
   async deleteKanji(
     kanjiId: number,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).delete(`/kanjis/${kanjiId}`),
+      () => axiosPrivate.delete(`/kanjis/${kanjiId}`, { signal }),
       setErrorStatus
     );
   },

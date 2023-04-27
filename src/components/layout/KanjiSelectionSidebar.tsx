@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import KanjiGrid from '../content/KanjiGrid';
 import { PUBLIC_LIST_NAMES } from './EditKanjisUI';
 import { NavLink } from 'react-router-dom';
 import useDynamicScroll from '../../hooks/useDynamicScroll';
 import kanjisApi from '../../api/kanjisApi';
+import useAbortController from '../../hooks/useAbortController';
 
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
@@ -13,9 +14,16 @@ type KanjiSelectionSidebarProps = {
 
 const KanjiSelectionSidebar = ({ kanjis, setKanjis }: KanjiSelectionSidebarProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useAbortController();
 
   useDynamicScroll(scrollContainerRef, kanjis, setKanjis, (startIndex, endIndex) =>
-    kanjisApi.getKanjiListPart('popular', startIndex, endIndex)
+    kanjisApi.getKanjiListPart(
+      'popular',
+      startIndex,
+      endIndex,
+      undefined,
+      abortControllerRef.current.signal
+    )
   );
 
   return (

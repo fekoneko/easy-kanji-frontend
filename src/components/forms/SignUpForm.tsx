@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from '../content/Tooltip';
 import userApi from '../../api/userApi';
 import useAuth from '../../hooks/useAuth';
+import useAbortController from '../../hooks/useAbortController';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -28,6 +29,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
+  const abortControllerRef = useAbortController();
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
@@ -64,7 +66,13 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     setPasswordValid(curPasswordValid);
     setConfirmValid(curConfirmValid);
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
-      const newAuth = await userApi.signUp(username, password, setSignUpErrorStatus);
+      const newAuth = await userApi.signUp(
+        username,
+        password,
+        setSignUpErrorStatus,
+        undefined,
+        abortControllerRef.current.signal
+      );
       if (!newAuth) return;
       setAuth(newAuth);
       if (onSignedUp) onSignedUp(e);

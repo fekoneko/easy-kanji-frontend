@@ -3,6 +3,7 @@ import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import useDynamicScroll from '../hooks/useDynamicScroll';
 import kanjisApi from '../api/kanjisApi';
+import useAbortController from '../hooks/useAbortController';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -10,9 +11,16 @@ type PopularPageProps = {
 
 const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
+  const abortControllerRef = useAbortController();
 
   useDynamicScroll(mainRef, popularKanjis, setPopularKanjis, (startIndex, endIndex) =>
-    kanjisApi.getKanjiListPart('popular', startIndex, endIndex)
+    kanjisApi.getKanjiListPart(
+      'popular',
+      startIndex,
+      endIndex,
+      undefined,
+      abortControllerRef.current.signal
+    )
   );
 
   return (

@@ -1,7 +1,6 @@
 import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
 import { Auth } from '../contexts/authContext';
 import { axiosPrivate } from './axios';
-import { AxiosInstance } from 'axios';
 import { Kanji } from '../contexts/kanjiContext';
 import { parseServerKanjis, ServerKanji } from './kanjisApi';
 
@@ -10,10 +9,10 @@ export default {
     username: string,
     password: string,
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Auth | null> {
     const responceData = await catchAxiosErrors<Partial<Auth>>(
-      () => (axiosInstance ?? axiosPrivate).post('/tokens/', { username, password }),
+      () => axiosPrivate.post('/tokens/', { username, password }, { signal }),
       setErrorStatus
     );
     if (typeof responceData?.roles === 'object' && typeof responceData?.accessToken === 'string') {
@@ -30,10 +29,10 @@ export default {
     password: string,
     setRegErrorStatus?: SetErrorStatus,
     setLogErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Auth | null> {
     const regResponceData = await catchAxiosErrors<Partial<Auth>>(
-      () => (axiosInstance ?? axiosPrivate).post('/users/', { username, password }),
+      () => axiosPrivate.post('/users/', { username, password }, { signal }),
       setRegErrorStatus
     );
     if (!regResponceData) return null;
@@ -53,33 +52,34 @@ export default {
 
   async getSavedKanjis(
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<Kanji[] | null> {
-    const serverKanjis = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).get<ServerKanji[]>(`/users/kanjis`),
+    const response = await catchAxiosErrors(
+      () => axiosPrivate.get(`/users/me`, { signal }),
       setErrorStatus
     );
+    const serverKanjis: ServerKanji[] = response?.kanjis;
     return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
-  async saveKanji(
-    newKanjiId: number,
+  async saveKanjis(
+    newKanjiIds: number[],
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).patch(`/users/kanji/add`, newKanjiId),
+      () => axiosPrivate.patch(`/users/kanji/add`, newKanjiIds, { signal }),
       setErrorStatus
     );
   },
 
-  async removeKanjiFromSaved(
-    removeKanjiId: number,
+  async removeKanjisFromSaved(
+    removeKanjiIds: number[],
     setErrorStatus?: SetErrorStatus,
-    axiosInstance?: AxiosInstance
+    signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).patch(`/users/kanji/remove`, removeKanjiId),
+      () => axiosPrivate.patch(`/users/kanji/remove`, removeKanjiIds, { signal }),
       setErrorStatus
     );
   },
