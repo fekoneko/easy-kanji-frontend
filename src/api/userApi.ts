@@ -3,7 +3,7 @@ import { Auth } from '../contexts/authContext';
 import { axiosPrivate } from './axios';
 import { AxiosInstance } from 'axios';
 import { Kanji } from '../contexts/kanjiContext';
-import { parseKanjis, ResponseKanji } from './kanjisApi';
+import { parseServerKanjis, ServerKanji } from './kanjisApi';
 
 export default {
   async signIn(
@@ -55,11 +55,11 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji[] | null> {
-    const responseKanjis = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).get<ResponseKanji[]>(`/users/kanjis`),
+    const serverKanjis = await catchAxiosErrors(
+      () => (axiosInstance ?? axiosPrivate).get<ServerKanji[]>(`/users/kanjis`),
       setErrorStatus
     );
-    return parseKanjis(responseKanjis);
+    return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
   async saveKanji(

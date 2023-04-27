@@ -4,7 +4,7 @@ import { axiosPrivate, axiosPublic } from './axios';
 import { AxiosInstance } from 'axios';
 
 export type KanjiListName = 'popular';
-export type ResponseKanji = {
+export type ServerKanji = {
   id: number;
   writing: string;
   meaning: string;
@@ -12,19 +12,23 @@ export type ResponseKanji = {
   kunReadings: string;
 };
 
-export const parseKanji = (responseKanji: ResponseKanji | null): Kanji | null => {
-  if (!responseKanji) return null;
-  return {
-    ...responseKanji,
-    onReadings: responseKanji.onReadings.split(','),
-    kunReadings: responseKanji.kunReadings.split(','),
-  };
-};
+export const parseServerKanji = (serverKanji: ServerKanji): Kanji => ({
+  ...serverKanji,
+  onReadings: serverKanji.onReadings.split(','),
+  kunReadings: serverKanji.kunReadings.split(','),
+});
 
-export const parseKanjis = (responseKanjis: ResponseKanji[] | null): Kanji[] | null => {
-  if (!responseKanjis) return null;
-  return responseKanjis.map((responseKanji) => parseKanji(responseKanji)!);
-};
+export const parseServerKanjis = (serverKanjis: ServerKanji[]): Kanji[] =>
+  serverKanjis.map((serverKanji) => parseServerKanji(serverKanji));
+
+export const formatKanjiForServer = (kanji: Kanji): ServerKanji => ({
+  ...kanji,
+  onReadings: kanji.onReadings.join(','),
+  kunReadings: kanji.kunReadings.join(','),
+});
+
+export const formatKanjisForServer = (kanjis: Kanji[]): ServerKanji[] =>
+  kanjis.map((kanji) => formatKanjiForServer(kanji));
 
 export default {
   async getKanjiById(
@@ -32,11 +36,11 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji | null> {
-    const responseKanji = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPublic).get<ResponseKanji>(`/kanjis/${kanjiId}`),
+    const serverKanji = await catchAxiosErrors(
+      () => (axiosInstance ?? axiosPublic).get<ServerKanji>(`/kanjis/${kanjiId}`),
       setErrorStatus
     );
-    return parseKanji(responseKanji);
+    return serverKanji && parseServerKanji(serverKanji);
   },
 
   async getKanjisByIds(
@@ -44,12 +48,11 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji[] | null> {
-    const responseKanjis = await catchAxiosErrors(
-      () =>
-        (axiosInstance ?? axiosPublic).get<ResponseKanji[]>(`/kanjis/`, { params: { kanjiIds } }),
+    const serverKanjis = await catchAxiosErrors(
+      () => (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/`, { params: { kanjiIds } }),
       setErrorStatus
     );
-    return parseKanjis(responseKanjis);
+    return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
   async getKanjiList(
@@ -57,11 +60,11 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji[] | null> {
-    const responseKanjis = await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPublic).get<ResponseKanji[]>(`/kanjis/${listName}`),
+    const serverKanjis = await catchAxiosErrors(
+      () => (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/${listName}`),
       setErrorStatus
     );
-    return parseKanjis(responseKanjis);
+    return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
   async getKanjiListPart(
@@ -71,14 +74,14 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji[] | null> {
-    const responseKanjis = await catchAxiosErrors(
+    const serverKanjis = await catchAxiosErrors(
       () =>
-        (axiosInstance ?? axiosPublic).get<ResponseKanji[]>(`/kanjis/${listName}`, {
+        (axiosInstance ?? axiosPublic).get<ServerKanji[]>(`/kanjis/${listName}`, {
           params: { s: startIndex, e: endIndex },
         }),
       setErrorStatus
     );
-    return parseKanjis(responseKanjis);
+    return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
   async searchKanjis(
@@ -86,14 +89,14 @@ export default {
     setErrorStatus?: SetErrorStatus,
     axiosInstance?: AxiosInstance
   ): Promise<Kanji[] | null> {
-    const responseKanjis = await catchAxiosErrors(
+    const serverKanjis = await catchAxiosErrors(
       () =>
-        (axiosInstance ?? axiosPublic).get<ResponseKanji[]>('/kanjis/search', {
+        (axiosInstance ?? axiosPublic).get<ServerKanji[]>('/kanjis/search', {
           params: { s: request },
         }),
       setErrorStatus
     );
-    return parseKanjis(responseKanjis);
+    return serverKanjis && parseServerKanjis(serverKanjis);
   },
 
   async addKanji(
@@ -103,7 +106,8 @@ export default {
     axiosInstance?: AxiosInstance
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).post(`/kanjis/${listName}`, newKanji),
+      () =>
+        (axiosInstance ?? axiosPrivate).post(`/kanjis/${listName}`, formatKanjiForServer(newKanji)),
       setErrorStatus
     );
   },
@@ -115,7 +119,7 @@ export default {
     axiosInstance?: AxiosInstance
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => (axiosInstance ?? axiosPrivate).put(`/kanjis/${id}`, editedKanji),
+      () => (axiosInstance ?? axiosPrivate).put(`/kanjis/${id}`, formatKanjiForServer(editedKanji)),
       setErrorStatus
     );
   },
