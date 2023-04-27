@@ -68,7 +68,7 @@ export default {
     signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => axiosPrivate.patch(`/users/kanji/add`, newKanjiIds, { signal }),
+      () => axiosPrivate.patch(`/users/kanjis/add`, newKanjiIds, { signal }),
       setErrorStatus
     );
   },
@@ -79,7 +79,7 @@ export default {
     signal?: AbortSignal
   ): Promise<any> {
     return await catchAxiosErrors(
-      () => axiosPrivate.patch(`/users/kanji/remove`, removeKanjiIds, { signal }),
+      () => axiosPrivate.patch(`/users/kanjis/remove`, removeKanjiIds, { signal }),
       setErrorStatus
     );
   },
