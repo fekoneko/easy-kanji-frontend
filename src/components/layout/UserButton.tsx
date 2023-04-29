@@ -1,7 +1,7 @@
 import AuthModal from '../modals/AuthModal';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
-import UserModal from '../modals/userModal';
+import UserModal from '../modals/UserModal';
 
 const UserButton = () => {
   const { auth, setAuth } = useAuth();

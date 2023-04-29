@@ -14,6 +14,7 @@ const UserPage = () => {
           <p>{auth?.roles.join(', ')}</p>
         </div>
       </div>
+      <Link to="/user/edit">Редактировать профиль</Link>
       {auth?.roles.includes('Admin') ? (
         <Link to="/edit/popular">Панель редактирования кандзи</Link>
       ) : (

@@ -15,6 +15,7 @@ type InSectionPath =
   | 'by-meaning'
   | 'by-writing'
   | 'user'
+  | 'edit'
   | null;
 
 const IN_SECTION_PATHES = [
@@ -25,6 +26,7 @@ const IN_SECTION_PATHES = [
   'by-meaning',
   'by-writing',
   'user',
+  'edit',
 ];
 
 const globalContext = createContext({} as GlobalContextValue);

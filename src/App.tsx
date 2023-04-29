@@ -17,6 +17,7 @@ import UserPage from './pages/UserPage';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
 import EditKanjisPage from './pages/EditKanjisPage';
+import UserEdit from './pages/UserEdit';
 import { useContext, useEffect, useRef } from 'react';
 import { getFromLocalStorage, setInLocalStorage } from './controllers/localStorageController';
 import kanjisApi from './api/kanjisApi';
@@ -97,11 +98,13 @@ const App = () => {
           <Route path="*" element={<PageNotFound />} />
 
           <Route element={<AuthRequired />}>
-            <Route path="user" element={<UserPage />} />
+            <Route path="user">
+              <Route index element={<UserPage />} />
+              <Route path="edit" element={<UserEdit />} />
+            </Route>
             <Route path="saved" element={<SavedKanjiPage />} />
             <Route path="feedback" element={<FeedbackPage />} />
           </Route>
-
           <Route element={<AuthRequired allowedRoles={['Admin']} />}>
             <Route path="edit/*" element={<EditKanjisPage />} />
           </Route>
