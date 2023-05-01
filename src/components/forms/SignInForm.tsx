@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from '../content/Tooltip';
-import userApi from '../../api/userApi';
+import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 
@@ -44,7 +44,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
     e.preventDefault();
     setUsernameValid(true);
     setPasswordValid(true);
-    const newAuth = await userApi.signIn(
+    const newAuth = await usersApi.signIn(
       username,
       password,
       setSignInErrorStatus,

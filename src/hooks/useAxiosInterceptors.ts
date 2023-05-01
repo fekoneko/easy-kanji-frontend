@@ -19,19 +19,22 @@ export const useAxiosInterceptors = () => {
     });
 
     const privateResponseInterceptorId = axiosPrivate.interceptors.response.use(
-      (responce) => responce,
-      async (error: (AxiosError & { config: { refreshed?: boolean } }) | null | undefined) => {
-        if (!error) return;
+      undefined,
+      async (
+        axiosErr: (AxiosError & { config: { refreshed?: boolean } }) | null | undefined
+      ): Promise<AxiosError | Response | undefined> => {
+        if (!axiosErr) return;
 
-        const requestConfig = error.config;
-        if (error.response?.status === 403 && !requestConfig.refreshed) {
+        const requestConfig = axiosErr.config;
+        if (axiosErr.response?.status === 401 && !requestConfig.refreshed) {
           let newAccessToken = await refresh();
-          if (!newAccessToken) return;
-
-          requestConfig.refreshed = true;
-          requestConfig.headers.Authorization = `Bearer ${newAccessToken}`;
-          axiosPrivate(requestConfig);
+          if (newAccessToken) {
+            requestConfig.refreshed = true;
+            requestConfig.headers.Authorization = `Bearer ${newAccessToken}`;
+            return axiosPrivate(requestConfig);
+          }
         }
+        return Promise.reject(axiosErr);
       }
     );
 

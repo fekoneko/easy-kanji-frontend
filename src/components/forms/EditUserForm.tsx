@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from '../content/Tooltip';
-import userApi from '../../api/userApi';
+import usersApi, { EditedUserData } from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 
@@ -11,25 +11,25 @@ type EditUserFormProps = {
   onSignedUp?: (e: FormEvent) => any;
 };
 
-const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
+const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   const { auth } = useAuth();
 
-  const [username, setUsername] = useState<string>(auth?.username ?? '');
-  const [usernameValid, setUsernameValid] = useState<boolean>(false);
-  const [usernameFocus, setUsernameFocus] = useState<boolean>(false);
+  const [newUsername, setNewUsername] = useState<string>(auth?.username ?? '');
+  const [newUsernameValid, setNewUsernameValid] = useState<boolean>(false);
+  const [newUsernameFocus, setNewUsernameFocus] = useState<boolean>(false);
 
   const [oldPassword, setOldPassword] = useState<string>('');
-  const [oldPasswordValid, setOldPasswordValid] = useState<boolean>(false);
+  const [oldPasswordValid, setOldPasswordValid] = useState<boolean>(true);
   const [oldPasswordFocus, setOldPasswordFocus] = useState<boolean>(false);
 
-  const [password, setPassword] = useState<string>('');
-  const [passwordValid, setPasswordValid] = useState<boolean>(false);
-  const [passwordFocus, setPasswordFocus] = useState<boolean>(false);
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [newPasswordValid, setNewPasswordValid] = useState<boolean>(false);
+  const [newPasswordFocus, setNewPasswordFocus] = useState<boolean>(false);
 
   const [confirm, setConfirm] = useState<string>('');
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
-  const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
+  const [editUserErrorStatus, setEditUserErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const oldPasswordRef = useRef<HTMLInputElement>(null);
@@ -40,63 +40,82 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
 
-  const validateUsername = (): boolean => USERNAME_REGEX.test(username);
-  const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
-  const validateConfirm = (): boolean => confirm === password;
+  const validateNewUsername = (): boolean => !newUsername || USERNAME_REGEX.test(newUsername);
+  const validateNewPassword = (): boolean => !newPassword || PASSWORD_REGEX.test(newPassword);
+  const validateConfirm = (): boolean => !newPassword || confirm === newPassword;
 
   useEffect(() => {
-    setUsernameValid(validateUsername());
-  }, [username]);
+    setNewUsernameValid(validateNewUsername());
+  }, [newUsername]);
 
   useEffect(() => {
-    setPasswordValid(validatePassword());
-  }, [password]);
+    setNewPasswordValid(validateNewPassword());
+  }, [newPassword]);
 
   useEffect(() => {
     setConfirmValid(validateConfirm());
-  }, [confirm, password]);
+  }, [confirm, newPassword]);
 
   useEffect(() => {
-    setSignUpErrorStatus(null);
-  }, [username, password, confirm]);
+    setEditUserErrorStatus(null);
+  }, [newUsername, newPassword, confirm]);
 
   useEffect(() => {
-    if (signUpErrorStatus === 400) {
+    if (editUserErrorStatus === 400) {
       usernameRef.current?.focus();
     }
-  }, [signUpErrorStatus]);
+  }, [editUserErrorStatus]);
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    const curUsernameValid = validateUsername();
-    const curPasswordValid = validatePassword();
+    if (!auth) return;
+
+    const curUsernameValid = validateNewUsername();
+    const curPasswordValid = validateNewPassword();
     const curConfirmValid = validateConfirm();
-    setUsernameValid(curUsernameValid);
-    setPasswordValid(curPasswordValid);
+    setNewUsernameValid(curUsernameValid);
+    setNewPasswordValid(curPasswordValid);
     setConfirmValid(curConfirmValid);
+
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
-      const newAuth = await userApi.signUp(
-        //TODO
-        username,
-        password,
-        setSignUpErrorStatus,
+      const editedData: EditedUserData = {};
+      if (newUsername && newUsername !== auth.username) editedData.username = newUsername;
+      if (newPassword) editedData.password = newPassword;
+      if (!editedData.username && !editedData.password) return;
+
+      const userEditSuccess = await usersApi.editUser(
+        auth.id,
+        oldPassword,
+        editedData,
+        setEditUserErrorStatus,
+        abortControllerRef.current.signal
+      );
+      if (!userEditSuccess) return;
+      // TODO: handle wrong old password error
+
+      const newAuth = await usersApi.signIn(
+        newUsername,
+        !!newPassword ? newPassword : oldPassword,
         undefined,
         abortControllerRef.current.signal
       );
-      if (!newAuth) return;
       setAuth(newAuth);
-      if (onSignedUp) onSignedUp(e);
+
+      if (onUserEdited) onUserEdited(e);
     } else {
       if (!curUsernameValid) usernameRef.current?.focus();
-      else if (!curPasswordValid) passwordRef.current?.focus(); //TODO
+      else if (!curPasswordValid) passwordRef.current?.focus();
       else if (!curConfirmValid) confirmRef.current?.focus();
     }
   };
 
-  const usernameHintShown = usernameFocus && (!!username || !!signUpErrorStatus) && !usernameValid;
-  const passwordHintShown = passwordFocus && (!!password || !!signUpErrorStatus) && !passwordValid;
-  const confirmHintShown = confirmFocus && (!!confirm || !!signUpErrorStatus) && !confirmValid;
-  const usernameOccupied = signUpErrorStatus === 400 && usernameValid && passwordValid;
+  const usernameHintShown =
+    newUsernameFocus && (!!newUsername || !!editUserErrorStatus) && !newUsernameValid;
+  const oldPasswordHintShown = oldPasswordFocus && !oldPasswordValid;
+  const passwordHintShown =
+    newPasswordFocus && (!!newPassword || !!editUserErrorStatus) && !newPasswordValid;
+  const confirmHintShown = confirmFocus && (!!confirm || !!editUserErrorStatus) && !confirmValid;
+  const usernameOccupied = !!newUsername && editUserErrorStatus === 400 && newUsernameValid;
 
   return (
     <form className="RegistrationForm" onSubmit={handleSubmit}>
@@ -109,13 +128,12 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
           autoFocus
           placeholder="Придумайте логин…"
           autoComplete="off"
-          required
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
+          onChange={(e) => setNewUsername(e.target.value)}
+          value={newUsername}
           aria-describedby="usernameHint"
-          aria-invalid={(!usernameValid || usernameOccupied) && !!username}
-          onFocus={() => setUsernameFocus(true)}
-          onBlur={() => setUsernameFocus(false)}
+          aria-invalid={(!newUsernameValid || usernameOccupied) && !!newUsername}
+          onFocus={() => setNewUsernameFocus(true)}
+          onBlur={() => setNewUsernameFocus(false)}
         />
       </fieldset>
       <Tooltip
@@ -147,7 +165,7 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
           onBlur={() => setOldPasswordFocus(false)}
         />
       </fieldset>
-      <Tooltip id="oldPasswordHint" shown={false} anchorRef={oldPasswordRef}>
+      <Tooltip id="oldPasswordHint" shown={oldPasswordHintShown} anchorRef={oldPasswordRef}>
         Пароль неверный.
       </Tooltip>
 
@@ -159,13 +177,12 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
           type="password"
           placeholder="Придумайте пароль…"
           autoComplete="off"
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
+          onChange={(e) => setNewPassword(e.target.value)}
+          value={newPassword}
           aria-describedby="passwordHint"
-          aria-invalid={!passwordValid && !!password}
-          onFocus={() => setPasswordFocus(true)}
-          onBlur={() => setPasswordFocus(false)}
+          aria-invalid={!newPasswordValid && !!newPassword}
+          onFocus={() => setNewPasswordFocus(true)}
+          onBlur={() => setNewPasswordFocus(false)}
         />
       </fieldset>
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
@@ -183,7 +200,7 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
           type="password"
           placeholder="Введите пароль ещё раз…"
           autoComplete="off"
-          required
+          required={!!newPassword}
           onChange={(e) => setConfirm(e.target.value)}
           value={confirm}
           aria-describedby="confirmHint"
@@ -199,7 +216,7 @@ const EditUserForm = ({ onSignedUp }: EditUserFormProps) => {
       <button ref={submitRef} type="submit">
         Сохранить изменения
       </button>
-      <Tooltip shown={!!signUpErrorStatus && signUpErrorStatus !== 400} anchorRef={submitRef}>
+      <Tooltip shown={!!editUserErrorStatus && !usernameOccupied} anchorRef={submitRef}>
         Ошибка изменения профиля
       </Tooltip>
     </form>

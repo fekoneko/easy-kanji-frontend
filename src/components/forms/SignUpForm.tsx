@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Tooltip from '../content/Tooltip';
-import userApi from '../../api/userApi';
+import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 
@@ -66,7 +66,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     setPasswordValid(curPasswordValid);
     setConfirmValid(curConfirmValid);
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
-      const newAuth = await userApi.signUp(
+      const newAuth = await usersApi.signUp(
         username,
         password,
         setSignUpErrorStatus,

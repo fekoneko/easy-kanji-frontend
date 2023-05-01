@@ -1,5 +1,6 @@
-import axios from 'axios';
 import useAuth from './useAuth';
+import { catchAxiosErrors } from '../controllers/axiosController';
+import { axiosPublic } from '../api/axios';
 
 export const useRefreshTokenFunction = () => {
   const { auth, setAuth } = useAuth();
@@ -7,20 +8,17 @@ export const useRefreshTokenFunction = () => {
   const refresh = async (): Promise<string | null> => {
     if (!auth) return null;
 
-    try {
-      const responce = await axios.get<string>('/tokens', {
-        baseURL: `${import.meta.env.VITE_API_URL}/api`,
-      });
-      const newAccessToken = responce.data;
+    const [newAccessToken, errorStatus] = await catchAxiosErrors<string>(() =>
+      axiosPublic.get('/tokens/', {
+        withCredentials: true,
+      })
+    );
+    if (newAccessToken) {
       setAuth({ ...auth, accessToken: newAccessToken });
       return newAccessToken;
-    } catch (error: any) {
-      if (!error?.response) return null;
-
-      // Refresh token expired
-      setAuth(null);
-      return null;
     }
+    if (errorStatus) setAuth(null);
+    return null;
   };
   return refresh;
 };

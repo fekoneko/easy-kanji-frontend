@@ -3,6 +3,7 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useState } from 're
 export type Role = 'Admin' | 'User';
 
 export type Auth = {
+  id: number;
   username: string;
   roles: Role[];
   accessToken: string;

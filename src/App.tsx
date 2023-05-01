@@ -17,12 +17,12 @@ import UserPage from './pages/UserPage';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
 import EditKanjisPage from './pages/EditKanjisPage';
-import UserEdit from './pages/UserEdit';
+import EditUserPage from './pages/EditUserPage';
 import { useContext, useEffect, useRef } from 'react';
 import { getFromLocalStorage, setInLocalStorage } from './controllers/localStorageController';
 import kanjisApi from './api/kanjisApi';
 import { addKanjisToList, getKanjisIds } from './controllers/kanjiController';
-import userApi from './api/userApi';
+import usersApi from './api/usersApi';
 import useAuth from './hooks/useAuth';
 
 const App = () => {
@@ -72,7 +72,7 @@ const App = () => {
     const abortController = new AbortController();
 
     const fetchSavedKanjis = async () => {
-      const newSavedKanjis = await userApi.getSavedKanjis(undefined, abortController.signal);
+      const newSavedKanjis = await usersApi.getSavedKanjis(undefined, abortController.signal);
       if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
     };
     fetchSavedKanjis();
@@ -100,7 +100,7 @@ const App = () => {
           <Route element={<AuthRequired />}>
             <Route path="user">
               <Route index element={<UserPage />} />
-              <Route path="edit" element={<UserEdit />} />
+              <Route path="edit" element={<EditUserPage />} />
             </Route>
             <Route path="saved" element={<SavedKanjiPage />} />
             <Route path="feedback" element={<FeedbackPage />} />
