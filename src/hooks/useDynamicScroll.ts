@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef } from 'react';
 import useEventListener from './useEventListener';
 
 type LoadContentFunction<T extends { id: number }> = (

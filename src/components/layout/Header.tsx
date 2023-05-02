@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import UserButton from './UserButton';
+import UserButton from '../content/UserButton';
 
 const Header = () => {
   const location = useLocation();

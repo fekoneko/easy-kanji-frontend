@@ -101,33 +101,32 @@
   }
 
   footer {
+    display: flex;
+    gap: 0.5rem;
     z-index: 100;
-    padding-top: 0.6rem;
     padding-bottom: 0.6rem;
     color: var(--secondary-text-color);
     background-color: var(--bg-color);
   }
   footer::before {
+    position: absolute;
     display: block;
     content: '';
-    width: 100%;
-    height: 1px;
+    width: calc(100vw - 2 * var(--app-padding));
+    height: 1.5px;
     background-color: var(--secondary-text-color);
   }
-  footer .controlPanel {
-    display: flex;
-  }
-  .controlPanel > :first-child {
+  footer > :first-child {
     flex-grow: 1;
   }
-  .controlPanel a {
+  footer a {
     color: inherit;
   }
-  .controlPanel button {
+  footer button {
     border: none;
     background-color: transparent;
   }
-  .controlPanel button:hover {
+  footer button:hover {
     text-decoration: underline;
   }
 }

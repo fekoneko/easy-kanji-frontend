@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const Nav = () => {
