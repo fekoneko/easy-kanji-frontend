@@ -38,15 +38,4 @@
   .kanjiCell .kanjiKunReadings {
     font-size: 0.8rem;
   }
-  .userPageTop {
-    margin: 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  .userPageTop svg {
-    width: 7rem;
-    height: 7rem;
-  }
 }
