@@ -1,15 +1,30 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiCell from './KanjiCell';
+import useResizeObserver from '../../hooks/useResizeObserver';
+import KanjiChoiceCell from './KanjiChoiceCell';
 
-const COLUMNS_COUNT = 2;
+const GRID_GAP = 8;
+const COLUMNS_DEFAULT = 2;
 
 type KanjiGridProps = {
   kanjis: Kanji[];
+  maxCellWidth?: number;
+  maxColumns?: number;
+  kanjiChoiceMode?: boolean;
+  chosenKanji?: Kanji | null;
+  setChosenKanji?: Dispatch<SetStateAction<Kanji | null>>;
 };
 
-const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
+const KanjiGrid = ({
+  kanjis,
+  maxCellWidth,
+  maxColumns,
+  kanjiChoiceMode,
+  chosenKanji,
+  setChosenKanji,
+}: KanjiGridProps) => {
   const arrowLeftPressed = useKeyPressed('ArrowLeft');
   const arrowRightPressed = useKeyPressed('ArrowRight');
   const arrowUpPressed = useKeyPressed('ArrowUp');
@@ -17,7 +32,17 @@ const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
   const shiftPressed = useKeyPressed('Shift');
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
 
+  const gridRef = useRef<HTMLElement>(null);
+  const size = useResizeObserver(gridRef);
+
+  const columns =
+    size && maxCellWidth
+      ? Math.min(Math.floor(size.contentRect.width / maxCellWidth), maxColumns ?? 99999)
+      : maxColumns ?? COLUMNS_DEFAULT;
+
   const moveFocus = (offset: number) => {
+    if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.nodeName))
+      return;
     if (kanjis.length === -1) return;
 
     setFocusIndex((prev) => {
@@ -47,28 +72,46 @@ const KanjiGrid = ({ kanjis }: KanjiGridProps) => {
 
   useEffect(() => {
     if (arrowUpPressed) {
-      const offset = -(shiftPressed ? 3 : 1) * COLUMNS_COUNT;
+      const offset = -(shiftPressed ? 3 : 1) * columns;
       moveFocus(offset);
     }
   }, [arrowUpPressed]);
 
   useEffect(() => {
     if (arrowDownPressed) {
-      const offset = (shiftPressed ? 3 : 1) * COLUMNS_COUNT;
+      const offset = (shiftPressed ? 3 : 1) * columns;
       moveFocus(offset);
     }
   }, [arrowDownPressed]);
 
   return (
-    <section className="kanjiGrid">
-      {kanjis.map((kanji, index) => (
-        <KanjiCell
-          key={index}
-          kanji={kanji}
-          focus={focusIndex === index}
-          setFocus={() => setFocusIndex(index)}
-        />
-      ))}
+    <section
+      ref={gridRef}
+      className="kanjiGrid"
+      style={{
+        gridTemplateColumns: `repeat(${columns}, calc(${100 / columns}% - ${GRID_GAP / 2}px))`,
+        gap: GRID_GAP,
+      }}
+    >
+      {kanjis.map((kanji, index) =>
+        kanjiChoiceMode ? (
+          <KanjiChoiceCell
+            key={index}
+            kanji={kanji}
+            focus={focusIndex === index}
+            setFocus={() => setFocusIndex(index)}
+            chosenKanji={chosenKanji}
+            setChosenKanji={setChosenKanji}
+          />
+        ) : (
+          <KanjiCell
+            key={index}
+            kanji={kanji}
+            focus={focusIndex === index}
+            setFocus={() => setFocusIndex(index)}
+          />
+        )
+      )}
     </section>
   );
 };

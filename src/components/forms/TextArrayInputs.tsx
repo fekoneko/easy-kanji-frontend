@@ -9,49 +9,54 @@ type ArrayInputsProps = {
 };
 
 const TextArrayInputs = ({ array, setArray, name, ids, placeholder }: ArrayInputsProps) => {
-  const handleAddElement = () => {
-    setArray((prev) => [...prev, '']);
-  };
+  const handleAddElement = () => setArray((prev) => [...prev, '']);
 
-  const handleRemoveElement = () => {
+  const handleRemoveElement = () =>
     setArray((prev) => (prev.length > 0 ? prev.slice(0, -1) : prev));
-  };
 
-  const handleEditElement = (index: number, value: string) => {
-    setArray((prev) => prev.fill(value, index));
-  };
+  const handleEditElement = (index: number, item: string) =>
+    setArray((prev) => {
+      const newArray = [...prev];
+      newArray[index] = item;
+      return newArray;
+    });
 
   return (
-    <fieldset className="arrayInputs">
+    <fieldset className="arrayInputsContainer">
       {name ? <label htmlFor={ids}>{`${name}:`}</label> : <></>}
-      <fieldset id={ids}>
-        {array.map((item, index) => (
-          <fieldset key={index}>
-            {name ? (
-              <label
-                htmlFor={ids ? `${ids}${index}` : undefined}
-                style={{ position: 'absolute', left: '-99999px' }}
-              >{`${name} (${index}):`}</label>
-            ) : (
-              <></>
-            )}
-            <input
-              id={ids ? `${ids}${index}` : undefined}
-              type="text"
-              placeholder={placeholder}
-              onChange={(e) => handleEditElement(index, e.target.value)}
-            />
-          </fieldset>
-        ))}
-        <fieldset className="arrayInputButtons">
+
+      <div>
+        <div id={ids} className="arrayInputs">
+          {array.map((item, index) => (
+            <div key={index}>
+              {name ? (
+                <label
+                  htmlFor={ids ? `${ids}${index}` : undefined}
+                  style={{ position: 'absolute', left: '-99999px' }}
+                >{`${name} (${index}):`}</label>
+              ) : (
+                <></>
+              )}
+              <input
+                id={ids ? `${ids}${index}` : undefined}
+                type="text"
+                placeholder={placeholder}
+                value={item}
+                onChange={(e) => handleEditElement(index, e.target.value)}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="arrayInputsButtons">
           <button type="button" onClick={handleAddElement}>
-            Добавить
+            +
           </button>
           <button type="button" onClick={handleRemoveElement}>
-            Удалить
+            -
           </button>
-        </fieldset>
-      </fieldset>
+        </div>
+      </div>
     </fieldset>
   );
 };

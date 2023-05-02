@@ -1,44 +1,55 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import TextArrayInputs from './TextArrayInputs';
 import { Kanji } from '../../contexts/kanjiContext';
-import { PublicListName } from '../layout/EditKanjisUI';
 import Tooltip from '../content/Tooltip';
+import kanjisApi from '../../api/kanjisApi';
 
 type EditKanjiFormProps = {
   initialKanji: Kanji | null;
-  onSubmit?: (newKanji: Kanji) => any;
-  errorShown?: boolean;
 };
 
-const EditKanjiForm = ({ initialKanji, onSubmit, errorShown }: EditKanjiFormProps) => {
+const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   const [kanjiWriting, setKanjWriting] = useState('');
+  const [kanjiWritingValid, setKanjiWritingValid] = useState(false);
+  const [kanjiWritingFocus, setKanjiWritingFocus] = useState(false);
+  const kanjiWritingRef = useRef<HTMLInputElement>(null);
+
   const [kanjiOnReadings, setKanjOnReadings] = useState<string[]>([]);
   const [kanjiKunReadings, setKanjKunReadings] = useState<string[]>([]);
   const [kanjiMeaning, setKanjMeaning] = useState('');
   const submitRef = useRef<HTMLButtonElement>(null);
+  const [editOrAddErrorCode, setEditOrAddErrorCode] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!initialKanji) return;
-    setKanjWriting(initialKanji.writing);
-    setKanjOnReadings(initialKanji.onReadings);
-    setKanjKunReadings(initialKanji.kunReadings);
-    setKanjMeaning(initialKanji.meaning);
+    setEditOrAddErrorCode(null);
+  }, [kanjiWriting, kanjiOnReadings, kanjiKunReadings, kanjiMeaning]);
+
+  useEffect(() => {
+    setKanjWriting(initialKanji?.writing ?? '');
+    setKanjOnReadings(initialKanji?.onReadings ?? []);
+    setKanjKunReadings(initialKanji?.kunReadings ?? []);
+    setKanjMeaning(initialKanji?.meaning ?? '');
   }, [initialKanji]);
 
   useEffect(() => {
-    if (kanjiWriting.length > 1) setKanjWriting(kanjiWriting[0]);
+    setKanjiWritingValid(kanjiWriting.length <= 1);
   }, [kanjiWriting]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (onSubmit)
-      onSubmit({
-        id: initialKanji?.id ?? -1,
-        writing: kanjiWriting,
-        onReadings: kanjiOnReadings,
-        kunReadings: kanjiKunReadings,
-        meaning: kanjiMeaning,
-      });
+
+    const newKanji: Kanji = {
+      id: -1,
+      writing: kanjiWriting,
+      onReadings: kanjiOnReadings,
+      kunReadings: kanjiKunReadings,
+      meaning: kanjiMeaning,
+    };
+    if (initialKanji) {
+      await kanjisApi.editKanji(initialKanji.id, newKanji, setEditOrAddErrorCode);
+    } else {
+      await kanjisApi.addKanji(newKanji, setEditOrAddErrorCode); // TODO: add to kanji list
+    }
   };
 
   return (
@@ -46,15 +57,22 @@ const EditKanjiForm = ({ initialKanji, onSubmit, errorShown }: EditKanjiFormProp
       <fieldset>
         <label htmlFor="kanjiWritingInput">Кандзи:</label>
         <input
+          ref={kanjiWritingRef}
           required
           id="kanjiWritingInput"
+          className="kanjiWritingInput"
           type="text"
-          placeholder="Введите кандзи"
+          placeholder="字"
           value={kanjiWriting}
           onChange={(e) => setKanjWriting(e.target.value)}
-          maxLength={1}
+          onFocus={() => setKanjiWritingFocus(true)}
+          onBlur={() => setKanjiWritingFocus(false)}
+          aria-invalid={!kanjiWritingValid}
         />
       </fieldset>
+      <Tooltip shown={!kanjiWritingValid && kanjiWritingFocus} anchorRef={kanjiWritingRef}>
+        Введите один символ
+      </Tooltip>
 
       <fieldset>
         <label htmlFor="kanjiMeaningInput">Значение:</label>
@@ -73,7 +91,7 @@ const EditKanjiForm = ({ initialKanji, onSubmit, errorShown }: EditKanjiFormProp
         setArray={setKanjOnReadings}
         name="Оны"
         ids="kanjiOnReadingsInputs"
-        placeholder="Введите чтение"
+        placeholder="–"
       />
 
       <TextArrayInputs
@@ -81,13 +99,13 @@ const EditKanjiForm = ({ initialKanji, onSubmit, errorShown }: EditKanjiFormProp
         setArray={setKanjKunReadings}
         name="Куны"
         ids="kanjiKunReadingsInputs"
-        placeholder="Введите чтение"
+        placeholder="–"
       />
 
       <button type="submit" ref={submitRef}>
         {initialKanji ? 'Изменить' : 'Добавить'}
       </button>
-      <Tooltip shown={errorShown} anchorRef={submitRef}>
+      <Tooltip shown={!!editOrAddErrorCode} anchorRef={submitRef}>
         Не удалось сохранить
       </Tooltip>
     </form>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import KanjiGrid from '../content/KanjiGrid';
 import { PUBLIC_LIST_NAMES } from './EditKanjisUI';
@@ -10,9 +10,16 @@ import useAbortController from '../../hooks/useAbortController';
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
   setKanjis: Dispatch<SetStateAction<Kanji[]>>;
+  chosenKanji: Kanji | null;
+  setChosenKanji: Dispatch<SetStateAction<Kanji | null>>;
 };
 
-const KanjiSelectionSidebar = ({ kanjis, setKanjis }: KanjiSelectionSidebarProps) => {
+const KanjiSelectionSidebar = ({
+  kanjis,
+  setKanjis,
+  chosenKanji,
+  setChosenKanji,
+}: KanjiSelectionSidebarProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useAbortController();
 
@@ -37,7 +44,13 @@ const KanjiSelectionSidebar = ({ kanjis, setKanjis }: KanjiSelectionSidebarProps
       </nav>
       {kanjis.length > 0 ? (
         <div ref={scrollContainerRef} style={{ overflowY: 'scroll' }}>
-          <KanjiGrid kanjis={kanjis} />
+          <KanjiGrid
+            kanjis={kanjis}
+            maxColumns={1}
+            kanjiChoiceMode
+            chosenKanji={chosenKanji}
+            setChosenKanji={setChosenKanji}
+          />
         </div>
       ) : (
         <div className="contentPlaceholder">

@@ -12,7 +12,7 @@
     border: none;
   }
   fieldset:has(textarea) > label,
-  fieldset.arrayInputs > label {
+  fieldset:has(.arrayInputs) > label {
     align-self: normal;
     margin-top: 0.5rem;
   }
@@ -27,7 +27,7 @@
 
   fieldset > textarea,
   fieldset > input,
-  .arrayInputs > fieldset {
+  .arrayInputsContainer > div {
     flex: 2 1 1rem;
   }
 
@@ -98,10 +98,33 @@
     flex: 0 0 !important;
   }
 
-  .arrayInputs > fieldset {
+  .arrayInputsContainer > div {
     display: flex;
     flex-direction: column;
+    gap: 0.2rem;
+  }
+  .arrayInputs {
+    display: flex;
     align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+  .arrayInputs > * {
+    flex: 1 1;
+    min-width: 5rem;
+  }
+  .arrayInputsButtons {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+    min-width: 100%;
+  }
+  .arrayInputsButtons button {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.2rem;
+    padding: 0;
+    border: none;
   }
 
   .controlButton {
@@ -118,5 +141,12 @@
   }
   .controlButton:hover > * {
     fill: var(--primary-color);
+  }
+
+  .kanjiWritingInput {
+    max-width: 5rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    text-align: center;
   }
 }

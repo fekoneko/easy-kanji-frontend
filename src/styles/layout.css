@@ -77,6 +77,9 @@
   main > .animatedRoute {
     flex-grow: 1;
   }
+  main > .animatedRoute:has(.onScreenContent) {
+    max-height: 100%;
+  }
   main:has(.animatedRoute-enter),
   main:has(.animatedRoute-exit),
   main:has(.onScreenContent) {
@@ -92,6 +95,9 @@
     min-height: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+  .onScreenContent {
+    max-height: 100%;
   }
 
   footer {

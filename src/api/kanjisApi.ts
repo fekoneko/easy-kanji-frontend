@@ -104,13 +104,14 @@ export default {
   },
 
   async addKanji(
-    listName: KanjiListName,
     newKanji: Kanji,
     setErrorStatus?: SetErrorStatus,
     signal?: AbortSignal
   ): Promise<boolean> {
+    const kanjiData: any = { ...newKanji };
+    delete kanjiData.id;
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.post(`/kanjis/${listName}`, formatKanjiForServer(newKanji), { signal }),
+      () => axiosPrivate.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal }),
       setErrorStatus
     );
     return !errorStatus;
@@ -122,8 +123,10 @@ export default {
     setErrorStatus?: SetErrorStatus,
     signal?: AbortSignal
   ): Promise<boolean> {
+    const kanjiData: any = { ...editedKanji };
+    delete kanjiData.id;
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.put(`/kanjis/${id}`, formatKanjiForServer(editedKanji), { signal }),
+      () => axiosPrivate.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal }),
       setErrorStatus
     );
     return !errorStatus;

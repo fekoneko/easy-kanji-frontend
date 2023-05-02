@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import { isKanjiInList, changeKanjiInList } from '../../controllers/kanjiController';
 import ControlButton from '../layout/ControlButton';

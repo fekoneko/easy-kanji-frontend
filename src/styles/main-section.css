@@ -1,8 +1,6 @@
 @layer main-section {
   .kanjiGrid {
     display: grid;
-    grid-template-columns: repeat(2, calc(50% - 0.3rem));
-    gap: 0.6rem;
   }
   .kanjiCell {
     position: relative;
@@ -19,19 +17,26 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.1rem 2.8rem 0.1rem 0.6rem;
+    padding: 0.1rem 2.8rem 0.1rem 1rem;
     background-color: var(--background-color);
+    text-align: left;
+    overflow-x: hidden;
     transition: background-color var(--transition-params);
   }
   .kanjiCellButton:focus {
     outline: var(--primary-text-color) solid 1px;
   }
+
   .kanjiCell.selected > .kanjiCellButton {
     background-color: var(--selected-cell-color);
   }
   .kanjiCell .kanjiWriting {
     font-size: 2rem;
     font-weight: bold;
+  }
+  .kanjiCell .kanjiOnReadings,
+  .kanjiCell .kanjiKunReadings {
+    font-size: 0.8rem;
   }
   .userPageTop {
     margin: 1rem;
