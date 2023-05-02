@@ -2,9 +2,11 @@ import { useContext } from 'react';
 import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
+import usePageKanjis from '../hooks/usePageKanjis';
 
 const SelectedPage = () => {
   const { selectedKanjis } = useContext(kanjiContext);
+  usePageKanjis(selectedKanjis);
 
   return (
     <div className="scrollContent">

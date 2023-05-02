@@ -1,19 +1,19 @@
-import { RefObject, useContext } from 'react';
-import kanjiContext from '../contexts/kanjiContext';
+import { RefObject } from 'react';
 import KanjiGrid from '../components/content/KanjiGrid';
 import useDynamicScroll from '../hooks/useDynamicScroll';
 import kanjisApi from '../api/kanjisApi';
 import useAbortController from '../hooks/useAbortController';
+import usePageKanjis from '../hooks/usePageKanjis';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
 };
 
 const PopularPage = ({ mainRef }: PopularPageProps) => {
-  const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
+  const [pageKanjis, setPageKanjis] = usePageKanjis();
   const abortControllerRef = useAbortController();
 
-  useDynamicScroll(mainRef, popularKanjis, setPopularKanjis, (startIndex, endIndex) =>
+  useDynamicScroll(mainRef, pageKanjis, setPageKanjis, (startIndex, endIndex) =>
     kanjisApi.getKanjiListPart(
       'popular',
       startIndex,
@@ -26,8 +26,8 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
   return (
     <div className="scrollContent">
       <h1>Популярные кандзи</h1>
-      {popularKanjis.length > 0 ? (
-        <KanjiGrid kanjis={popularKanjis} maxCellWidth={280} maxColumns={3} />
+      {pageKanjis.length > 0 ? (
+        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} />
       ) : (
         <div className="contentPlaceholder">
           <p>Тут пока ничего нет</p>

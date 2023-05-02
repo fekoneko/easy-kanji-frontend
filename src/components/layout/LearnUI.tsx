@@ -5,6 +5,7 @@ import KanjiCard from '../content/KanjiCard';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
+import usePageKanjis from '../../hooks/usePageKanjis';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -13,6 +14,7 @@ type LearnUIProps = {
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   const { selectedKanjis } = useContext(kanjiContext);
+  const [pageKanjis, setPageKanjis] = usePageKanjis(selectedKanjis);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
   const arrowLeftPressed = useKeyPressed('ArrowLeft');
@@ -22,12 +24,12 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     if (arrowLeftPressed && currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     }
-    if (arrowRightPressed && currentIndex < selectedKanjis.length - 1) {
+    if (arrowRightPressed && currentIndex < pageKanjis.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
   }, [arrowLeftPressed, arrowRightPressed]);
 
-  if (selectedKanjis.length !== 0) {
+  if (pageKanjis.length !== 0) {
     return (
       <section className="learnUI">
         <div
@@ -38,7 +40,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
             }px - var(--card-width) / 2))`,
           }}
         >
-          {selectedKanjis.map((kanji, index) => (
+          {pageKanjis.map((kanji, index) => (
             <KanjiCard
               key={index}
               kanji={kanji}

@@ -1,15 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import { Kanji } from '../../contexts/kanjiContext';
 import KanjiChoiceSidebar from './KanjiChoiceSidebar';
 import EditKanjiForm from '../forms/EditKanjiForm';
+import usePageKanjis from '../../hooks/usePageKanjis';
 
 export type PublicListName = 'popular';
 
 export const PUBLIC_LIST_NAMES = ['popular']; // TODO Move it somwere
 
 const EditKanjisUI = () => {
-  const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
+  const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [chosenKanji, setChosenKanji] = useState<Kanji | null>(null);
 
   return (
@@ -19,8 +20,8 @@ const EditKanjisUI = () => {
           path={'popular'}
           element={
             <KanjiChoiceSidebar
-              kanjis={popularKanjis}
-              setKanjis={setPopularKanjis}
+              kanjis={pageKanjis}
+              setKanjis={setPageKanjis}
               chosenKanji={chosenKanji}
               setChosenKanji={setChosenKanji}
             />

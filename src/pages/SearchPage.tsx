@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import kanjiContext from '../contexts/kanjiContext';
+import { useEffect, useState } from 'react';
 import KanjiGrid from '../components/content/KanjiGrid';
 import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
+import usePageKanjis from '../hooks/usePageKanjis';
 
 const SearchPage = () => {
-  const { searchKanjis, setSearchKanjis } = useContext(kanjiContext);
+  const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
 
@@ -14,12 +14,12 @@ const SearchPage = () => {
     const updateSearchKanjis = async () => {
       const searchParamsRequest = searchParams.get('s');
       if (!searchParamsRequest) {
-        setSearchKanjis([]);
+        setPageKanjis([]);
         return;
       }
       const newSearchKanjis = await kanjisApi.searchKanjis(searchParamsRequest);
       if (!newSearchKanjis) return;
-      setSearchKanjis(newSearchKanjis);
+      setPageKanjis(newSearchKanjis);
     };
     updateSearchKanjis();
   }, [searchParams]);
@@ -36,8 +36,8 @@ const SearchPage = () => {
     <div className="scrollContent">
       <h1>Поиск кандзи</h1>
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
-      {searchKanjis.length > 0 ? (
-        <KanjiGrid kanjis={searchKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
+      {pageKanjis.length > 0 ? (
+        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
       ) : (
         <div className="contentPlaceholder">
           {searchRequest.length > 0 ? (
