@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import globalContext from '../../contexts/globalContext';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import {
   removeKanjisFromList,
@@ -7,74 +6,85 @@ import {
   getCountOfKanjisInList,
   addKanjisToList,
 } from '../../controllers/kanjiController';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ControlPanel = () => {
-  const { section, inSectionPath } = useContext(globalContext);
+  const location = useLocation();
   const { popularKanjis, savedKanjis, searchKanjis, selectedKanjis, setSelectedKanjis } =
     useContext(kanjiContext);
 
+  const section = location.pathname.split('/')[1];
+
   let displayedKanjis: null | Kanji[] = null;
-  if (section === 'main') {
-    switch (inSectionPath) {
-      case 'popular':
-        displayedKanjis = popularKanjis;
-        break;
-      case 'saved':
-        displayedKanjis = savedKanjis;
-        break;
-      case 'search':
-        displayedKanjis = searchKanjis;
-        break;
-      case 'selected':
-        displayedKanjis = selectedKanjis;
-        break;
-    }
+  switch (section) {
+    case 'popular':
+      displayedKanjis = popularKanjis;
+      break;
+    case 'saved':
+      displayedKanjis = savedKanjis;
+      break;
+    case 'search':
+      displayedKanjis = searchKanjis;
+      break;
+    case 'selected':
+      displayedKanjis = selectedKanjis;
+      break;
   }
 
-  const deselectDisplayed = () => {
-    if (!displayedKanjis) return;
-    removeKanjisFromList(setSelectedKanjis, displayedKanjis);
-  };
+  const deselectAll = () =>
+    displayedKanjis && removeKanjisFromList(setSelectedKanjis, displayedKanjis);
 
-  const selectDisplayed = () => {
-    if (!displayedKanjis) return;
-    addKanjisToList(setSelectedKanjis, displayedKanjis);
-  };
+  const selectAll = () => displayedKanjis && addKanjisToList(setSelectedKanjis, displayedKanjis);
 
-  const clearSelection = () => {
-    setSelectedKanjis([]);
-  };
+  const clearSelection = () => setSelectedKanjis([]);
 
-  if (inSectionPath)
-    return (
-      <div className="controlPanel">
-        {section === 'main' ? (
-          inSectionPath !== 'selected' ? (
-            <>
-              <p>{`выделено ${
-                displayedKanjis ? getCountOfKanjisInList(selectedKanjis, displayedKanjis) : '?'
-              } из ${displayedKanjis?.length}`}</p>
-              {displayedKanjis && isKanjisInList(selectedKanjis, displayedKanjis) ? (
-                <button onClick={deselectDisplayed}>снять выделение</button>
-              ) : (
-                <button onClick={selectDisplayed}>выделить всё</button>
-              )}
-            </>
+  const getSelectedCount = () =>
+    displayedKanjis && getCountOfKanjisInList(selectedKanjis, displayedKanjis);
+
+  const isAllSelected = () => displayedKanjis && isKanjisInList(selectedKanjis, displayedKanjis);
+
+  switch (section) {
+    case 'popular':
+    case 'saved':
+    case 'search':
+      return (
+        <div className="controlPanel">
+          <p>{`выделено ${displayedKanjis ? getSelectedCount() : '?'} из ${
+            displayedKanjis?.length
+          }`}</p>
+          {isAllSelected() ? (
+            <button onClick={deselectAll}>снять выделение</button>
           ) : (
-            <>
-              <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
-              <button onClick={clearSelection}>очистить список</button>
-            </>
-          )
-        ) : section === 'learn' ? (
+            <button onClick={selectAll}>выделить всё</button>
+          )}
+        </div>
+      );
+
+    case 'selected':
+      return (
+        <div className="controlPanel">
+          <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
+          <button onClick={clearSelection}>очистить список</button>
+        </div>
+      );
+
+    case 'learn':
+      return (
+        <div className="controlPanel">
           <p style={{ textAlign: 'center' }}>
             Используйте стрелки для перемещения. Пробел переворачивает карточку
           </p>
-        ) : (
-          <></>
-        )}
-      </div>
-    );
-  else return null;
+        </div>
+      );
+
+    default:
+      return (
+        <div className="controlPanel">
+          <p>EasyKanji</p>
+          <Link to="/feedback">Оставить отзыв</Link>
+        </div>
+      );
+  }
 };
 export default ControlPanel;

@@ -1,22 +1,21 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import globalContext from '../../contexts/globalContext';
+import { Link, useLocation } from 'react-router-dom';
 import UserButton from './UserButton';
 
 const Header = () => {
-  const { section } = useContext(globalContext);
+  const location = useLocation();
 
   return (
     <header>
       <Link className="siteTitle" to="/popular" role="banner">
         EasyKanji
       </Link>
-      {section === 'learn' ? (
-        <Link className="learnButton" to="/popular">
+      {location.pathname.split('/')[1] === 'learn' ? (
+        <Link className="learnButton" to={location.state?.from ?? '/popular'}>
           Закончить обучение
         </Link>
       ) : (
-        <Link className="learnButton" to="/learn/by-meaning">
+        <Link className="learnButton" to="/learn/by-meaning" state={{ from: location.pathname }}>
           Режим обучения
         </Link>
       )}

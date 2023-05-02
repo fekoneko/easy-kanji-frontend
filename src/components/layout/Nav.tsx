@@ -1,13 +1,12 @@
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-import globalContext from '../../contexts/globalContext';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Nav = () => {
-  const { section } = useContext(globalContext);
+  const location = useLocation();
 
   return (
     <nav role="navigation">
-      {section === 'learn' ? (
+      {location.pathname.split('/')[1] === 'learn' ? (
         <>
           <NavLink to="/learn/by-meaning">По значению</NavLink>
           <NavLink to="/learn/by-writing">По написанию</NavLink>

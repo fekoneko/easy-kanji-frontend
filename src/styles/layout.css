@@ -116,10 +116,12 @@
   }
   footer .controlPanel {
     display: flex;
-    justify-content: space-between;
   }
-  .controlPanel p {
+  .controlPanel > :first-child {
     flex-grow: 1;
+  }
+  .controlPanel a {
+    color: inherit;
   }
   .controlPanel button {
     border: none;
