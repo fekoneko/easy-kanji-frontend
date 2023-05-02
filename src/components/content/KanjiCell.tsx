@@ -14,9 +14,10 @@ type KanjiCellProps = {
   kanji: Kanji;
   focus?: boolean;
   setFocus?: () => any;
+  detailedMode?: boolean;
 };
 
-const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
+const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => {
   const { selectedKanjis, setSelectedKanjis, savedKanjis, setSavedKanjis } =
     useContext(kanjiContext);
   const cellButtonRef = useRef<HTMLButtonElement>(null);
@@ -93,7 +94,15 @@ const KanjiCell = ({ kanji, focus, setFocus }: KanjiCellProps) => {
           }}
         >
           <p className="kanjiWriting">{kanji.writing}</p>
-          <p className="kanjiMeaning">{kanji.meaning}</p>
+          <div>
+            <p className="kanjiMeaning">{kanji.meaning}</p>
+            {detailedMode && (
+              <>
+                <p className="kanjiOnReadings">{kanji.onReadings.join('、')}</p>
+                <p className="kanjiKunReadings">{kanji.kunReadings.join('、')}</p>
+              </>
+            )}
+          </div>
         </button>
         <ControlButton
           shown={focus || showControls || kanjiSaved}

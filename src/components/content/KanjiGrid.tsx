@@ -12,6 +12,7 @@ type KanjiGridProps = {
   kanjis: Kanji[];
   maxCellWidth?: number;
   maxColumns?: number;
+  detailedMode?: boolean;
   kanjiChoiceMode?: boolean;
   chosenKanji?: Kanji | null;
   setChosenKanji?: Dispatch<SetStateAction<Kanji | null>>;
@@ -21,6 +22,7 @@ const KanjiGrid = ({
   kanjis,
   maxCellWidth,
   maxColumns,
+  detailedMode,
   kanjiChoiceMode,
   chosenKanji,
   setChosenKanji,
@@ -100,6 +102,7 @@ const KanjiGrid = ({
             kanji={kanji}
             focus={focusIndex === index}
             setFocus={() => setFocusIndex(index)}
+            detailedMode={detailedMode}
             chosenKanji={chosenKanji}
             setChosenKanji={setChosenKanji}
           />
@@ -109,6 +112,7 @@ const KanjiGrid = ({
             kanji={kanji}
             focus={focusIndex === index}
             setFocus={() => setFocusIndex(index)}
+            detailedMode={detailedMode}
           />
         )
       )}

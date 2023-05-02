@@ -5,6 +5,7 @@ type KanjiChoiceCellProps = {
   kanji: Kanji;
   focus?: boolean;
   setFocus?: () => any;
+  detailedMode?: boolean;
   chosenKanji?: Kanji | null;
   setChosenKanji?: Dispatch<SetStateAction<Kanji | null>>;
 };
@@ -13,6 +14,7 @@ const KanjiChoiceCell = ({
   kanji,
   focus,
   setFocus,
+  detailedMode,
   chosenKanji,
   setChosenKanji,
 }: KanjiChoiceCellProps) => {
@@ -39,8 +41,12 @@ const KanjiChoiceCell = ({
         <p className="kanjiWriting">{kanji.writing}</p>
         <div>
           <p className="kanjiMeaning">{kanji.meaning}</p>
-          <p className="kanjiOnReadings">{kanji.onReadings.join('、')}</p>
-          <p className="kanjiKunReadings">{kanji.kunReadings.join('、')}</p>
+          {detailedMode && (
+            <>
+              <p className="kanjiOnReadings">{kanji.onReadings.join('、')}</p>
+              <p className="kanjiKunReadings">{kanji.kunReadings.join('、')}</p>
+            </>
+          )}
         </div>
       </button>
     </div>

@@ -60,4 +60,16 @@
     font-size: 1.2rem;
     line-height: 2rem;
   }
+
+  .hintIcon {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+  }
+  .hintIcon > svg {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+  }
 }

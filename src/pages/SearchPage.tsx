@@ -7,8 +7,8 @@ import { useSearchParams } from 'react-router-dom';
 
 const SearchPage = () => {
   const { searchKanjis, setSearchKanjis } = useContext(kanjiContext);
-  const [searchRequest, setSearchRequest] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
 
   useEffect(() => {
     const updateSearchKanjis = async () => {
@@ -37,7 +37,7 @@ const SearchPage = () => {
       <h1>Поиск кандзи</h1>
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
       {searchKanjis.length > 0 ? (
-        <KanjiGrid kanjis={searchKanjis} />
+        <KanjiGrid kanjis={searchKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
       ) : (
         <div className="contentPlaceholder">
           {searchRequest.length > 0 ? (

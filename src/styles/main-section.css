@@ -38,4 +38,10 @@
   .kanjiCell .kanjiKunReadings {
     font-size: 0.8rem;
   }
+
+  .searchForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }

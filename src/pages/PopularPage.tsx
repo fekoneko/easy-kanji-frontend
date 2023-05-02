@@ -27,7 +27,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
     <div className="scrollContent">
       <h1>Популярные кандзи</h1>
       {popularKanjis.length > 0 ? (
-        <KanjiGrid kanjis={popularKanjis} maxCellWidth={200} maxColumns={3} />
+        <KanjiGrid kanjis={popularKanjis} maxCellWidth={280} maxColumns={3} />
       ) : (
         <div className="contentPlaceholder">
           <p>Тут пока ничего нет</p>

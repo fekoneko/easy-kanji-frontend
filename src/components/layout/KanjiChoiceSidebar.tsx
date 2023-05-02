@@ -14,7 +14,7 @@ type KanjiSelectionSidebarProps = {
   setChosenKanji: Dispatch<SetStateAction<Kanji | null>>;
 };
 
-const KanjiSelectionSidebar = ({
+const KanjiChoiceSidebar = ({
   kanjis,
   setKanjis,
   chosenKanji,
@@ -50,6 +50,7 @@ const KanjiSelectionSidebar = ({
             kanjiChoiceMode
             chosenKanji={chosenKanji}
             setChosenKanji={setChosenKanji}
+            detailedMode
           />
         </div>
       ) : (
@@ -60,4 +61,4 @@ const KanjiSelectionSidebar = ({
     </aside>
   );
 };
-export default KanjiSelectionSidebar;
+export default KanjiChoiceSidebar;

@@ -3,8 +3,8 @@ import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as TooltipPointer } from '../../assets/tooltipPointer.svg';
 import useOnClick from '../../hooks/useOnClick';
 
-type TooltipProps<T extends HTMLElement = HTMLElement> = {
-  anchorRef: RefObject<T>;
+type TooltipProps = {
+  anchorRef: RefObject<HTMLElement>;
   shown?: boolean;
   handleClose?: () => any;
   className?: string;

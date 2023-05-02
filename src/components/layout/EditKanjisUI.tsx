@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
-import KanjiSelectionSidebar from './KanjiSelectionSidebar';
+import KanjiChoiceSidebar from './KanjiChoiceSidebar';
 import EditKanjiForm from '../forms/EditKanjiForm';
 
 export type PublicListName = 'popular';
@@ -18,7 +18,7 @@ const EditKanjisUI = () => {
         <Route
           path={'popular'}
           element={
-            <KanjiSelectionSidebar
+            <KanjiChoiceSidebar
               kanjis={popularKanjis}
               setKanjis={setPopularKanjis}
               chosenKanji={chosenKanji}
