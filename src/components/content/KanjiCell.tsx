@@ -9,6 +9,9 @@ import { ReactComponent as KanjiSavedIcon } from '../../assets/kanjiSaved.svg';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import useOnClick from '../../hooks/useOnClick';
 import usersApi from '../../api/usersApi';
+import ProtectedContent from './ProtectedContent';
+import useModal from '../../hooks/useModal';
+import AuthModal from '../modals/AuthModal';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -20,9 +23,10 @@ type KanjiCellProps = {
 const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => {
   const { selectedKanjis, setSelectedKanjis, savedKanjis, setSavedKanjis } =
     useContext(kanjiContext);
+  const { showModal } = useModal();
   const cellButtonRef = useRef<HTMLButtonElement>(null);
   const [tooltipShown, setTooltipShown] = useState(false);
-  const showTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const showTimeoutRef = useRef<number | null>(null);
   const [showControls, setShowControls] = useState(false);
   const kanjiSaved = useMemo(() => isKanjiInList(savedKanjis, kanji), [savedKanjis]);
   const kanjiSelected = useMemo(() => isKanjiInList(selectedKanjis, kanji), [selectedKanjis]);
@@ -31,9 +35,14 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
 
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 
-  const saveKanji = () => {
-    if (kanjiSaved) usersApi.removeKanjisFromSaved([kanji.id]);
-    else usersApi.saveKanjis([kanji.id]);
+  const saveKanji = async () => {
+    if (kanjiSaved) {
+      const removeSuccess = await usersApi.removeKanjisFromSaved([kanji.id]);
+      if (!removeSuccess) return;
+    } else {
+      const saveSuccess = await usersApi.saveKanjis([kanji.id]);
+      if (!saveSuccess) return;
+    }
     changeKanjiInList(setSavedKanjis, kanji);
   };
 
@@ -104,16 +113,32 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
             )}
           </div>
         </button>
-        <ControlButton
-          shown={focus || showControls || kanjiSaved}
-          title={kanjiSaved ? 'Удалить из сохранённых' : 'Сохранить кандзи'}
-          action={(e) => {
-            cellButtonRef.current?.focus();
-            saveKanji();
-          }}
+        <ProtectedContent
+          allowedRoles={['Admin']}
+          placeholder={
+            <ControlButton
+              shown={focus || showControls || kanjiSaved}
+              title={'Войдите, чтобы сохранять кандзи'}
+              action={() => {
+                cellButtonRef.current?.focus();
+                showModal(<AuthModal />);
+              }}
+            >
+              {kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
+            </ControlButton>
+          }
         >
-          {kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
-        </ControlButton>
+          <ControlButton
+            shown={focus || showControls || kanjiSaved}
+            title={kanjiSaved ? 'Удалить из сохранённых' : 'Сохранить кандзи'}
+            action={() => {
+              cellButtonRef.current?.focus();
+              saveKanji();
+            }}
+          >
+            {kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
+          </ControlButton>
+        </ProtectedContent>
       </div>
       <Tooltip
         shown={tooltipShown}
