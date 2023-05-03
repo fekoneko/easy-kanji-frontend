@@ -3,6 +3,7 @@ import Tooltip from '../content/Tooltip';
 import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
+import usePopup from '../../hooks/usePopup';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -30,6 +31,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
 
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
+  const { showPopup } = usePopup();
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
@@ -54,6 +56,8 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   useEffect(() => {
     if (signUpErrorStatus === 400) {
       usernameRef.current?.focus();
+    } else {
+      showPopup('Неизвестная ошибка регистрации');
     }
   }, [signUpErrorStatus]);
 
@@ -168,9 +172,6 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       <button ref={submitRef} type="submit">
         Зарегистрироваться
       </button>
-      <Tooltip shown={!!signUpErrorStatus && signUpErrorStatus !== 400} anchorRef={submitRef}>
-        Неизвестная ошибка регистрации
-      </Tooltip>
     </form>
   );
 };

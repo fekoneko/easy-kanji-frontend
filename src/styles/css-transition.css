@@ -32,23 +32,27 @@
   }
 
   .tooltip-enter,
-  .modalWindowTransition-enter .modalWindow {
+  .modalWindowTransition-enter .modalWindow,
+  .popupMessage-enter {
     transform: translateY(2rem);
     opacity: 0;
   }
   .tooltip-enter-active,
-  .modalWindowTransition-enter-active .modalWindow {
+  .modalWindowTransition-enter-active .modalWindow,
+  .popupMessage-enter-active {
     transform: translateY(0);
     opacity: 1;
     transition: opacity var(--transition-params), transform var(--transition-params);
   }
   .tooltip-exit,
-  .modalWindowTransition-exit .modalWindow {
+  .modalWindowTransition-exit .modalWindow,
+  .popupMessage-exit {
     transform: translateY(0);
     opacity: 1;
   }
   .tooltip-exit-active,
-  .modalWindowTransition-exit-active .modalWindow {
+  .modalWindowTransition-exit-active .modalWindow,
+  .popupMessage-exit-active {
     transform: translateY(2rem);
     opacity: 0;
     transition: opacity var(--transition-params), transform var(--transition-params);

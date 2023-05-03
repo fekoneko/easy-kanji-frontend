@@ -4,11 +4,17 @@ import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
+import useAbortController from '../hooks/useAbortController';
+import usePopup from '../hooks/usePopup';
 
 const SearchPage = () => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
+
+  const [searchErrorStatus, setSearchErrorStatus] = useState<number | null>(null);
+  const abortControllerRef = useAbortController();
+  const { showPopup } = usePopup();
 
   useEffect(() => {
     const updateSearchKanjis = async () => {
@@ -17,7 +23,11 @@ const SearchPage = () => {
         setPageKanjis([]);
         return;
       }
-      const newSearchKanjis = await kanjisApi.searchKanjis(searchParamsRequest);
+      const newSearchKanjis = await kanjisApi.searchKanjis(
+        searchParamsRequest,
+        setSearchErrorStatus,
+        abortControllerRef.current.signal
+      );
       if (!newSearchKanjis) return;
       setPageKanjis(newSearchKanjis);
     };
@@ -31,6 +41,10 @@ const SearchPage = () => {
       return prev;
     });
   }, [searchRequest]);
+
+  useEffect(() => {
+    if (searchErrorStatus) showPopup('Ошибка поиска');
+  }, [searchErrorStatus]);
 
   return (
     <div className="scrollContent">

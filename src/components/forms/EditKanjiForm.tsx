@@ -3,6 +3,7 @@ import TextArrayInputs from './TextArrayInputs';
 import { Kanji } from '../../contexts/kanjiContext';
 import Tooltip from '../content/Tooltip';
 import kanjisApi from '../../api/kanjisApi';
+import usePopup from '../../hooks/usePopup';
 
 type EditKanjiFormProps = {
   initialKanji: Kanji | null;
@@ -17,12 +18,18 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   const [kanjiOnReadings, setKanjOnReadings] = useState<string[]>([]);
   const [kanjiKunReadings, setKanjKunReadings] = useState<string[]>([]);
   const [kanjiMeaning, setKanjMeaning] = useState('');
+
   const submitRef = useRef<HTMLButtonElement>(null);
-  const [editOrAddErrorCode, setEditOrAddErrorCode] = useState<number | null>(null);
+  const [editOrAddErrorStatus, setEditOrAddErrorStatus] = useState<number | null>(null);
+  const { showPopup } = usePopup();
 
   useEffect(() => {
-    setEditOrAddErrorCode(null);
+    setEditOrAddErrorStatus(null);
   }, [kanjiWriting, kanjiOnReadings, kanjiKunReadings, kanjiMeaning]);
+
+  useEffect(() => {
+    if (editOrAddErrorStatus) showPopup('При сохранении возникла ошибка');
+  }, [editOrAddErrorStatus]);
 
   useEffect(() => {
     setKanjWriting(initialKanji?.writing ?? '');
@@ -46,9 +53,9 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
       meaning: kanjiMeaning,
     };
     if (initialKanji) {
-      await kanjisApi.editKanji(initialKanji.id, newKanji, setEditOrAddErrorCode);
+      await kanjisApi.editKanji(initialKanji.id, newKanji, setEditOrAddErrorStatus);
     } else {
-      await kanjisApi.addKanji(newKanji, setEditOrAddErrorCode); // TODO: add to kanji list
+      await kanjisApi.addKanji(newKanji, setEditOrAddErrorStatus); // TODO: add to kanji list
     }
   };
 
@@ -105,9 +112,6 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
       <button type="submit" ref={submitRef}>
         {initialKanji ? 'Изменить' : 'Добавить'}
       </button>
-      <Tooltip shown={!!editOrAddErrorCode} anchorRef={submitRef}>
-        Не удалось сохранить
-      </Tooltip>
     </form>
   );
 };

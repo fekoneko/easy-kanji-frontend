@@ -4,6 +4,8 @@ import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
 import kanjisApi from '../api/kanjisApi';
 import useAuth from '../hooks/useAuth';
 import usersApi from '../api/usersApi';
+import useAbortController from '../hooks/useAbortController';
+import usePopup from '../hooks/usePopup';
 
 export type Kanji = {
   id: number;
@@ -31,6 +33,9 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
 
   const selectedKanjisLoaded = useRef(false);
+  const [getSelectedErrorStatus, setGetSelectedErrorStatus] = useState<number | null>(null);
+  const [getSavedErrorStatus, setGetSavedErrorStatus] = useState<number | null>(null);
+  const { showPopup } = usePopup();
   const { auth } = useAuth();
 
   useEffect(() => {
@@ -42,7 +47,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
       if (newSelectedIds && newSelectedIds.length > 0) {
         const newSelectedKanjis = await kanjisApi.getKanjisByIds(
           newSelectedIds,
-          undefined,
+          setGetSelectedErrorStatus,
           abortController.signal
         );
         if (newSelectedKanjis) addKanjisToList(setSelectedKanjis, newSelectedKanjis);
@@ -72,13 +77,24 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
     const abortController = new AbortController();
 
     const fetchSavedKanjis = async () => {
-      const newSavedKanjis = await usersApi.getSavedKanjis(undefined, abortController.signal);
+      const newSavedKanjis = await usersApi.getSavedKanjis(
+        setGetSavedErrorStatus,
+        abortController.signal
+      );
       if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
     };
     fetchSavedKanjis();
 
     return () => abortController.abort();
   }, [auth]);
+
+  useEffect(() => {
+    if (getSelectedErrorStatus) showPopup('Ошибка загрузки выдененных кандзи');
+  }, [getSelectedErrorStatus]);
+
+  useEffect(() => {
+    if (getSavedErrorStatus) showPopup('Ошибка загрузки сохранённых кандзи');
+  }, [getSavedErrorStatus]);
 
   return (
     <kanjiContext.Provider

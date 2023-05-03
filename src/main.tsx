@@ -6,16 +6,19 @@ import App from './App';
 import { AuthContextProvider } from './contexts/authContext';
 import { ModalContextProvider } from './contexts/modalContext';
 import { KanjiContextProvider } from './contexts/kanjiContext';
+import { PopupContextProvider } from './contexts/popupContext';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <ModalContextProvider>
-          <KanjiContextProvider>
-            <App />
-          </KanjiContextProvider>
-        </ModalContextProvider>
+        <PopupContextProvider>
+          <ModalContextProvider>
+            <KanjiContextProvider>
+              <App />
+            </KanjiContextProvider>
+          </ModalContextProvider>
+        </PopupContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </StrictMode>

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import ModalWindow from '../components/modals/ModalWindow';
+import ModalWindow from '../components/overlays/ModalWindow';
 
 export type ShowModalFunction = (modalContents: ReactNode) => void;
 export type CloseModalFunction = () => void;
@@ -14,11 +14,11 @@ const modalContext = createContext({} as ModalContextValue);
 
 export const ModalContextProvider = ({ children }: ModalContextProviderProps) => {
   const [modalWindowShown, setModalWindowShown] = useState(false);
-  const [modalContents, setModalContents] = useState<ReactNode>(null);
+  const [modalContent, setModalContent] = useState<ReactNode>(null);
 
-  const showModal: ShowModalFunction = (modalContents: ReactNode) => {
+  const showModal: ShowModalFunction = (modalContent: ReactNode) => {
     setModalWindowShown(true);
-    setModalContents(modalContents);
+    setModalContent(modalContent);
   };
 
   const closeModal: CloseModalFunction = () => {
@@ -28,7 +28,7 @@ export const ModalContextProvider = ({ children }: ModalContextProviderProps) =>
   return (
     <modalContext.Provider value={{ showModal, closeModal }}>
       {children}
-      <ModalWindow shown={modalWindowShown}>{modalContents}</ModalWindow>
+      <ModalWindow shown={modalWindowShown}>{modalContent}</ModalWindow>
     </modalContext.Provider>
   );
 };

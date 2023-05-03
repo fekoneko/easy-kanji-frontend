@@ -3,6 +3,7 @@ import Tooltip from '../content/Tooltip';
 import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
+import usePopup from '../../hooks/usePopup';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
@@ -23,6 +24,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
 
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
+  const { showPopup } = usePopup();
 
   useEffect(() => {
     if (signInErrorStatus) setSignInErrorStatus(null);
@@ -37,6 +39,8 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       setUsernameValid(true);
       setPasswordValid(false);
       passwordRef.current?.focus();
+    } else {
+      showPopup('Неизвестная ошибка авторизации');
     }
   }, [signInErrorStatus]);
 
@@ -102,12 +106,6 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       <button ref={submitRef} type="submit">
         Войти
       </button>
-      <Tooltip
-        shown={!!signInErrorStatus && ![400, 404].includes(signInErrorStatus)}
-        anchorRef={submitRef}
-      >
-        Неизвестная ошибка авторизации
-      </Tooltip>
     </form>
   );
 };

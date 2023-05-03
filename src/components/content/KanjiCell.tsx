@@ -11,7 +11,7 @@ import useOnClick from '../../hooks/useOnClick';
 import usersApi from '../../api/usersApi';
 import ProtectedContent from './ProtectedContent';
 import useModal from '../../hooks/useModal';
-import AuthModal from '../modals/AuthModal';
+import AuthModal from '../overlays/AuthModal';
 
 type KanjiCellProps = {
   kanji: Kanji;

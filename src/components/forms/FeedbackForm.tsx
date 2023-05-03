@@ -1,11 +1,12 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import feedbackApi from '../../api/feedbackApi';
 import useAuth from '../../hooks/useAuth';
-import Tooltip from '../content/Tooltip';
 import { useNavigate } from 'react-router-dom';
+import usePopup from '../../hooks/usePopup';
 
 const FeedbackForm = () => {
   const { auth } = useAuth();
+  const { showPopup } = usePopup();
   const [feedbackBody, setFeedbackBody] = useState('');
   const [feedbackEmail, setFeedbackEmail] = useState('');
   const [feedbackAnonimus, setFeedbackAnonimus] = useState(false);
@@ -23,6 +24,10 @@ const FeedbackForm = () => {
     );
     navigate('/popular');
   };
+
+  useEffect(() => {
+    if (sendErrorStatus) showPopup('При отпрвке возникла ошибка');
+  }, [sendErrorStatus]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -66,9 +71,6 @@ const FeedbackForm = () => {
       <button ref={submitRef} type="submit">
         Отправить
       </button>
-      <Tooltip shown={!!sendErrorStatus} anchorRef={submitRef}>
-        Ошибка отправки
-      </Tooltip>
     </form>
   );
 };

@@ -3,6 +3,7 @@ import Tooltip from '../content/Tooltip';
 import usersApi, { EditedUserData } from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
+import usePopup from '../../hooks/usePopup';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -39,6 +40,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
 
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
+  const { showPopup } = usePopup();
 
   const validateNewUsername = (): boolean => !newUsername || USERNAME_REGEX.test(newUsername);
   const validateNewPassword = (): boolean => !newPassword || PASSWORD_REGEX.test(newPassword);
@@ -63,6 +65,8 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   useEffect(() => {
     if (editUserErrorStatus === 400) {
       usernameRef.current?.focus();
+    } else {
+      showPopup('При сохранении возникла ошибка');
     }
   }, [editUserErrorStatus]);
 
@@ -216,9 +220,6 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       <button ref={submitRef} type="submit">
         Сохранить изменения
       </button>
-      <Tooltip shown={!!editUserErrorStatus && !usernameOccupied} anchorRef={submitRef}>
-        Ошибка изменения профиля
-      </Tooltip>
     </form>
   );
 };
