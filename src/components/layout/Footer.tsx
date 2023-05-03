@@ -1,17 +1,30 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import {
   removeKanjisFromList,
   isKanjisInList,
   getCountOfKanjisInList,
   addKanjisToList,
+  shuffleKanjiList,
 } from '../../controllers/kanjiController';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { getFromLocalStorage } from '../../controllers/localStorageController';
+import { useEffect } from 'react';
+import { setInLocalStorage } from '../../controllers/localStorageController';
 
 const Footer = () => {
   const location = useLocation();
-  const { pageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const [learnModeShuffle, setLearnModeShuffle] = useState<boolean>(
+    getFromLocalStorage<boolean>('learnModeShuffle') ?? false
+  );
+
+  useEffect(() => {
+    setInLocalStorage('learnModeShuffle', learnModeShuffle);
+    if (learnModeShuffle) shuffleKanjiList(setPageKanjis);
+    else setPageKanjis(selectedKanjis);
+  }, [learnModeShuffle]);
 
   const section = location.pathname.split('/')[1];
 
@@ -54,6 +67,7 @@ const Footer = () => {
           <p style={{ textAlign: 'center' }}>
             Используйте стрелки для перемещения. Пробел переворачивает карточку
           </p>
+          <button onClick={() => setLearnModeShuffle((prev) => !prev)}>Перемешать карточки</button>
         </footer>
       );
 

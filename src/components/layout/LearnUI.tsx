@@ -14,7 +14,7 @@ type LearnUIProps = {
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   const { selectedKanjis } = useContext(kanjiContext);
-  const [pageKanjis, setPageKanjis] = usePageKanjis(selectedKanjis);
+  const [pageKanjis] = usePageKanjis(selectedKanjis);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
   const arrowLeftPressed = useKeyPressed('ArrowLeft');

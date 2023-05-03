@@ -1,14 +1,14 @@
+import { Dispatch, SetStateAction } from 'react';
 import { Kanji } from '../contexts/kanjiContext';
+
+type setKanjiList = Dispatch<SetStateAction<Kanji[]>>;
 
 export const isKanjiInList = (kanjiList: Kanji[], kanji: Kanji): boolean =>
   kanjiList.findIndex((kanjiFromList) => kanjiFromList.id === kanji.id) !== -1;
 
 export const getKanjisIds = (kanjis: Kanji[]): number[] => kanjis.map((kanji) => kanji.id);
 
-export const changeKanjiInList = (
-  setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
-  kanjiToChange: Kanji
-): void => {
+export const changeKanjiInList = (setKanjiList: setKanjiList, kanjiToChange: Kanji): void => {
   setKanjiList((prev) => {
     if (isKanjiInList(prev, kanjiToChange)) {
       return prev.filter((kanji) => kanji.id !== kanjiToChange.id);
@@ -27,20 +27,14 @@ export const getCountOfKanjisInList = (kanjiList: Kanji[], kanjis: Kanji[]): num
   return count;
 };
 
-export const addKanjiToList = (
-  setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
-  kanjiToAdd: Kanji
-): void => {
+export const addKanjiToList = (setKanjiList: setKanjiList, kanjiToAdd: Kanji): void => {
   setKanjiList((prev) => {
     if (isKanjiInList(prev, kanjiToAdd)) return prev;
     return [...prev, kanjiToAdd];
   });
 };
 
-export const addKanjisToList = (
-  setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
-  kanjisToAdd: Kanji[]
-): void => {
+export const addKanjisToList = (setKanjiList: setKanjiList, kanjisToAdd: Kanji[]): void => {
   const noRepetetiveIdsArray = kanjisToAdd.filter(
     (kanjiToSelect, kanjiToSelectIndex) =>
       kanjiToSelectIndex ===
@@ -54,23 +48,30 @@ export const addKanjisToList = (
   });
 };
 
-export const removeKanjiFromList = (
-  setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
-  kanjiToRemove: Kanji
-): void => {
+export const removeKanjiFromList = (setKanjiList: setKanjiList, kanjiToRemove: Kanji): void => {
   setKanjiList((prev) => {
     if (isKanjiInList(prev, kanjiToRemove)) return prev;
     return prev.filter((kanji) => kanji.id !== kanjiToRemove.id);
   });
 };
 
-export const removeKanjisFromList = (
-  setKanjiList: React.Dispatch<React.SetStateAction<Kanji[]>>,
-  kanjisToRemove: Kanji[]
-): void => {
+export const removeKanjisFromList = (setKanjiList: setKanjiList, kanjisToRemove: Kanji[]): void => {
   setKanjiList((prev) =>
     prev.filter((kanjiFromList) =>
       kanjisToRemove.every((kanjiToDeselect) => kanjiToDeselect.id !== kanjiFromList.id)
     )
   );
+};
+
+export const shuffleKanjiList = (setKanjiList: setKanjiList): void => {
+  const shuffleKanjis = (kanjis: Kanji[]): Kanji[] => {
+    const newKanjis = [...kanjis];
+    for (let i = newKanjis.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newKanjis[i], newKanjis[j]] = [newKanjis[j], newKanjis[i]];
+    }
+    return newKanjis;
+  };
+
+  setKanjiList((prev) => shuffleKanjis(prev));
 };

@@ -1,4 +1,4 @@
-export const getFromLocalStorage = <T extends object>(key: string): T | null => {
+export const getFromLocalStorage = <T>(key: string): T | null => {
   const valueJson = localStorage.getItem(key);
   if (!valueJson) return null;
   let value: T;
@@ -10,7 +10,7 @@ export const getFromLocalStorage = <T extends object>(key: string): T | null => 
   }
 };
 
-export const setInLocalStorage = <T extends object>(key: string, value: T): void => {
+export const setInLocalStorage = <T>(key: string, value: T): void => {
   let valueJson: string;
   try {
     valueJson = JSON.stringify(value);
