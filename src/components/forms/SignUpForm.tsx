@@ -54,6 +54,8 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   }, [username, password, confirm]);
 
   useEffect(() => {
+    if (!signUpErrorStatus) return;
+
     if (signUpErrorStatus === 400) {
       usernameRef.current?.focus();
     } else {

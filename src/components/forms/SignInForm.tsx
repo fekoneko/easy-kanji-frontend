@@ -31,6 +31,8 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   }, [username, password]);
 
   useEffect(() => {
+    if (!signInErrorStatus) return;
+
     if (signInErrorStatus === 404) {
       setUsernameValid(false);
       setPasswordValid(true);

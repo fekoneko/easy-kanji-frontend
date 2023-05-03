@@ -63,6 +63,8 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   }, [newUsername, newPassword, confirm]);
 
   useEffect(() => {
+    if (!editUserErrorStatus) return;
+
     if (editUserErrorStatus === 400) {
       usernameRef.current?.focus();
     } else {
