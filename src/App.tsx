@@ -18,67 +18,12 @@ import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
 import EditKanjisPage from './pages/EditKanjisPage';
 import EditUserPage from './pages/EditUserPage';
-import { useContext, useEffect, useRef } from 'react';
-import { getFromLocalStorage, setInLocalStorage } from './controllers/localStorageController';
-import kanjisApi from './api/kanjisApi';
-import { addKanjisToList, getKanjisIds } from './controllers/kanjiController';
-import usersApi from './api/usersApi';
-import useAuth from './hooks/useAuth';
+import { useRef } from 'react';
 
 const App = () => {
   const mainRef = useRef<HTMLElement>(null);
-  const selectedKanjisLoaded = useRef(false);
-  const { selectedKanjis, setSelectedKanjis, setSavedKanjis } = useContext(kanjiContext);
-  const { auth } = useAuth();
 
   useAxiosInterceptors();
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const loadSelectedKanjis = async () => {
-      selectedKanjisLoaded.current = false;
-      const newSelectedIds = getFromLocalStorage<number[]>('selected');
-      if (newSelectedIds && newSelectedIds.length > 0) {
-        const newSelectedKanjis = await kanjisApi.getKanjisByIds(
-          newSelectedIds,
-          undefined,
-          abortController.signal
-        );
-        if (newSelectedKanjis) addKanjisToList(setSelectedKanjis, newSelectedKanjis);
-      }
-      selectedKanjisLoaded.current = true;
-    };
-    loadSelectedKanjis();
-
-    return () => {
-      abortController.abort();
-      selectedKanjisLoaded.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!selectedKanjisLoaded.current) return;
-
-    const saveSelectedKanjis = () => {
-      const selectedKanjisIds = getKanjisIds(selectedKanjis);
-      setInLocalStorage('selected', selectedKanjisIds);
-    };
-    saveSelectedKanjis();
-  }, [selectedKanjis]);
-
-  useEffect(() => {
-    if (!auth) return;
-    const abortController = new AbortController();
-
-    const fetchSavedKanjis = async () => {
-      const newSavedKanjis = await usersApi.getSavedKanjis(undefined, abortController.signal);
-      if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
-    };
-    fetchSavedKanjis();
-
-    return () => abortController.abort();
-  }, [auth]);
 
   return (
     <div className="App">
