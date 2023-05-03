@@ -1,10 +1,17 @@
-import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { getFromLocalStorage, setInLocalStorage } from '../controllers/localStorageController';
 import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
 import kanjisApi from '../api/kanjisApi';
 import useAuth from '../hooks/useAuth';
 import usersApi from '../api/usersApi';
-import useAbortController from '../hooks/useAbortController';
 import usePopup from '../hooks/usePopup';
 
 export type Kanji = {
@@ -15,24 +22,29 @@ export type Kanji = {
   meaning: string;
 };
 
-type KanjiContext = {
+type KanjiContextValue = {
   pageKanjis: Kanji[];
-  setPageKanjis: React.Dispatch<React.SetStateAction<Kanji[]>>;
+  setPageKanjis: Dispatch<SetStateAction<Kanji[]>>;
   savedKanjis: Kanji[];
-  setSavedKanjis: React.Dispatch<React.SetStateAction<Kanji[]>>;
+  setSavedKanjis: Dispatch<SetStateAction<Kanji[]>>;
   selectedKanjis: Kanji[];
-  setSelectedKanjis: React.Dispatch<React.SetStateAction<Kanji[]>>;
+  setSelectedKanjis: Dispatch<SetStateAction<Kanji[]>>;
+
+  savedKanjisLoading: boolean;
+  selectedKanjisLoading: boolean;
 };
 type KanjiContextProviderProps = { children: ReactNode };
 
-const kanjiContext = createContext({} as KanjiContext);
+const kanjiContext = createContext({} as KanjiContextValue);
 
 export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) => {
   const [pageKanjis, setPageKanjis] = useState<Kanji[]>([]);
   const [savedKanjis, setSavedKanjis] = useState<Kanji[]>([]);
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
 
-  const selectedKanjisLoaded = useRef(false);
+  const [savedKanjisLoading, setSavedKanjisLoading] = useState(false);
+  const [selectedKanjisLoading, setSelectedKanjisLoading] = useState(true);
+
   const [getSelectedErrorStatus, setGetSelectedErrorStatus] = useState<number | null>(null);
   const [getSavedErrorStatus, setGetSavedErrorStatus] = useState<number | null>(null);
   const { showPopup } = usePopup();
@@ -42,35 +54,34 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
     const abortController = new AbortController();
 
     const loadSelectedKanjis = async () => {
-      selectedKanjisLoaded.current = false;
       const newSelectedIds = getFromLocalStorage<number[]>('selected');
       if (newSelectedIds && newSelectedIds.length > 0) {
         const newSelectedKanjis = await kanjisApi.getKanjisByIds(
           newSelectedIds,
           setGetSelectedErrorStatus,
+          setSelectedKanjisLoading,
           abortController.signal
         );
         if (newSelectedKanjis) addKanjisToList(setSelectedKanjis, newSelectedKanjis);
       }
-      selectedKanjisLoaded.current = true;
     };
     loadSelectedKanjis();
 
     return () => {
       abortController.abort();
-      selectedKanjisLoaded.current = false;
+      setSelectedKanjisLoading(false);
     };
   }, []);
 
   useEffect(() => {
-    if (!selectedKanjisLoaded.current) return;
+    if (selectedKanjisLoading) return;
 
     const saveSelectedKanjis = () => {
       const selectedKanjisIds = getKanjisIds(selectedKanjis);
       setInLocalStorage('selected', selectedKanjisIds);
     };
     saveSelectedKanjis();
-  }, [selectedKanjis]);
+  }, [selectedKanjis, selectedKanjisLoading]);
 
   useEffect(() => {
     if (!auth) return;
@@ -79,13 +90,17 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
     const fetchSavedKanjis = async () => {
       const newSavedKanjis = await usersApi.getSavedKanjis(
         setGetSavedErrorStatus,
+        setSavedKanjisLoading,
         abortController.signal
       );
       if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
     };
     fetchSavedKanjis();
 
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+      setSavedKanjisLoading(false);
+    };
   }, [auth]);
 
   useEffect(() => {
@@ -105,6 +120,9 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
         setSavedKanjis,
         selectedKanjis,
         setSelectedKanjis,
+
+        selectedKanjisLoading,
+        savedKanjisLoading,
       }}
     >
       {children}

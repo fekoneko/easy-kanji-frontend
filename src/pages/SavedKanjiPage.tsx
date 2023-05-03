@@ -3,9 +3,10 @@ import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
+import LoadingSpinner from '../components/animations/LoadingSpinner';
 
 const SavedKanjiPage = () => {
-  const { savedKanjis } = useContext(kanjiContext);
+  const { savedKanjis, savedKanjisLoading } = useContext(kanjiContext);
   usePageKanjis(savedKanjis);
 
   return (
@@ -13,6 +14,10 @@ const SavedKanjiPage = () => {
       <h1>Сохранённые кандзи</h1>
       {savedKanjis.length > 0 ? (
         <KanjiGrid kanjis={savedKanjis} />
+      ) : savedKanjisLoading ? (
+        <div className="contentPlaceholder">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div className="contentPlaceholder">
           <p>Вы пока не сохранили ни одного Кандзи</p>

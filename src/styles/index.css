@@ -9,6 +9,8 @@
 @import url(overlays.css);
 @import url(css-transition.css);
 
+@import url(animations/loading-spinner.css);
+
 :root {
   --bg-color: white;
   --app-padding: 15%;
@@ -21,6 +23,7 @@
   --disabled-bg-color: #eeeeee;
   --selected-cell-color: #d6d9ff;
   --popup-bg-color: #eb6886;
+  --invalid-field-color: #eb6886;
   --popup-text-color: black;
   --popup-border-style: 2px solid #751a2f;
   --a-color: var(--primary-color);

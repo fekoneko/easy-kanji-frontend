@@ -1,9 +1,12 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import TextArrayInputs from './TextArrayInputs';
-import { Kanji } from '../../contexts/kanjiContext';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import Tooltip from '../content/Tooltip';
 import kanjisApi from '../../api/kanjisApi';
 import usePopup from '../../hooks/usePopup';
+import { editKanjiInList } from '../../controllers/kanjiController';
+import useAbortController from '../../hooks/useAbortController';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 type EditKanjiFormProps = {
   initialKanji: Kanji | null;
@@ -21,7 +24,10 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
 
   const submitRef = useRef<HTMLButtonElement>(null);
   const [editOrAddErrorStatus, setEditOrAddErrorStatus] = useState<number | null>(null);
+  const abortControllerRef = useAbortController();
+  const [loading, setLoading] = useState(false);
   const { showPopup } = usePopup();
+  const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
 
   useEffect(() => {
     setEditOrAddErrorStatus(null);
@@ -36,6 +42,8 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
     setKanjOnReadings(initialKanji?.onReadings ?? []);
     setKanjKunReadings(initialKanji?.kunReadings ?? []);
     setKanjMeaning(initialKanji?.meaning ?? '');
+
+    setLoading(false);
   }, [initialKanji]);
 
   useEffect(() => {
@@ -46,16 +54,32 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
     e.preventDefault();
 
     const newKanji: Kanji = {
-      id: -1,
+      id: initialKanji?.id ?? -1,
       writing: kanjiWriting,
       onReadings: kanjiOnReadings,
       kunReadings: kanjiKunReadings,
       meaning: kanjiMeaning,
     };
     if (initialKanji) {
-      await kanjisApi.editKanji(initialKanji.id, newKanji, setEditOrAddErrorStatus);
+      const editSuccess = await kanjisApi.editKanji(
+        initialKanji.id,
+        newKanji,
+        setEditOrAddErrorStatus,
+        setLoading,
+        abortControllerRef.current.signal
+      );
+
+      if (!editSuccess) return;
+      editKanjiInList(setPageKanjis, newKanji);
+      editKanjiInList(setSavedKanjis, newKanji);
+      editKanjiInList(setSelectedKanjis, newKanji);
     } else {
-      await kanjisApi.addKanji(newKanji, setEditOrAddErrorStatus); // TODO: add to kanji list
+      await kanjisApi.addKanji(
+        newKanji,
+        setEditOrAddErrorStatus,
+        setLoading,
+        abortControllerRef.current.signal
+      );
     }
   };
 
@@ -110,7 +134,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
       />
 
       <button type="submit" ref={submitRef}>
-        {initialKanji ? 'Изменить' : 'Добавить'}
+        {loading ? <LoadingSpinner /> : initialKanji ? 'Изменить' : 'Добавить'}
       </button>
     </form>
   );

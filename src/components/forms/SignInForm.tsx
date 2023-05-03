@@ -4,6 +4,7 @@ import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
@@ -16,13 +17,14 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const [password, setPassword] = useState<string>('');
   const [passwordValid, setPasswordValid] = useState<boolean>(true);
   const [passwordFocus, setPasswordFocus] = useState<boolean>(false);
-  const [signInErrorStatus, setSignInErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [signInErrorStatus, setSignInErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
   const { showPopup } = usePopup();
 
@@ -54,6 +56,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       username,
       password,
       setSignInErrorStatus,
+      setLoading,
       abortControllerRef.current.signal
     );
     if (!newAuth) return;
@@ -106,7 +109,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        Войти
+        {loading ? <LoadingSpinner /> : 'Войти'}
       </button>
     </form>
   );

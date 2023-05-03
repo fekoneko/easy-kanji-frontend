@@ -4,6 +4,7 @@ import usersApi, { EditedUserData } from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -30,7 +31,6 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   const [confirm, setConfirm] = useState<string>('');
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
-  const [editUserErrorStatus, setEditUserErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const oldPasswordRef = useRef<HTMLInputElement>(null);
@@ -40,6 +40,8 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
 
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
+  const [editUserErrorStatus, setEditUserErrorStatus] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
   const { showPopup } = usePopup();
 
   const validateNewUsername = (): boolean => !newUsername || USERNAME_REGEX.test(newUsername);
@@ -94,6 +96,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         oldPassword,
         editedData,
         setEditUserErrorStatus,
+        setLoading,
         abortControllerRef.current.signal
       );
       if (!userEditSuccess) return;
@@ -103,6 +106,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         newUsername,
         !!newPassword ? newPassword : oldPassword,
         undefined,
+        setLoading,
         abortControllerRef.current.signal
       );
       setAuth(newAuth);
@@ -220,7 +224,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        Сохранить изменения
+        {loading ? <LoadingSpinner /> : 'Сохранить изменения'}
       </button>
     </form>
   );

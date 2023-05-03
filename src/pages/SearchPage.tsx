@@ -4,34 +4,47 @@ import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
-import useAbortController from '../hooks/useAbortController';
 import usePopup from '../hooks/usePopup';
+import LoadingSpinner from '../components/animations/LoadingSpinner';
 
 const SearchPage = () => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
 
+  const [loading, setLoading] = useState(false);
   const [searchErrorStatus, setSearchErrorStatus] = useState<number | null>(null);
-  const abortControllerRef = useAbortController();
   const { showPopup } = usePopup();
 
   useEffect(() => {
+    setSearchErrorStatus(null);
+  }, [searchRequest]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
     const updateSearchKanjis = async () => {
       const searchParamsRequest = searchParams.get('s');
       if (!searchParamsRequest) {
         setPageKanjis([]);
         return;
       }
+
       const newSearchKanjis = await kanjisApi.searchKanjis(
         searchParamsRequest,
         setSearchErrorStatus,
-        abortControllerRef.current.signal
+        setLoading,
+        abortController.signal
       );
+
       if (!newSearchKanjis) return;
       setPageKanjis(newSearchKanjis);
     };
     updateSearchKanjis();
+    return () => {
+      abortController.abort();
+      setLoading(false);
+    };
   }, [searchParams]);
 
   useEffect(() => {
@@ -52,6 +65,10 @@ const SearchPage = () => {
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
       {pageKanjis.length > 0 ? (
         <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
+      ) : loading ? (
+        <div className="contentPlaceholder">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div className="contentPlaceholder">
           {searchRequest.length > 0 ? (

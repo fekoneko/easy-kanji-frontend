@@ -14,6 +14,14 @@ const FeedbackForm = () => {
   const submitRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setSendErrorStatus(null);
+  }, [feedbackBody, feedbackEmail, feedbackAnonimus, auth?.username]);
+
+  useEffect(() => {
+    if (sendErrorStatus) showPopup('При отпрвке возникла ошибка');
+  }, [sendErrorStatus]);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     feedbackApi.send(
@@ -24,10 +32,6 @@ const FeedbackForm = () => {
     );
     navigate('/popular');
   };
-
-  useEffect(() => {
-    if (sendErrorStatus) showPopup('При отпрвке возникла ошибка');
-  }, [sendErrorStatus]);
 
   return (
     <form onSubmit={handleSubmit}>

@@ -5,9 +5,7 @@ import KanjiChoiceSidebar from './KanjiChoiceSidebar';
 import EditKanjiForm from '../forms/EditKanjiForm';
 import usePageKanjis from '../../hooks/usePageKanjis';
 
-export type PublicListName = 'popular';
-
-export const PUBLIC_LIST_NAMES = ['popular']; // TODO Move it somwere
+export const KANJI_LIST_NAMES = ['popular']; // TODO Move it somwere
 
 const EditKanjisUI = () => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();

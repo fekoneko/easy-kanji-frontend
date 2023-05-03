@@ -18,6 +18,10 @@ export const changeKanjiInList = (setKanjiList: setKanjiList, kanjiToChange: Kan
   });
 };
 
+export const editKanjiInList = (setKanjiList: setKanjiList, editedKanji: Kanji): void => {
+  setKanjiList((prev) => prev.map((kanji) => (kanji.id === editedKanji.id ? editedKanji : kanji)));
+};
+
 export const isKanjisInList = (kanjiList: Kanji[], kanjis: Kanji[]): boolean =>
   kanjis.every((kanji) => isKanjiInList(kanjiList, kanji));
 
@@ -49,10 +53,7 @@ export const addKanjisToList = (setKanjiList: setKanjiList, kanjisToAdd: Kanji[]
 };
 
 export const removeKanjiFromList = (setKanjiList: setKanjiList, kanjiToRemove: Kanji): void => {
-  setKanjiList((prev) => {
-    if (isKanjiInList(prev, kanjiToRemove)) return prev;
-    return prev.filter((kanji) => kanji.id !== kanjiToRemove.id);
-  });
+  setKanjiList((prev) => prev.filter((kanji) => kanji.id !== kanjiToRemove.id));
 };
 
 export const removeKanjisFromList = (setKanjiList: setKanjiList, kanjisToRemove: Kanji[]): void => {

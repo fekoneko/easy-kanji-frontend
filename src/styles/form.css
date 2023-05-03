@@ -59,7 +59,7 @@
 
   textarea[aria-invalid='true'],
   input[aria-invalid='true'] {
-    border-color: var(--hint-color) !important;
+    border-color: var(--invalid-field-color) !important;
   }
 
   button,
@@ -127,20 +127,28 @@
     border: none;
   }
 
+  button .loadingSpinner {
+    zoom: 0.4;
+  }
+
   .controlButton {
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 2rem;
-    height: 2rem;
+    width: 2.1rem;
+    height: 2.1rem;
     border: none !important;
     background-color: transparent !important;
     padding: 0.5rem;
   }
-  .controlButton > * {
+  .controlButton > svg {
     fill: var(--primary-text-color);
   }
-  .controlButton:hover > * {
+  .controlButton:hover > svg {
     fill: var(--primary-color);
+  }
+  .controlButton:has(.loadingSpinner) {
+    padding: 0;
   }
 
   .kanjiWritingInput {

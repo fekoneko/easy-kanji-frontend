@@ -1,11 +1,13 @@
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import KanjiGrid from '../content/KanjiGrid';
-import { PUBLIC_LIST_NAMES } from './EditKanjisUI';
+import { KANJI_LIST_NAMES } from './EditKanjisUI';
 import { NavLink } from 'react-router-dom';
 import useDynamicScroll from '../../hooks/useDynamicScroll';
 import kanjisApi from '../../api/kanjisApi';
 import useAbortController from '../../hooks/useAbortController';
+import usePopup from '../../hooks/usePopup';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
@@ -21,6 +23,9 @@ const KanjiChoiceSidebar = ({
   setChosenKanji,
 }: KanjiSelectionSidebarProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { showPopup } = usePopup();
+  const [loading, setLoading] = useState(false);
+  const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
 
   useDynamicScroll(scrollContainerRef, kanjis, setKanjis, (startIndex, endIndex) =>
@@ -28,17 +33,22 @@ const KanjiChoiceSidebar = ({
       'popular',
       startIndex,
       endIndex,
-      undefined,
+      setGetKanjisErrorStatus,
+      setLoading,
       abortControllerRef.current.signal
     )
   );
 
+  useEffect(() => {
+    if (getKanjisErrorStatus) showPopup('Ошибка загрузки');
+  }, [getKanjisErrorStatus]);
+
   return (
     <aside>
       <nav>
-        {PUBLIC_LIST_NAMES.map((listName, index) => (
+        {KANJI_LIST_NAMES.map((listName, index) => (
           <NavLink to={`/edit/${listName}`} key={index}>
-            Популярные
+            {listName}
           </NavLink>
         ))}
       </nav>
@@ -52,6 +62,10 @@ const KanjiChoiceSidebar = ({
             setChosenKanji={setChosenKanji}
             detailedMode
           />
+        </div>
+      ) : loading ? (
+        <div className="contentPlaceholder">
+          <LoadingSpinner />
         </div>
       ) : (
         <div className="contentPlaceholder">

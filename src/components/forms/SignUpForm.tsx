@@ -4,6 +4,7 @@ import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -22,7 +23,6 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const [confirm, setConfirm] = useState<string>('');
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
-  const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -30,6 +30,8 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
   const { showPopup } = usePopup();
 
@@ -77,6 +79,8 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         password,
         setSignUpErrorStatus,
         undefined,
+        setLoading,
+        setLoading,
         abortControllerRef.current.signal
       );
       if (!newAuth) return;
@@ -172,7 +176,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        Зарегистрироваться
+        {loading ? <LoadingSpinner /> : 'Зарегистрироваться'}
       </button>
     </form>
   );

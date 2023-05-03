@@ -5,6 +5,7 @@ import kanjisApi from '../api/kanjisApi';
 import useAbortController from '../hooks/useAbortController';
 import usePageKanjis from '../hooks/usePageKanjis';
 import usePopup from '../hooks/usePopup';
+import LoadingSpinner from '../components/animations/LoadingSpinner';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -13,6 +14,7 @@ type PopularPageProps = {
 const PopularPage = ({ mainRef }: PopularPageProps) => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const { showPopup } = usePopup();
+  const [loading, setLoading] = useState(false);
   const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
 
@@ -22,6 +24,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
       startIndex,
       endIndex,
       setGetKanjisErrorStatus,
+      setLoading,
       abortControllerRef.current.signal
     )
   );
@@ -35,6 +38,10 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
       <h1>Популярные кандзи</h1>
       {pageKanjis.length > 0 ? (
         <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} />
+      ) : loading ? (
+        <div className="contentPlaceholder">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div className="contentPlaceholder">
           <p>Тут пока ничего нет</p>

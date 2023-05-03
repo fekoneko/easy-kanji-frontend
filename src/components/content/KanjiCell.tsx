@@ -12,6 +12,9 @@ import usersApi from '../../api/usersApi';
 import ProtectedContent from './ProtectedContent';
 import useModal from '../../hooks/useModal';
 import AuthModal from '../overlays/AuthModal';
+import useAbortController from '../../hooks/useAbortController';
+import usePopup from '../../hooks/usePopup';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -33,18 +36,44 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const enterPressed = useKeyPressed('Enter');
   const spacePressed = useKeyPressed(' ');
 
+  const abortControllerRef = useAbortController();
+  const [saveKanjiErrorStatus, setSaveKanjiErrorStatus] = useState<number | null>(null);
+  const [removeKanjiErrorStatus, setRemoveKanjiErrorStatus] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const { showPopup } = usePopup();
+
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 
   const saveKanji = async () => {
+    if (loading) return;
+
     if (kanjiSaved) {
-      const removeSuccess = await usersApi.removeKanjisFromSaved([kanji.id]);
+      const removeSuccess = await usersApi.removeKanjisFromSaved(
+        [kanji.id],
+        setRemoveKanjiErrorStatus,
+        setLoading,
+        abortControllerRef.current.signal
+      );
       if (!removeSuccess) return;
     } else {
-      const saveSuccess = await usersApi.saveKanjis([kanji.id]);
+      const saveSuccess = await usersApi.saveKanjis(
+        [kanji.id],
+        setSaveKanjiErrorStatus,
+        setLoading,
+        abortControllerRef.current.signal
+      );
       if (!saveSuccess) return;
     }
     changeKanjiInList(setSavedKanjis, kanji);
   };
+
+  useEffect(() => {
+    if (saveKanjiErrorStatus) showPopup('Не получилось сохранить кандзи');
+  }, [saveKanjiErrorStatus]);
+
+  useEffect(() => {
+    if (removeKanjiErrorStatus) showPopup('Не получилось удалить кандзи');
+  }, [removeKanjiErrorStatus]);
 
   useOnClick(
     cellButtonRef,
@@ -114,7 +143,6 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
           </div>
         </button>
         <ProtectedContent
-          allowedRoles={['Admin']}
           placeholder={
             <ControlButton
               shown={focus || showControls || kanjiSaved}
@@ -129,14 +157,14 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
           }
         >
           <ControlButton
-            shown={focus || showControls || kanjiSaved}
+            shown={focus || showControls || kanjiSaved || loading}
             title={kanjiSaved ? 'Удалить из сохранённых' : 'Сохранить кандзи'}
             action={() => {
               cellButtonRef.current?.focus();
               saveKanji();
             }}
           >
-            {kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
+            {loading ? <LoadingSpinner /> : kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
           </ControlButton>
         </ProtectedContent>
       </div>

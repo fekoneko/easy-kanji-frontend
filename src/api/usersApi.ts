@@ -1,4 +1,4 @@
-import { catchAxiosErrors, SetErrorStatus } from '../controllers/axiosController';
+import { catchAxiosErrors, SetErrorStatus, SetLoading } from '../controllers/axiosController';
 import { Auth } from '../contexts/authContext';
 import { axiosPrivate, axiosPublic } from './axios';
 import { Kanji } from '../contexts/kanjiContext';
@@ -15,11 +15,13 @@ export default {
     username: string,
     password: string,
     setErrorStatus?: SetErrorStatus,
+    setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<Auth | null> {
     const [responseData] = await catchAxiosErrors<Partial<Auth>>(
       () => axiosPublic.post('/tokens/', { username, password }, { withCredentials: true, signal }),
-      setErrorStatus
+      setErrorStatus,
+      setLoading
     );
     if (
       typeof responseData?.id !== 'number' ||
@@ -41,14 +43,22 @@ export default {
     password: string,
     setRegErrorStatus?: SetErrorStatus,
     setLogErrorStatus?: SetErrorStatus,
+    setRegLoading?: SetLoading,
+    setLogLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<Auth | null> {
     const [responseData, errorStatus] = await catchAxiosErrors<Partial<Auth>>(
       () => axiosPublic.post('/users/', { username, password }, { withCredentials: true, signal }),
-      setRegErrorStatus
+      setRegErrorStatus,
+      setRegLoading
     );
     if (errorStatus) return null;
-    return await this.signIn(responseData?.username ?? username, password, setLogErrorStatus);
+    return await this.signIn(
+      responseData?.username ?? username,
+      password,
+      setLogErrorStatus,
+      setLogLoading
+    );
   },
 
   async editUser(
@@ -56,11 +66,13 @@ export default {
     password: string,
     editedData: EditedUserData,
     setErrorStatus?: SetErrorStatus,
+    setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
       () => axiosPrivate.patch(`/users/${userId}`, editedData, { signal }),
-      setErrorStatus
+      setErrorStatus,
+      setLoading
     );
     // TODO: send password
     return !errorStatus;
@@ -68,11 +80,13 @@ export default {
 
   async getSavedKanjis(
     setErrorStatus?: SetErrorStatus,
+    setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const [responseData] = await catchAxiosErrors(
       () => axiosPrivate.get(`/users/me`, { signal }),
-      setErrorStatus
+      setErrorStatus,
+      setLoading
     );
     const serverKanjis: ServerKanji[] = responseData?.kanjis;
     return serverKanjis && parseServerKanjis(serverKanjis);
@@ -81,11 +95,13 @@ export default {
   async saveKanjis(
     newKanjiIds: number[],
     setErrorStatus?: SetErrorStatus,
+    setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
       () => axiosPrivate.patch(`/users/kanjis/add`, newKanjiIds, { signal }),
-      setErrorStatus
+      setErrorStatus,
+      setLoading
     );
     return !errorStatus;
   },
@@ -93,11 +109,13 @@ export default {
   async removeKanjisFromSaved(
     removeKanjiIds: number[],
     setErrorStatus?: SetErrorStatus,
+    setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
       () => axiosPrivate.patch(`/users/kanjis/remove`, removeKanjiIds, { signal }),
-      setErrorStatus
+      setErrorStatus,
+      setLoading
     );
     return !errorStatus;
   },
