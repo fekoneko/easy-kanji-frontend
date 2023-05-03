@@ -5,10 +5,11 @@ import Tooltip from './Tooltip';
 type InfoHoverProps = {
   tooltipId?: string;
   tooltipAnchorRef?: RefObject<HTMLElement>;
+  caption?: string;
   children?: ReactNode;
 };
 
-const InfoHover = ({ tooltipId, tooltipAnchorRef, children }: InfoHoverProps) => {
+const InfoHover = ({ tooltipId, tooltipAnchorRef, caption, children }: InfoHoverProps) => {
   const infoIconRef = useRef<HTMLButtonElement>(null);
   const [tooltipShown, setTooltipShown] = useState(false);
 
@@ -16,10 +17,11 @@ const InfoHover = ({ tooltipId, tooltipAnchorRef, children }: InfoHoverProps) =>
     <>
       <button
         ref={infoIconRef}
-        className="hintIcon"
+        className="infoHover"
         onMouseEnter={() => setTooltipShown(true)}
         onMouseLeave={() => setTooltipShown(false)}
       >
+        {caption && <p>{caption}</p>}
         <InfoIcon />
       </button>
       <Tooltip id={tooltipId} shown={tooltipShown} anchorRef={tooltipAnchorRef ?? infoIconRef}>

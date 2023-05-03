@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import { useContext, useRef, useState } from 'react';
+import kanjiContext from '../../contexts/kanjiContext';
 import {
   removeKanjisFromList,
   isKanjisInList,
@@ -12,10 +12,12 @@ import { Link } from 'react-router-dom';
 import { getFromLocalStorage } from '../../controllers/localStorageController';
 import { useEffect } from 'react';
 import { setInLocalStorage } from '../../controllers/localStorageController';
+import InfoHover from '../content/InfoHover';
 
 const Footer = () => {
   const location = useLocation();
   const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const footerRef = useRef<HTMLElement>(null);
   const [learnModeShuffle, setLearnModeShuffle] = useState<boolean>(
     getFromLocalStorage<boolean>('learnModeShuffle') ?? false
   );
@@ -38,46 +40,56 @@ const Footer = () => {
 
   const isAllSelected = () => pageKanjis && isKanjisInList(selectedKanjis, pageKanjis);
 
-  switch (section) {
-    case 'popular':
-    case 'saved':
-    case 'search':
-      return (
-        <footer role="contentinfo">
-          <p>{`выделено ${pageKanjis ? getSelectedCount() : '?'} из ${pageKanjis?.length}`}</p>
-          {isAllSelected() ? (
-            <button onClick={deselectAll}>снять выделение</button>
-          ) : (
-            <button onClick={selectAll}>выделить всё</button>
-          )}
-        </footer>
-      );
+  return (
+    <footer ref={footerRef} role="contentinfo">
+      {(() => {
+        switch (section) {
+          case 'popular':
+          case 'saved':
+          case 'search':
+            return (
+              <>
+                <p>{`выделено ${pageKanjis ? getSelectedCount() : '?'} из ${
+                  pageKanjis?.length
+                }`}</p>
+                {isAllSelected() ? (
+                  <button onClick={deselectAll}>снять выделение</button>
+                ) : (
+                  <button onClick={selectAll}>выделить всё</button>
+                )}
+              </>
+            );
 
-    case 'selected':
-      return (
-        <footer role="contentinfo">
-          <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
-          <button onClick={clearSelection}>очистить список</button>
-        </footer>
-      );
+          case 'selected':
+            return (
+              <>
+                <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
+                <button onClick={clearSelection}>очистить список</button>
+              </>
+            );
 
-    case 'learn':
-      return (
-        <footer role="contentinfo">
-          <p style={{ textAlign: 'center' }}>
-            Используйте стрелки для перемещения. Пробел переворачивает карточку
-          </p>
-          <button onClick={() => setLearnModeShuffle((prev) => !prev)}>Перемешать карточки</button>
-        </footer>
-      );
+          case 'learn':
+            return (
+              <>
+                <InfoHover tooltipAnchorRef={footerRef} caption="помощь">
+                  Используйте стрелки для перемещения. Пробел переворачивает карточку
+                </InfoHover>
+                <button onClick={() => setLearnModeShuffle((prev) => !prev)}>
+                  перемешать карточки
+                </button>
+              </>
+            );
 
-    default:
-      return (
-        <footer role="contentinfo">
-          <p>EasyKanji</p>
-          <Link to="/feedback">Оставить отзыв</Link>
-        </footer>
-      );
-  }
+          default:
+            return (
+              <>
+                <p>EasyKanji</p>
+                <Link to="/feedback">Оставить отзыв</Link>
+              </>
+            );
+        }
+      })()}
+    </footer>
+  );
 };
 export default Footer;

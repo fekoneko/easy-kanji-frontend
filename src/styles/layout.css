@@ -102,6 +102,7 @@
 
   footer {
     display: flex;
+    justify-content: space-between;
     gap: 0.5rem;
     z-index: 100;
     padding-bottom: 0.6rem;
@@ -115,9 +116,6 @@
     width: calc(100vw - 2 * var(--app-padding));
     height: 1.5px;
     background-color: var(--secondary-text-color);
-  }
-  footer > :first-child {
-    flex-grow: 1;
   }
   footer a {
     color: inherit;

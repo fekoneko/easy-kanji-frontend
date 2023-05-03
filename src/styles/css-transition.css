@@ -102,4 +102,23 @@
     opacity: 0;
     transition: opacity var(--transition-params);
   }
+
+  .learnUI-enter {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  .learnUI-enter-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  }
+  .learnUI-exit {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .learnUI-exit-active {
+    transform: translateY(2rem);
+    opacity: 0;
+    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
+  }
 }

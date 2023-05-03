@@ -1,11 +1,12 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import kanjiContext from '../../contexts/kanjiContext';
 import KanjiCard from '../content/KanjiCard';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
 import usePageKanjis from '../../hooks/usePageKanjis';
+import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -15,6 +16,7 @@ type LearnUIProps = {
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   const { selectedKanjis } = useContext(kanjiContext);
   const [pageKanjis] = usePageKanjis(selectedKanjis);
+  const learnUIRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
   const arrowLeftPressed = useKeyPressed('ArrowLeft');
@@ -31,30 +33,45 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
 
   if (pageKanjis.length !== 0) {
     return (
-      <section className="learnUI">
-        <div
-          className="kanjiQueue"
-          style={{
-            transform: `translateX(calc(${
-              -(windowWidth / 3) * currentIndex
-            }px - var(--card-width) / 2))`,
-          }}
-        >
-          {pageKanjis.map((kanji, index) => (
-            <KanjiCard
-              key={index}
-              kanji={kanji}
-              frontSide={frontSide}
-              backSide={backSide}
-              shown={Math.abs(index - currentIndex) <= 1}
-              positionOnScreen={
-                index === currentIndex ? 'center' : index - currentIndex < 0 ? 'left' : 'right'
-              }
-              queueOrder={index}
-            />
-          ))}
-        </div>
-      </section>
+      <TransitionGroup component={null}>
+        <SwitchTransition mode={'out-in'}>
+          <CSSTransition
+            key={pageKanjis.map((kanji) => kanji.id).join(' ')}
+            timeout={150}
+            classNames="learnUI"
+            nodeRef={learnUIRef}
+          >
+            <section ref={learnUIRef} className="learnUI">
+              <div
+                className="kanjiQueue"
+                style={{
+                  transform: `translateX(calc(${
+                    -(windowWidth / 3) * currentIndex
+                  }px - var(--card-width) / 2))`,
+                }}
+              >
+                {pageKanjis.map((kanji, index) => (
+                  <KanjiCard
+                    key={index}
+                    kanji={kanji}
+                    frontSide={frontSide}
+                    backSide={backSide}
+                    shown={Math.abs(index - currentIndex) <= 1}
+                    positionOnScreen={
+                      index === currentIndex
+                        ? 'center'
+                        : index - currentIndex < 0
+                        ? 'left'
+                        : 'right'
+                    }
+                    queueOrder={index}
+                  />
+                ))}
+              </div>
+            </section>
+          </CSSTransition>
+        </SwitchTransition>
+      </TransitionGroup>
     );
   } else
     return (

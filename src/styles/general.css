@@ -61,15 +61,23 @@
     line-height: 2rem;
   }
 
-  .hintIcon {
+  .infoHover {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 50% !important;
     border: none !important;
   }
-  .hintIcon > svg {
+  .infoHover > svg {
     display: block;
     width: 2rem;
     height: 2rem;
+  }
+  .infoHover:has(p) > svg {
+    margin-bottom: -0.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
   }
 }
