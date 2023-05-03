@@ -15,6 +15,7 @@ import AuthModal from '../overlays/AuthModal';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import KanjiReadings from './KanjiReadings';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -136,8 +137,12 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
             <p className="kanjiMeaning">{kanji.meaning}</p>
             {detailedMode && (
               <>
-                <p className="kanjiOnReadings">{kanji.onReadings.join('、')}</p>
-                <p className="kanjiKunReadings">{kanji.kunReadings.join('、')}</p>
+                <p className="kanjiOnReadings">
+                  <KanjiReadings readings={kanji.onReadings} />
+                </p>
+                <p className="kanjiKunReadings">
+                  <KanjiReadings readings={kanji.kunReadings} />
+                </p>
               </>
             )}
           </div>

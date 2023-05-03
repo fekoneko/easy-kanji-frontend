@@ -20,6 +20,7 @@
     padding: 0.1rem 2.8rem 0.1rem 1rem;
     background-color: var(--background-color);
     text-align: left;
+    white-space: nowrap;
     overflow-x: hidden;
     transition: background-color var(--transition-params);
   }
@@ -34,9 +35,14 @@
     font-size: 2rem;
     font-weight: bold;
   }
+  .kanjiCell .kanjiMeaning {
+    font-size: 1.1rem;
+  }
   .kanjiCell .kanjiOnReadings,
   .kanjiCell .kanjiKunReadings {
     font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--secondary-text-color);
   }
 
   .searchForm {

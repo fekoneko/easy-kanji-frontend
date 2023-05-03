@@ -6,8 +6,8 @@ import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
 
-const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const USERNAME_REGEX = /^.{2,16}$/;
+const PASSWORD_REGEX = /^.{6,24}$/;
 
 type SignUpFormProps = {
   onSignedUp?: (e: FormEvent) => any;
@@ -123,8 +123,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         shown={usernameHintShown && !usernameOccupied}
         anchorRef={usernameRef}
       >
-        От 4 до 24 символов. Должен начинаться с буквы. Разрешены латинские буквы, цифры, дефисы и
-        нижние подчёркивания.
+        Логин должен содержать от 2 до 16 символов
       </Tooltip>
       <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
         Пользователь с таким именем уже существует
@@ -148,10 +147,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         />
       </fieldset>
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
-        От 8 до 24 символов. Должен включать заглавные и строчные латинские буквы, цифры и
-        специальные символы. Разрешённые символы: <span aria-label="восклицательный знак">!</span>{' '}
-        <span aria-label="собака">@</span> <span aria-label="решётка">#</span>{' '}
-        <span aria-label="знак доллара">$</span> <span aria-label="процент">%</span>.
+        Пароль должен содержать от 6 до 24 символов.
       </Tooltip>
 
       <fieldset>

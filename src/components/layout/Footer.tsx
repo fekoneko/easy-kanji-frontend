@@ -74,7 +74,12 @@ const Footer = () => {
                 <InfoHover tooltipAnchorRef={footerRef} caption="помощь">
                   Используйте стрелки для перемещения. Пробел переворачивает карточку
                 </InfoHover>
-                <button onClick={() => setLearnModeShuffle((prev) => !prev)}>
+                <button
+                  onClick={(e: any) => {
+                    setLearnModeShuffle((prev) => !prev);
+                    e.target.blur();
+                  }}
+                >
                   перемешать карточки
                 </button>
               </>

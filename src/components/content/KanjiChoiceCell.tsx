@@ -8,6 +8,7 @@ import usePopup from '../../hooks/usePopup';
 import kanjisApi from '../../api/kanjisApi';
 import { removeKanjiFromList } from '../../controllers/kanjiController';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import KanjiReadings from './KanjiReadings';
 
 type KanjiChoiceCellProps = {
   kanji: Kanji;
@@ -84,8 +85,12 @@ const KanjiChoiceCell = ({
           <p className="kanjiMeaning">{kanji.meaning}</p>
           {detailedMode && (
             <>
-              <p className="kanjiOnReadings">{kanji.onReadings.join('、')}</p>
-              <p className="kanjiKunReadings">{kanji.kunReadings.join('、')}</p>
+              <p className="kanjiOnReadings">
+                <KanjiReadings readings={kanji.onReadings} />
+              </p>
+              <p className="kanjiKunReadings">
+                <KanjiReadings readings={kanji.kunReadings} />
+              </p>
             </>
           )}
         </div>

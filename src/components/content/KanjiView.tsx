@@ -1,4 +1,5 @@
 import { Kanji } from '../../contexts/kanjiContext';
+import KanjiReadings from './KanjiReadings';
 
 export type ViewContent = {
   writing: boolean;
@@ -21,22 +22,12 @@ const KanjiView = ({ kanji, viewContent }: KanjiViewProps) => {
       )}
       {viewContent.onReadings && (
         <p className="kanjiOnReadings">
-          {kanji.onReadings.map((reading, index) => (
-            <span key={index}>
-              {reading}
-              {index < kanji.onReadings.length - 1 && '、'}
-            </span>
-          ))}
+          <KanjiReadings readings={kanji.onReadings} />
         </p>
       )}
       {viewContent.kunReadings && (
         <p className="kanjiKunReadings">
-          {kanji.kunReadings.map((reading, index) => (
-            <span key={index}>
-              {reading}
-              {index < kanji.kunReadings.length - 1 && '、'}
-            </span>
-          ))}
+          <KanjiReadings readings={kanji.kunReadings} />
         </p>
       )}
     </div>

@@ -16,12 +16,16 @@
     font-size: 2rem;
     font-weight: bold;
   }
+  .kanjiView .kanjiMeaning:not(.main) {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
   .kanjiView .kanjiMeaning:not(.main)::before {
     display: block;
     content: '';
     width: 100%;
     height: 0.16rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
     border-radius: 0.08rem;
     background-color: var(--secondary-text-color);
     opacity: 0.5;
