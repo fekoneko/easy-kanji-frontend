@@ -53,13 +53,13 @@ const KanjiGrid = ({
     });
   };
 
-  useOnKeyDown('ArrowLeft', () => moveFocus(-1));
+  useOnKeyDown('ArrowLeft', () => moveFocus(-1), [], { shift: false });
   useOnKeyDown('ArrowLeft', () => moveFocus(-3), [], { shift: true });
-  useOnKeyDown('ArrowRight', () => moveFocus(1));
+  useOnKeyDown('ArrowRight', () => moveFocus(1), [], { shift: false });
   useOnKeyDown('ArrowRight', () => moveFocus(3), [], { shift: true });
-  useOnKeyDown('ArrowUp', () => moveFocus(-columns));
+  useOnKeyDown('ArrowUp', () => moveFocus(-columns), [], { shift: false });
   useOnKeyDown('ArrowUp', () => moveFocus(-3 * columns), [], { shift: true });
-  useOnKeyDown('ArrowDown', () => moveFocus(columns));
+  useOnKeyDown('ArrowDown', () => moveFocus(columns), [], { shift: false });
   useOnKeyDown('ArrowDown', () => moveFocus(3 * columns), [], { shift: true });
 
   return (

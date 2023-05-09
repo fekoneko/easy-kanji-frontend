@@ -20,12 +20,13 @@ const useOnKeyDown = (
       if (
         e.key === key &&
         (!modifiers ||
-          (e.ctrlKey == modifiers.control &&
-            e.shiftKey == modifiers.shift &&
-            e.altKey == modifiers.alt &&
-            e.metaKey == modifiers.meta))
+          ((modifiers.control === undefined || e.ctrlKey === !!modifiers.control) &&
+            (modifiers.shift === undefined || e.shiftKey === !!modifiers.shift) &&
+            (modifiers.alt === undefined || e.altKey === !!modifiers.alt) &&
+            (modifiers.meta === undefined || e.metaKey === !!modifiers.meta)))
       ) {
         callback(e);
+        console.log(e.shiftKey);
       }
     },
     (deps ?? []).concat([modifiers])
