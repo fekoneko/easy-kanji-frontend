@@ -28,7 +28,10 @@ const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewPro
     <button
       ref={kanjiCardPreviewRef}
       className="kanjiCardPreview"
-      onClick={onClick}
+      onClick={(e: any) => {
+        if (onClick) onClick(e);
+        e.target.blur();
+      }}
       style={getStyle()}
     >
       {mode === 'meaning' ? (

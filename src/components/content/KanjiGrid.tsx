@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
-import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiCell from './KanjiCell';
 import useResizeObserver from '../../hooks/useResizeObserver';
 import KanjiChoiceCell from './KanjiChoiceCell';
+import useOnKeyDown from '../../hooks/useOnKeyDown';
 
 const GRID_GAP = 8;
 const COLUMNS_DEFAULT = 2;
@@ -27,11 +27,6 @@ const KanjiGrid = ({
   chosenKanji,
   setChosenKanji,
 }: KanjiGridProps) => {
-  const arrowLeftPressed = useKeyPressed('ArrowLeft');
-  const arrowRightPressed = useKeyPressed('ArrowRight');
-  const arrowUpPressed = useKeyPressed('ArrowUp');
-  const arrowDownPressed = useKeyPressed('ArrowDown');
-  const shiftPressed = useKeyPressed('Shift');
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
 
   const gridRef = useRef<HTMLElement>(null);
@@ -58,33 +53,14 @@ const KanjiGrid = ({
     });
   };
 
-  useEffect(() => {
-    if (arrowLeftPressed) {
-      const offset = shiftPressed ? -3 : -1;
-      moveFocus(offset);
-    }
-  }, [arrowLeftPressed]);
-
-  useEffect(() => {
-    if (arrowRightPressed) {
-      const offset = shiftPressed ? 3 : 1;
-      moveFocus(offset);
-    }
-  }, [arrowRightPressed]);
-
-  useEffect(() => {
-    if (arrowUpPressed) {
-      const offset = -(shiftPressed ? 3 : 1) * columns;
-      moveFocus(offset);
-    }
-  }, [arrowUpPressed]);
-
-  useEffect(() => {
-    if (arrowDownPressed) {
-      const offset = (shiftPressed ? 3 : 1) * columns;
-      moveFocus(offset);
-    }
-  }, [arrowDownPressed]);
+  useOnKeyDown('ArrowLeft', () => moveFocus(-1));
+  useOnKeyDown('ArrowLeft', () => moveFocus(-3), [], { shift: true });
+  useOnKeyDown('ArrowRight', () => moveFocus(1));
+  useOnKeyDown('ArrowRight', () => moveFocus(3), [], { shift: true });
+  useOnKeyDown('ArrowUp', () => moveFocus(-columns));
+  useOnKeyDown('ArrowUp', () => moveFocus(-3 * columns), [], { shift: true });
+  useOnKeyDown('ArrowDown', () => moveFocus(columns));
+  useOnKeyDown('ArrowDown', () => moveFocus(3 * columns), [], { shift: true });
 
   return (
     <section

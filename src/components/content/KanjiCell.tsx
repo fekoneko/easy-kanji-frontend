@@ -6,7 +6,6 @@ import KanjiView from './KanjiView';
 import Tooltip from './Tooltip';
 import { ReactComponent as SaveKanjiIcon } from '../../assets/saveKanji.svg';
 import { ReactComponent as KanjiSavedIcon } from '../../assets/kanjiSaved.svg';
-import useKeyPressed from '../../hooks/useKeyPressed';
 import useOnClick from '../../hooks/useOnClick';
 import usersApi from '../../api/usersApi';
 import ProtectedContent from './ProtectedContent';
@@ -16,6 +15,8 @@ import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import KanjiReadings from './KanjiReadings';
+import authContext from '../../contexts/authContext';
+import useOnKeyDown from '../../hooks/useOnKeyDown';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -27,6 +28,7 @@ type KanjiCellProps = {
 const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => {
   const { selectedKanjis, setSelectedKanjis, savedKanjis, setSavedKanjis } =
     useContext(kanjiContext);
+  const { auth } = useContext(authContext);
   const { showModal } = useModal();
   const cellButtonRef = useRef<HTMLButtonElement>(null);
   const [tooltipShown, setTooltipShown] = useState(false);
@@ -34,8 +36,6 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const [showControls, setShowControls] = useState(false);
   const kanjiSaved = useMemo(() => isKanjiInList(savedKanjis, kanji), [savedKanjis]);
   const kanjiSelected = useMemo(() => isKanjiInList(selectedKanjis, kanji), [selectedKanjis]);
-  const enterPressed = useKeyPressed('Enter');
-  const spacePressed = useKeyPressed(' ');
 
   const abortControllerRef = useAbortController();
   const [saveKanjiErrorStatus, setSaveKanjiErrorStatus] = useState<number | null>(null);
@@ -46,7 +46,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 
   const saveKanji = async () => {
-    if (loading) return;
+    if (loading || !auth) return;
 
     if (kanjiSaved) {
       const removeSuccess = await usersApi.removeKanjisFromSaved(
@@ -78,7 +78,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
 
   useOnClick(
     cellButtonRef,
-    (e) => {
+    () => {
       selectKanji();
       if (setFocus) setFocus();
     },
@@ -90,17 +90,8 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
     else cellButtonRef.current?.blur();
   }, [focus]);
 
-  useEffect(() => {
-    if (focus && enterPressed) {
-      saveKanji();
-    }
-  }, [focus, enterPressed]);
-
-  useEffect(() => {
-    if (focus && spacePressed) {
-      selectKanji();
-    }
-  }, [focus, spacePressed]);
+  useOnKeyDown('Enter', () => focus && saveKanji(), [focus]);
+  useOnKeyDown(' ', () => focus && selectKanji(), [focus]);
 
   const waitAndShowTooltip = () => {
     const showTooltip = () => {
@@ -147,6 +138,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
             )}
           </div>
         </button>
+
         <ProtectedContent
           placeholder={
             <ControlButton
