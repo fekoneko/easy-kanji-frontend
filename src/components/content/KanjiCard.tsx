@@ -53,7 +53,7 @@ const KanjiCard = ({
       classNames="kanjiCardContainer"
       nodeRef={nodeRef}
     >
-      <div
+      <figure
         className={`kanjiCardContainer  ${positionOnScreen}`}
         ref={nodeRef}
         style={{
@@ -76,7 +76,7 @@ const KanjiCard = ({
         >
           <KanjiView kanji={kanji} viewContent={viewContent} />
         </button>
-      </div>
+      </figure>
     </CSSTransition>
   );
 };

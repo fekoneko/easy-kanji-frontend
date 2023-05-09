@@ -7,6 +7,7 @@ import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
 import usePageKanjis from '../../hooks/usePageKanjis';
 import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
+import KanjiCardNav from './KanjiCardNav';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -68,6 +69,11 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                   />
                 ))}
               </div>
+              <KanjiCardNav
+                mode={frontSide.writing ? 'writing' : 'meaning'}
+                kanjis={pageKanjis}
+                setCurrentIndex={setCurrentIndex}
+              />
             </section>
           </CSSTransition>
         </SwitchTransition>

@@ -1,6 +1,9 @@
 @layer learn-section {
   .learnUI {
+    position: relative;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     flex: 1 1;
   }
@@ -47,5 +50,22 @@
     border-radius: 0.5rem;
     border: 0.18rem dashed var(--card-front-color);
     text-align: center;
+  }
+
+  .kanjiCardNav {
+    position: absolute;
+    bottom: -1rem;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .kanjiCardPreview {
+    flex-basis: 1rem;
+    min-height: 2rem;
+    overflow: hidden;
   }
 }
