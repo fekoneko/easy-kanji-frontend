@@ -13,7 +13,7 @@ const SavedKanjiPage = () => {
     <div className="scrollContent">
       <h1>Сохранённые кандзи</h1>
       {savedKanjis.length > 0 ? (
-        <KanjiGrid kanjis={savedKanjis} />
+        <KanjiGrid kanjis={savedKanjis} maxCellWidth={280} maxColumns={3} />
       ) : savedKanjisLoading ? (
         <div className="contentPlaceholder">
           <LoadingSpinner />

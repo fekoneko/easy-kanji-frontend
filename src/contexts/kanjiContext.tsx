@@ -93,11 +93,12 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
         setSavedKanjisLoading,
         abortController.signal
       );
-      if (newSavedKanjis) addKanjisToList(setSavedKanjis, newSavedKanjis);
+      setSavedKanjis(newSavedKanjis ?? []);
     };
     fetchSavedKanjis();
 
     return () => {
+      setSavedKanjis([]);
       abortController.abort();
       setSavedKanjisLoading(false);
     };

@@ -13,7 +13,7 @@ const SelectedPage = () => {
     <div className="scrollContent">
       <h1>Выбранные кандзи</h1>
       {selectedKanjis.length > 0 ? (
-        <KanjiGrid kanjis={selectedKanjis} />
+        <KanjiGrid kanjis={selectedKanjis} maxCellWidth={280} maxColumns={3} />
       ) : selectedKanjisLoading ? (
         <div className="contentPlaceholder">
           <LoadingSpinner />

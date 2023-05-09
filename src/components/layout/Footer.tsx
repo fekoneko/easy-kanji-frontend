@@ -9,26 +9,25 @@ import {
 } from '../../controllers/kanjiController';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { getFromLocalStorage } from '../../controllers/localStorageController';
 import { useEffect } from 'react';
-import { setInLocalStorage } from '../../controllers/localStorageController';
 import InfoHover from '../content/InfoHover';
 
 const Footer = () => {
   const location = useLocation();
-  const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
   const footerRef = useRef<HTMLElement>(null);
-  const [learnModeShuffle, setLearnModeShuffle] = useState<boolean>(
-    getFromLocalStorage<boolean>('learnModeShuffle') ?? false
-  );
-
-  useEffect(() => {
-    setInLocalStorage('learnModeShuffle', learnModeShuffle);
-    if (learnModeShuffle) shuffleKanjiList(setPageKanjis);
-    else setPageKanjis(selectedKanjis);
-  }, [learnModeShuffle]);
+  const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const [learnModeShuffleFlag, setLearnModeShuffleFlag] = useState<boolean>(false);
 
   const section = location.pathname.split('/')[1];
+
+  useEffect(() => {
+    if (learnModeShuffleFlag) shuffleKanjiList(setPageKanjis);
+    else setPageKanjis(selectedKanjis);
+  }, [learnModeShuffleFlag]);
+
+  useEffect(() => {
+    setLearnModeShuffleFlag(false);
+  }, [location]);
 
   const deselectAll = () => pageKanjis && removeKanjisFromList(setSelectedKanjis, pageKanjis);
 
@@ -76,11 +75,11 @@ const Footer = () => {
                 </InfoHover>
                 <button
                   onClick={(e: any) => {
-                    setLearnModeShuffle((prev) => !prev);
+                    setLearnModeShuffleFlag((prev) => !prev);
                     e.target.blur();
                   }}
                 >
-                  перемешать карточки
+                  {learnModeShuffleFlag ? 'карточки перемешаны' : 'перемешать карточки'}
                 </button>
               </>
             );

@@ -70,11 +70,15 @@ export default {
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.patch(`/users/${userId}`, editedData, { signal }),
+      () =>
+        axiosPrivate.patch(
+          `/users/${userId}`,
+          { ...editedData, passwordCheck: password },
+          { signal }
+        ),
       setErrorStatus,
       setLoading
     );
-    // TODO: send password
     return !errorStatus;
   },
 
