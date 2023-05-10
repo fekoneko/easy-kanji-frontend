@@ -2,7 +2,7 @@ import { ReactNode, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import useOnClick from '../../hooks/useOnClick';
 import useModal from '../../hooks/useModal';
-import useOnKeyDown from '../../hooks/useOnKeyDown';
+import useOnKeyUp from '../../hooks/useOnKeyUp';
 
 type ModalWindowProps = {
   shown?: boolean;
@@ -14,7 +14,7 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
   const modalWindowRef = useRef<HTMLDivElement>(null);
   const { closeModal } = useModal();
 
-  useOnKeyDown('Escape', closeModal);
+  useOnKeyUp('Escape', closeModal);
 
   useOnClick(
     modalWindowRef,

@@ -18,16 +18,16 @@
     transition: opacity 0.15s ease-in, transform 0.15s ease-in;
   }
 
-  .kanjiCardContainer-enter .kanjiCard {
+  .cardContainer-enter .kanjiCard {
     opacity: 0;
   }
-  .kanjiCardContainer-enter-active .kanjiCard {
+  .cardContainer-enter-active .kanjiCard {
     opacity: 1;
   }
-  .kanjiCardContainer-exit .kanjiCard {
+  .cardContainer-exit .kanjiCard {
     opacity: 1;
   }
-  .kanjiCardContainer-exit-active .kanjiCard {
+  .cardContainer-exit-active .kanjiCard {
     opacity: 0;
   }
 

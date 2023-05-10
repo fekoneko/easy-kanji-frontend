@@ -29,6 +29,8 @@ type KanjiContextValue = {
   setSavedKanjis: Dispatch<SetStateAction<Kanji[]>>;
   selectedKanjis: Kanji[];
   setSelectedKanjis: Dispatch<SetStateAction<Kanji[]>>;
+  repeatKanjis: Kanji[];
+  setRepeatKanjis: Dispatch<SetStateAction<Kanji[]>>;
 
   savedKanjisLoading: boolean;
   selectedKanjisLoading: boolean;
@@ -41,6 +43,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [pageKanjis, setPageKanjis] = useState<Kanji[]>([]);
   const [savedKanjis, setSavedKanjis] = useState<Kanji[]>([]);
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
+  const [repeatKanjis, setRepeatKanjis] = useState<Kanji[]>([]);
 
   const [savedKanjisLoading, setSavedKanjisLoading] = useState(false);
   const [selectedKanjisLoading, setSelectedKanjisLoading] = useState(true);
@@ -121,6 +124,8 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
         setSavedKanjis,
         selectedKanjis,
         setSelectedKanjis,
+        repeatKanjis,
+        setRepeatKanjis,
 
         selectedKanjisLoading,
         savedKanjisLoading,

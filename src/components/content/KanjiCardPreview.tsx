@@ -1,22 +1,27 @@
-import { CSSProperties, MouseEvent, useRef } from 'react';
-import { Kanji } from '../../contexts/kanjiContext';
+import { CSSProperties, MouseEvent, useContext, useMemo, useRef } from 'react';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import { isKanjiInList } from '../../controllers/kanjiController';
 
 export type KanjiCardPreviewMode = 'writing' | 'meaning';
 
 type KanjiCardPreviewProps = {
   mode?: KanjiCardPreviewMode;
   kanji: Kanji;
-  getSize?: (centerX: number) => number;
+  getSize?: (centerX?: number) => number;
   onClick?: (e: MouseEvent) => any;
 };
 
 const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewProps) => {
+  const { repeatKanjis } = useContext(kanjiContext);
   const kanjiCardPreviewRef = useRef<HTMLButtonElement>(null);
 
+  const cardRepeated = useMemo(() => isKanjiInList(repeatKanjis, kanji), [repeatKanjis, kanji]);
+
   const getStyle = (): CSSProperties => {
-    if (!kanjiCardPreviewRef.current || !getSize) return {};
-    const rect = kanjiCardPreviewRef.current.getBoundingClientRect();
-    const size = getSize(rect.left + rect.width / 2);
+    if (!getSize) return {};
+    const rect = kanjiCardPreviewRef.current?.getBoundingClientRect();
+    const size = getSize(rect && rect.left + rect.width / 2);
+
     return {
       flexBasis: size * size,
       maxWidth: size,
@@ -27,7 +32,7 @@ const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewPro
   return (
     <button
       ref={kanjiCardPreviewRef}
-      className="kanjiCardPreview"
+      className={`kanjiCardPreview${cardRepeated ? ' repeat' : ''}`}
       onClick={(e: any) => {
         if (onClick) onClick(e);
         e.target.blur();

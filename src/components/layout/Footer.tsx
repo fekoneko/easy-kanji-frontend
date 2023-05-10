@@ -21,6 +21,12 @@ const Footer = () => {
   const section = location.pathname.split('/')[1];
 
   useEffect(() => {
+    if (section !== 'learn') return;
+    setPageKanjis(selectedKanjis);
+  }, [selectedKanjis]);
+
+  useEffect(() => {
+    if (section !== 'learn') return;
     if (learnModeShuffleFlag) shuffleKanjiList(setPageKanjis);
     else setPageKanjis(selectedKanjis);
   }, [learnModeShuffleFlag]);

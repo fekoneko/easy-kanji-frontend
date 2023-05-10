@@ -8,6 +8,7 @@ import usePageKanjis from '../../hooks/usePageKanjis';
 import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
 import KanjiCardNav from './KanjiCardNav';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
+import ActionCard from '../content/ActionCard';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -15,23 +16,38 @@ type LearnUIProps = {
 };
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
-  const { selectedKanjis } = useContext(kanjiContext);
+  const { selectedKanjis, setSelectedKanjis, repeatKanjis, setRepeatKanjis } =
+    useContext(kanjiContext);
   const [pageKanjis] = usePageKanjis(selectedKanjis);
   const learnUIRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
 
+  const maxIndex = pageKanjis.length - (repeatKanjis.length > 0 ? 0 : 1);
+
+  useEffect(() => {
+    if ((document.activeElement as any)?.blur) (document.activeElement as any).blur();
+  }, []);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [pageKanjis]);
+
   useOnKeyDown('ArrowLeft', () => currentIndex > 0 && setCurrentIndex((prev) => prev - 1), [
     currentIndex,
   ]);
 
-  useOnKeyDown(
-    'ArrowRight',
-    () => currentIndex < pageKanjis.length - 1 && setCurrentIndex((prev) => prev + 1),
-    [currentIndex, pageKanjis.length]
-  );
+  useOnKeyDown('ArrowRight', () => currentIndex < maxIndex && setCurrentIndex((prev) => prev + 1), [
+    currentIndex,
+    maxIndex,
+  ]);
 
-  if (pageKanjis.length !== 0) {
+  const selectRepeatKanjis = () => {
+    setSelectedKanjis(repeatKanjis);
+    setRepeatKanjis([]);
+  };
+
+  if (maxIndex >= 0) {
     return (
       <TransitionGroup component={null}>
         <SwitchTransition mode={'out-in'}>
@@ -67,6 +83,22 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                     queueOrder={index}
                   />
                 ))}
+                {repeatKanjis.length > 0 && (
+                  <ActionCard
+                    key={maxIndex}
+                    shown={Math.abs(maxIndex - currentIndex) <= 1}
+                    positionOnScreen={
+                      maxIndex === currentIndex
+                        ? 'center'
+                        : maxIndex - currentIndex < 0
+                        ? 'left'
+                        : 'right'
+                    }
+                    queueOrder={maxIndex}
+                    action={selectRepeatKanjis}
+                    caption="Повторить помеченные кандзи"
+                  />
+                )}
               </div>
               <KanjiCardNav
                 mode={frontSide.writing ? 'writing' : 'meaning'}

@@ -30,6 +30,8 @@
   --a-color: var(--primary-color);
   --card-front-color: #7e86f2;
   --card-back-color: white;
+  --card-repeat-color: #ff6199;
+  --card-action-color: #717171;
   --card-width: 16rem;
   --border-style: 2px solid var(--secondary-text-color);
   --overlay-border-style: 2px solid var(--primary-color);

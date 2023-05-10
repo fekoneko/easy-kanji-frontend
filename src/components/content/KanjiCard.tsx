@@ -1,9 +1,10 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { Kanji } from '../../contexts/kanjiContext';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiView, { ViewContent } from './KanjiView';
-import useOnKeyDown from '../../hooks/useOnKeyDown';
+import { changeKanjiInList, isKanjiInList } from '../../controllers/kanjiController';
 
 type Side = 'front' | 'back';
 
@@ -24,52 +25,67 @@ const KanjiCard = ({
   positionOnScreen,
   queueOrder,
 }: KanjiCardProps) => {
+  const { repeatKanjis, setRepeatKanjis } = useContext(kanjiContext);
   const nodeRef = useRef<HTMLDivElement>(null);
   const [side, setSide] = useState<Side>('front');
   const windowWidth = useWindowWidth({ wait: 10 });
   const [zoom, setZoom] = useState<boolean>(false);
+  const spacePressed = useKeyPressed(' ');
+  const enterPressed = useKeyPressed('Enter');
 
+  const cardRepeated = useMemo(() => isKanjiInList(repeatKanjis, kanji), [repeatKanjis, kanji]);
   const viewContent = side === 'front' ? frontSide : backSide;
 
-  const turnCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
+  const flipCard = () => setSide((prev) => (prev === 'front' ? 'back' : 'front'));
+  const repeatCard = () => changeKanjiInList(setRepeatKanjis, kanji);
   const zoomIn = () => setZoom(true);
   const zoomOut = () => setTimeout(() => setZoom(false), 50);
 
-  useOnKeyDown(
-    ' ',
-    () => {
-      if (positionOnScreen === 'center') {
-        zoomIn();
-        turnCard();
-      } else {
-        zoomOut();
-      }
-    },
-    [positionOnScreen]
-  );
+  useEffect(() => {
+    if (spacePressed && positionOnScreen === 'center') {
+      zoomIn();
+      flipCard();
+    } else {
+      zoomOut();
+    }
+  }, [spacePressed, positionOnScreen]);
+
+  useEffect(() => {
+    if (enterPressed && positionOnScreen === 'center') {
+      zoomIn();
+      repeatCard();
+    } else {
+      zoomOut();
+    }
+  }, [enterPressed, positionOnScreen]);
 
   return (
     <CSSTransition
       in={shown}
       unmountOnExit
       timeout={300}
-      classNames="kanjiCardContainer"
+      classNames="cardContainer"
       nodeRef={nodeRef}
     >
       <figure
-        className={`kanjiCardContainer  ${positionOnScreen}`}
+        className={`cardContainer  ${positionOnScreen}`}
         ref={nodeRef}
         style={{
           transform: `translateX(${(windowWidth / 3) * queueOrder}px)`,
         }}
       >
         <button
-          className={`kanjiCard ${side} ${zoom ? ' zoom' : ''}`}
+          className={[
+            'kanjiCard',
+            side,
+            ...(zoom ? ['zoom'] : []),
+            ...(cardRepeated ? ['repeat'] : []),
+          ].join(' ')}
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
             if (e.button === 0) {
               zoomIn();
-              turnCard();
+              flipCard();
             }
           }}
           onMouseUp={(e) => e.button === 0 && zoomOut()}

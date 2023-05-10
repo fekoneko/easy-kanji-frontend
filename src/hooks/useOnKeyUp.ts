@@ -8,14 +8,14 @@ type Modifiers = {
   meta?: boolean;
 };
 
-const useOnKeyDown = (
+const useOnKeyUp = (
   key: string,
   callback: (e: KeyboardEvent) => any,
   deps?: DependencyList,
   modifiers?: Modifiers
 ) => {
   useWindowEventListener(
-    'keydown',
+    'keyup',
     (e) => {
       if (
         e.key === key &&
@@ -31,4 +31,4 @@ const useOnKeyDown = (
     (deps ?? []).concat([modifiers])
   );
 };
-export default useOnKeyDown;
+export default useOnKeyUp;

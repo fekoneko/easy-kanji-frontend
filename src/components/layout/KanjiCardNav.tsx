@@ -3,7 +3,7 @@ import { Kanji } from '../../contexts/kanjiContext';
 import KanjiCardPreview, { KanjiCardPreviewMode } from '../content/KanjiCardPreview';
 import useMousePosition from '../../hooks/useMousePosition';
 
-const PREVIEW_MIN_SIZE = 30;
+const PREVIEW_MIN_SIZE = 35;
 const PREVIEW_MAX_SIZE = 80;
 const PREVIEW_REACT_DISTANCE = 100;
 
@@ -29,8 +29,8 @@ const KanjiCardNav = ({ mode, kanjis, setCurrentIndex }: KanjiCardNavProps) => {
     );
   }, [mousePosition]);
 
-  const getKanjiCardPreviewSize = (centerX: number) => {
-    if (!active || !kanjiCardNavRef.current) return PREVIEW_MIN_SIZE;
+  const getKanjiCardPreviewSize = (centerX?: number) => {
+    if (!active || centerX === undefined || !kanjiCardNavRef.current) return PREVIEW_MIN_SIZE;
 
     const centerY = kanjiCardNavRef.current.getBoundingClientRect().bottom;
     const delta = Math.hypot(centerX - mousePosition.x, centerY - mousePosition.y);

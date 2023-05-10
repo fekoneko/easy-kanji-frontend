@@ -16,7 +16,7 @@ import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import KanjiReadings from './KanjiReadings';
 import authContext from '../../contexts/authContext';
-import useOnKeyDown from '../../hooks/useOnKeyDown';
+import useOnKeyUp from '../../hooks/useOnKeyUp';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -90,8 +90,8 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
     else cellButtonRef.current?.blur();
   }, [focus]);
 
-  useOnKeyDown('Enter', () => focus && saveKanji(), [focus]);
-  useOnKeyDown(' ', () => focus && selectKanji(), [focus]);
+  useOnKeyUp('Enter', () => focus && saveKanji(), [focus]);
+  useOnKeyUp(' ', () => focus && selectKanji(), [focus]);
 
   const waitAndShowTooltip = () => {
     const showTooltip = () => {
