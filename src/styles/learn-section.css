@@ -26,7 +26,9 @@
     z-index: 1;
   }
   .cardContainer.left .kanjiCard,
-  .cardContainer.right .kanjiCard {
+  .cardContainer.right .kanjiCard,
+  .cardContainer.left .actionCard,
+  .cardContainer.right .actionCard {
     scale: 0.8;
   }
   .kanjiCard,
@@ -40,8 +42,9 @@
     box-shadow: var(--shadow-style);
     transition: opacity 0.3s ease, scale 0.3s ease;
   }
-  .kanjiCard.zoom {
-    scale: 1.1;
+  .kanjiCard.zoom,
+  .actionCard.zoom {
+    scale: 1.05;
   }
   .kanjiCard.repeat {
     background-color: var(--card-repeat-color);
@@ -62,6 +65,11 @@
   .actionCard {
     border: 0.18rem dashed var(--card-action-color);
     color: var(--card-action-color);
+    box-shadow: none;
+  }
+
+  .actionCard figcaption {
+    font-size: 1.3rem;
   }
 
   .cardActionButton {

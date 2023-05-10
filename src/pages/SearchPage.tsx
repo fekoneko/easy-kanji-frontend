@@ -61,8 +61,9 @@ const SearchPage = () => {
 
   return (
     <div className="scrollContent">
-      <h1>Поиск кандзи</h1>
+      <h1 className="pageTitle">Поиск кандзи</h1>
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
+
       {pageKanjis.length > 0 ? (
         <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
       ) : loading ? (

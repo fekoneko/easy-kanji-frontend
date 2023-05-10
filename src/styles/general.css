@@ -81,6 +81,31 @@
     height: 1.2rem;
   }
 
+  .infoTooltip {
+    text-align: left !important;
+    color: var(--primary-text-color);
+  }
+  .infoTooltip p,
+  .infoTooltip li {
+    margin: 0.3rem 0.2rem;
+  }
+  .infoTooltip li {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .infoTooltip li > {
+    flex: 1 1 0;
+  }
+  .infoTooltip li::before {
+    content: '';
+    display: block;
+    width: 2px;
+    min-width: 2px;
+
+    margin: 0.5rem 0;
+    background-color: var(--secondary-text-color);
+  }
+
   .okurigana {
     color: var(--okurigana-color);
     font-weight: normal;
@@ -91,5 +116,6 @@
     border: var(--secondary-text-color) solid 1px;
     padding: 0 0.3rem;
     margin: 0 0.2rem;
+    white-space: nowrap;
   }
 }

@@ -9,7 +9,7 @@ type InfoHoverProps = {
   children?: ReactNode;
 };
 
-const InfoHover = ({ tooltipId, tooltipAnchorRef, caption, children }: InfoHoverProps) => {
+const Info = ({ tooltipId, tooltipAnchorRef, caption, children }: InfoHoverProps) => {
   const infoIconRef = useRef<HTMLButtonElement>(null);
   const [tooltipShown, setTooltipShown] = useState(false);
 
@@ -24,10 +24,15 @@ const InfoHover = ({ tooltipId, tooltipAnchorRef, caption, children }: InfoHover
         {caption && <p>{caption}</p>}
         <InfoIcon />
       </button>
-      <Tooltip id={tooltipId} shown={tooltipShown} anchorRef={tooltipAnchorRef ?? infoIconRef}>
+      <Tooltip
+        id={tooltipId}
+        shown={tooltipShown}
+        anchorRef={tooltipAnchorRef ?? infoIconRef}
+        className="infoTooltip"
+      >
         {children}
       </Tooltip>
     </>
   );
 };
-export default InfoHover;
+export default Info;

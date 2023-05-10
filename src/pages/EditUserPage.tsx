@@ -4,7 +4,7 @@ import EditUserForm from '../components/forms/EditUserForm';
 const EditUserPage = () => {
   return (
     <div className="scrollContent">
-      <h1>Редактирование профиля</h1>
+      <h1 className="pageTitle">Редактирование профиля</h1>
       <EditUserForm />
       <Link to="/user" style={{ alignSelf: 'flex-end' }}>
         Вернуться к профилю

@@ -10,7 +10,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import InfoHover from '../content/InfoHover';
+import Info from '../content/Info';
 
 const Footer = () => {
   const location = useLocation();
@@ -76,21 +76,43 @@ const Footer = () => {
           case 'learn':
             return (
               <>
-                <InfoHover tooltipAnchorRef={footerRef} caption="помощь">
+                <Info tooltipAnchorRef={footerRef} caption="помощь">
+                  <p>Добро пожаловать в режим обучения!</p>
+                  <p>
+                    Ваша задача – вспомнить всю недостающую информацию о кандзи, смотря на лицевую
+                    сторону карточки. Затем Вы можете проверить себя, перевернув карточку. Если Вы
+                    не смогли что-то вспомнить сейчас или думали слишком долго, отложите кандзи для
+                    дальнейшего повторения и переходите к следующему. Когда вы окажетесь в конце
+                    списка, Вам будет предложено повторить все кандзи, которые вы отложили.
+                  </p>
+                  <p>Продолжайте повторение до тех пор, пока не сможете назвать все кандзи</p>
+                  <p>
+                    Советуется повторять тренировки периодически, каждый раз добавляя небольшое
+                    количество неизвестных кандзи
+                  </p>
+
                   <ul>
                     <li>
-                      Используйте стрелки <span className="key">←</span>
-                      <span className="key">→</span> для перемещения.
+                      <p>
+                        Используйте стрелки <span className="key">←</span>
+                        <span className="key">→</span> для перемещения.
+                      </p>
                     </li>
+
                     <li>
-                      Используйте <span className="key">Пробел</span>, чтобы перевернуть карточку.
+                      <p>
+                        Используйте <span className="key">Пробел</span>, чтобы перевернуть карточку.
+                      </p>
                     </li>
+
                     <li>
-                      Нажмите <span className="key">Enter</span>, чтобы пометить кандзи для
-                      дальнейшего повторения.
+                      <p>
+                        Нажмите <span className="key">Enter</span>, чтобы пометить кандзи для
+                        дальнейшего повторения.
+                      </p>
                     </li>
                   </ul>
-                </InfoHover>
+                </Info>
                 <button
                   onClick={(e: any) => {
                     setLearnModeShuffleFlag((prev) => !prev);

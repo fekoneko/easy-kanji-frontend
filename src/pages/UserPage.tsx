@@ -8,7 +8,7 @@ const UserPage = () => {
 
   return (
     <div className="scrollContent">
-      <h1>Мой профиль</h1>
+      <h1 className="pageTitle">Мой профиль</h1>
       <figure className="userProfileCard">
         <UserAvatar />
         <div className="userInfo">

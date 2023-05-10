@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
 import useWanaKana from '../../hooks/useWanaKana';
-import InfoHover from '../content/InfoHover';
+import Info from '../content/Info';
 
 type SearchBarProps = {
   searchRequest: string;
@@ -31,12 +31,25 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
         }
         aria-describedby="searchHint"
       />
-      <InfoHover tooltipId="searchHint" tooltipAnchorRef={searchFormRef}>
-        Несколько запросов разделяются запятой или широким пробелом.
-        <br />
-        Поддерживается автоматический перевод ромадзи в кану (нижний регистр - хирагана, ВЕРХНИЙ
-        регистр - катакана)
-      </InfoHover>
+
+      <Info tooltipId="searchHint" tooltipAnchorRef={searchFormRef}>
+        <ul>
+          <li>
+            <p>
+              Несколько запросов разделяются запятыми <span className="key">,</span>
+              <span className="key">、</span> или широким пробелом <span className="key">　</span>
+            </p>
+          </li>
+
+          <li>
+            <p>
+              Поддерживается автоматический перевод ромадзи в кану{' '}
+              <span className="key">hiragana</span>→<span className="key">ひらがな</span>{' '}
+              <span className="key">KATAKANA</span>→<span className="key">カタカナ</span>
+            </p>
+          </li>
+        </ul>
+      </Info>
     </form>
   );
 };
