@@ -85,4 +85,11 @@
     color: var(--okurigana-color);
     font-weight: normal;
   }
+
+  .key {
+    border-radius: 0.25rem;
+    border: var(--secondary-text-color) solid 1px;
+    padding: 0 0.3rem;
+    margin: 0 0.2rem;
+  }
 }

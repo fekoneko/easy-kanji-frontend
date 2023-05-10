@@ -6,13 +6,21 @@ import useOnKeyUp from '../../hooks/useOnKeyUp';
 type ActionCardProps = {
   shown: boolean;
   positionOnScreen: 'left' | 'center' | 'right';
-  queueOrder: number;
+  cardIndex: number;
+  handleFocus?: () => any;
   action: () => any;
   caption?: string;
 };
 
-const ActionCard = ({ shown, positionOnScreen, queueOrder, action, caption }: ActionCardProps) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
+const ActionCard = ({
+  shown,
+  positionOnScreen,
+  cardIndex,
+  handleFocus,
+  action,
+  caption,
+}: ActionCardProps) => {
+  const cardContainerRef = useRef<HTMLElement>(null);
   const windowWidth = useWindowWidth({ wait: 10 });
 
   const handleKeyUp = () => {
@@ -29,19 +37,27 @@ const ActionCard = ({ shown, positionOnScreen, queueOrder, action, caption }: Ac
       unmountOnExit
       timeout={300}
       classNames="cardContainer"
-      nodeRef={nodeRef}
+      nodeRef={cardContainerRef}
     >
       <figure
         className={`cardContainer  ${positionOnScreen}`}
-        ref={nodeRef}
+        ref={cardContainerRef}
         style={{
-          transform: `translateX(${(windowWidth / 3) * queueOrder}px)`,
+          transform: `translateX(${(windowWidth / 3) * cardIndex}px)`,
         }}
       >
         <button
           className="actionCard"
           onClick={(e) => e.preventDefault()}
-          onMouseDown={(e) => e.button === 0 && action()}
+          onMouseDown={(e) => {
+            if (e.button === 0) {
+              action();
+
+              if (positionOnScreen !== 'center' && handleFocus) {
+                handleFocus();
+              }
+            }
+          }}
           tabIndex={-1}
         >
           <figcaption>{caption}</figcaption>

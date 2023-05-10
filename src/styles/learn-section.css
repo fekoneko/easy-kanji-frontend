@@ -16,6 +16,9 @@
 
   .cardContainer {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: var(--card-width);
     aspect-ratio: 2/3;
   }
@@ -26,7 +29,8 @@
   .cardContainer.right .kanjiCard {
     scale: 0.8;
   }
-  .kanjiCard {
+  .kanjiCard,
+  .actionCard {
     width: 100%;
     height: 100%;
     padding: 0.5rem;
@@ -36,8 +40,7 @@
     box-shadow: var(--shadow-style);
     transition: opacity 0.3s ease, scale 0.3s ease;
   }
-  .kanjiCard.zoom,
-  .actionCard.zoom {
+  .kanjiCard.zoom {
     scale: 1.1;
   }
   .kanjiCard.repeat {
@@ -57,15 +60,21 @@
   }
 
   .actionCard {
-    width: 100%;
-    height: 100%;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
     border: 0.18rem dashed var(--card-action-color);
     color: var(--card-action-color);
-    background-color: var(--bg-color);
-    box-shadow: var(--shadow-style);
-    transition: opacity 0.3s ease, scale 0.3s ease;
+  }
+
+  .cardActionButton {
+    z-index: -1;
+    position: absolute;
+    top: -2rem;
+    border: none;
+    color: var(--secondary-text-color);
+    background-color: transparent;
+  }
+  .cardActionButton:hover {
+    text-decoration: underline;
+    background-color: transparent;
   }
 
   .kanjiCardNav {

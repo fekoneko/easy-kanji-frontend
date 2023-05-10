@@ -80,7 +80,8 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                         ? 'left'
                         : 'right'
                     }
-                    queueOrder={index}
+                    cardIndex={index}
+                    handleFocus={() => setCurrentIndex(index)}
                   />
                 ))}
                 {repeatKanjis.length > 0 && (
@@ -94,7 +95,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                         ? 'left'
                         : 'right'
                     }
-                    queueOrder={maxIndex}
+                    cardIndex={maxIndex}
                     action={selectRepeatKanjis}
                     caption="Повторить помеченные кандзи"
                   />

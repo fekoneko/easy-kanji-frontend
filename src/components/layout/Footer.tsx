@@ -77,7 +77,19 @@ const Footer = () => {
             return (
               <>
                 <InfoHover tooltipAnchorRef={footerRef} caption="помощь">
-                  Используйте стрелки для перемещения. Пробел переворачивает карточку
+                  <ul>
+                    <li>
+                      Используйте стрелки <span className="key">←</span>
+                      <span className="key">→</span> для перемещения.
+                    </li>
+                    <li>
+                      Используйте <span className="key">Пробел</span>, чтобы перевернуть карточку.
+                    </li>
+                    <li>
+                      Нажмите <span className="key">Enter</span>, чтобы пометить кандзи для
+                      дальнейшего повторения.
+                    </li>
+                  </ul>
                 </InfoHover>
                 <button
                   onClick={(e: any) => {

@@ -14,7 +14,8 @@ type KanjiCardProps = {
   backSide: ViewContent;
   shown: boolean;
   positionOnScreen: 'left' | 'center' | 'right';
-  queueOrder: number;
+  cardIndex: number;
+  handleFocus?: () => any;
 };
 
 const KanjiCard = ({
@@ -23,10 +24,12 @@ const KanjiCard = ({
   backSide,
   shown,
   positionOnScreen,
-  queueOrder,
+  cardIndex,
+  handleFocus,
 }: KanjiCardProps) => {
   const { repeatKanjis, setRepeatKanjis } = useContext(kanjiContext);
-  const nodeRef = useRef<HTMLDivElement>(null);
+  const cardContainerRef = useRef<HTMLElement>(null);
+  const cardActionButtonRef = useRef<HTMLButtonElement>(null);
   const [side, setSide] = useState<Side>('front');
   const windowWidth = useWindowWidth({ wait: 10 });
   const [zoom, setZoom] = useState<boolean>(false);
@@ -65,13 +68,13 @@ const KanjiCard = ({
       unmountOnExit
       timeout={300}
       classNames="cardContainer"
-      nodeRef={nodeRef}
+      nodeRef={cardContainerRef}
     >
       <figure
         className={`cardContainer  ${positionOnScreen}`}
-        ref={nodeRef}
+        ref={cardContainerRef}
         style={{
-          transform: `translateX(${(windowWidth / 3) * queueOrder}px)`,
+          transform: `translateX(${(windowWidth / 3) * cardIndex}px)`,
         }}
       >
         <button
@@ -84,8 +87,10 @@ const KanjiCard = ({
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
             if (e.button === 0) {
-              zoomIn();
-              flipCard();
+              if (positionOnScreen === 'center') {
+                zoomIn();
+                flipCard();
+              } else if (handleFocus) handleFocus();
             }
           }}
           onMouseUp={(e) => e.button === 0 && zoomOut()}
@@ -95,6 +100,18 @@ const KanjiCard = ({
         >
           <KanjiView kanji={kanji} viewContent={viewContent} />
         </button>
+
+        <CSSTransition
+          in={positionOnScreen === 'center' && side === 'back'}
+          unmountOnExit
+          timeout={300}
+          classNames="fade"
+          nodeRef={cardActionButtonRef}
+        >
+          <button ref={cardActionButtonRef} className="cardActionButton" onClick={repeatCard}>
+            {cardRepeated ? 'помечено для повторения' : 'повторить позже'}
+          </button>
+        </CSSTransition>
       </figure>
     </CSSTransition>
   );
