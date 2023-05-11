@@ -1,5 +1,6 @@
 import { ViewContent } from '../components/content/KanjiView';
 import LearnUI from '../components/layout/LearnUI';
+import TitledPage from '../components/routing/TitledPage';
 
 const frontSide: ViewContent = {
   writing: false,
@@ -17,9 +18,11 @@ const backSide: ViewContent = {
 
 const LearnByMeaningPage = () => {
   return (
-    <div className="onScreenContent ">
-      <LearnUI frontSide={frontSide} backSide={backSide} />
-    </div>
+    <TitledPage title="Изучение кандзи">
+      <div className="onScreenContent ">
+        <LearnUI frontSide={frontSide} backSide={backSide} />
+      </div>
+    </TitledPage>
   );
 };
 export default LearnByMeaningPage;

@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
 import usePopup from '../hooks/usePopup';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
+import TitledPage from '../components/routing/TitledPage';
 
 const SearchPage = () => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();
@@ -60,26 +61,28 @@ const SearchPage = () => {
   }, [searchErrorStatus]);
 
   return (
-    <div className="scrollContent">
-      <h1 className="pageTitle">Поиск кандзи</h1>
-      <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
+    <TitledPage title="Поиск кандзи">
+      <div className="scrollContent">
+        <h1 className="pageTitle">Поиск кандзи</h1>
+        <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
 
-      {pageKanjis.length > 0 ? (
-        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
-      ) : loading ? (
-        <div className="contentPlaceholder">
-          <LoadingSpinner />
-        </div>
-      ) : (
-        <div className="contentPlaceholder">
-          {searchRequest.length > 0 ? (
-            <p>По запросу ничего не найдено</p>
-          ) : (
-            <p>Введите поисковой запрос</p>
-          )}
-        </div>
-      )}
-    </div>
+        {pageKanjis.length > 0 ? (
+          <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
+        ) : loading ? (
+          <div className="contentPlaceholder">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div className="contentPlaceholder">
+            {searchRequest.length > 0 ? (
+              <p>По запросу ничего не найдено</p>
+            ) : (
+              <p>Введите поисковой запрос</p>
+            )}
+          </div>
+        )}
+      </div>
+    </TitledPage>
   );
 };
 export default SearchPage;
