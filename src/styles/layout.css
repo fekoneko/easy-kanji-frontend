@@ -6,7 +6,6 @@
     min-width: var(--min-w);
     height: 100vh;
     min-height: var(--min-h);
-    color: var(--primary-text-color);
     background-color: var(--bg-color);
   }
   .App > * {
@@ -19,7 +18,6 @@
     z-index: 100;
     display: flex;
     gap: 1rem;
-    color: var(--bg-color);
     padding-top: 0.1rem;
     padding-bottom: 0.35rem;
     background-color: var(--primary-color);
@@ -28,14 +26,13 @@
     flex-grow: 1;
     font-size: 2rem;
     font-weight: bold;
-    color: var(--bg-color);
+    color: var(--header-text-color);
     text-decoration: none;
   }
   header .learnButton {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--bg-color);
   }
   header .userButton {
     border: none;
@@ -44,6 +41,10 @@
   }
   header .userButton:hover {
     text-decoration: underline;
+  }
+  header a,
+  header button {
+    color: var(--header-text-color);
   }
 
   nav {
@@ -62,7 +63,7 @@
     background-color: var(--hover-color);
   }
   nav > a.active {
-    color: var(--bg-color);
+    color: var(--header-text-color);
     background-color: var(--primary-color);
   }
 

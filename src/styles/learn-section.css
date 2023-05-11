@@ -50,7 +50,7 @@
     background-color: var(--card-repeat-color);
   }
   .kanjiCard.front .kanjiView {
-    color: var(--bg-color);
+    color: var(--card-front-text-color);
     background-color: var(--card-front-color);
   }
   .kanjiCard.back .kanjiView {

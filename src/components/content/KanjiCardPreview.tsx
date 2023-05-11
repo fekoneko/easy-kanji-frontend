@@ -33,10 +33,11 @@ const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewPro
     <button
       ref={kanjiCardPreviewRef}
       className={`kanjiCardPreview${cardRepeated ? ' repeat' : ''}`}
-      onClick={(e: any) => {
+      onClick={(e) => {
         if (onClick) onClick(e);
-        e.target.blur();
       }}
+      onFocus={(e) => e.target.blur()}
+      tabIndex={-1}
       style={getStyle()}
     >
       {mode === 'meaning' ? (

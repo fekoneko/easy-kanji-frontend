@@ -8,7 +8,7 @@
 
   .loadingSpinnerPoint {
     position: absolute;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--primary-text-color);
     width: 0.875rem;
     height: 0.875rem;
     border-radius: 0.563rem;

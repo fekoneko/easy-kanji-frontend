@@ -12,6 +12,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
+    color: var(--primary-text-color);
     overflow: hidden;
   }
 
@@ -74,6 +75,7 @@
     display: block;
     width: 2rem;
     height: 2rem;
+    fill: var(--primary-text-color);
   }
   .infoHover:has(p) > svg {
     margin-bottom: -0.2rem;

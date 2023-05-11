@@ -1,31 +1,22 @@
 :root {
   --bg-color: white;
-  --app-padding: 15%;
   --primary-color: #4b50f7;
-  --secondary-color: #bbbbbb;
   --primary-text-color: black;
+  --header-text-color: white;
   --secondary-text-color: #717171;
   --okurigana-color: #7e86f2;
   --hover-color: #dfdfdf;
   --disabled-color: #949494;
   --disabled-bg-color: #eeeeee;
   --selected-cell-color: #d6d9ff;
-  --popup-bg-color: #eb6886;
   --invalid-field-color: #eb6886;
-  --popup-text-color: black;
-  --popup-border-style: 2px solid #751a2f;
+  --popup-bg-color: #ff6b9a;
+  --popup-text-color: #31292b;
+  --popup-border-style: 2px solid #514346;
   --a-color: var(--primary-color);
-  --card-front-color: #7e86f2;
+  --card-front-text-color: #41425e;
+  --card-front-color: #bcc4ed;
   --card-back-color: white;
-  --card-repeat-color: #ff6199;
+  --card-repeat-color: #fb75ab;
   --card-action-color: #717171;
-  --card-width: 16rem;
-  --border-style: 2px solid var(--secondary-text-color);
-  --overlay-border-style: 2px solid var(--primary-color);
-  --disabled-border-style: 2px solid var(--disabled-color);
-  --shadow-style: 0 0 1rem #0000004f;
-  --focus-border-style: 2px solid var(--primary-text-color);
-  --transition-params: 0.2s ease;
-  --min-w: 12rem;
-  --min-h: 10rem;
 }
