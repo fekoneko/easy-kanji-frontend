@@ -2,8 +2,8 @@ import { Dispatch, ReactNode, SetStateAction, createContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import useSetting from '../hooks/useSetting';
 
-const LIGHT_THEME_LOCATION = '/src/styles/themes/light-theme.css';
-const DARK_THEME_LOCATION = '/src/styles/themes/dark-theme.css';
+const LIGHT_THEME_LOCATION = '/themes/light-theme.css';
+const DARK_THEME_LOCATION = '/themes/dark-theme.css';
 
 export type Theme = 'light' | 'dark';
 export type Language = 'ru' | 'ja';
