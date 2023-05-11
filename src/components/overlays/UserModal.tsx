@@ -8,7 +8,7 @@ const UserModal = () => {
   const { closeModal } = useModal();
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
-  const { theme, setTheme } = useContext(settingsContext);
+  const { theme, setTheme, language, setLanguage } = useContext(settingsContext);
 
   const handleProfile = () => {
     navigate('/user');
@@ -16,7 +16,7 @@ const UserModal = () => {
   };
 
   const handleLanguageSwitch = () => {
-    // TODO
+    setLanguage((prev) => (prev === 'ru' ? 'ja' : 'ru'));
   };
 
   const handleThemeSwitch = () => {
@@ -37,7 +37,9 @@ const UserModal = () => {
     <div className="userModal">
       <h1>{auth?.username}</h1>
       <button onClick={handleProfile}>Профиль</button>
-      <button onClick={handleLanguageSwitch}>Язык: русский</button>
+      <button onClick={handleLanguageSwitch}>
+        Язык: {language === 'ru' ? 'русский' : 'японский'}
+      </button>
       <button onClick={handleThemeSwitch}>Тема: {theme === 'light' ? 'светлая' : 'тёмная'}</button>
       <button onClick={handleFeedback}>Оставить отзыв</button>
       <button onClick={handleLogOut}>Выход</button>
