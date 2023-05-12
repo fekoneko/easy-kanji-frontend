@@ -1,15 +1,21 @@
 import { Link } from 'react-router-dom';
 import TitledPage from '../components/routing/TitledPage';
+import { Trans, useTranslation } from 'react-i18next';
 
 const PageNotFound = () => {
+  const { t } = useTranslation();
+
   return (
-    <TitledPage title="Страница не найдена">
+    <TitledPage title={t('Pages.NotFound.Title')}>
       <div className="scrollContent">
         <div className="contentPlaceholder">
-          <h1>404</h1>
-          <h2>Страница не найдена</h2>
+          <h1>{t('Pages.NotFound.Code')}</h1>
+          <h2>{t('Pages.NotFound.Title')}</h2>
           <p>
-            Перейдите в раздел <Link to="/popular">Популярные</Link>
+            <Trans
+              i18nKey="Pages.NotFound.Hint"
+              components={{ linkElement: <Link to="/popular" /> }}
+            />
           </p>
         </div>
       </div>

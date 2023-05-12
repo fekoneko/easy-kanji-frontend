@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
 import useWanaKana from '../../hooks/useWanaKana';
 import Info from '../content/Info';
+import { Trans, useTranslation } from 'react-i18next';
 
 type SearchBarProps = {
   searchRequest: string;
@@ -8,6 +9,7 @@ type SearchBarProps = {
 };
 
 const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
+  const { t } = useTranslation();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchFormRef = useRef<HTMLFormElement>(null);
   useWanaKana(searchInputRef);
@@ -15,7 +17,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
   return (
     <form className="searchForm" ref={searchFormRef} onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search" style={{ position: 'absolute', left: '-99999px' }}>
-        Поиск:
+        {t('Forms.SearchBar.Search')}
       </label>
       <input
         ref={searchInputRef}
@@ -23,7 +25,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
         autoFocus
         role="search"
         type="text"
-        placeholder="Введите кандзи, его чтение или значение"
+        placeholder={t('Forms.SearchBar.SearchPlaceholder')}
         value={searchRequest}
         onInput={
           (e: any) => typeof e.target.value === 'string' && setSearchRequest(e.target.value)
@@ -33,22 +35,10 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
       />
 
       <Info tooltipId="searchHint" tooltipAnchorRef={searchFormRef}>
-        <ul>
-          <li>
-            <p>
-              Несколько запросов разделяются запятыми <span className="key">,</span>
-              <span className="key">、</span> или широким пробелом <span className="key">　</span>
-            </p>
-          </li>
-
-          <li>
-            <p>
-              Поддерживается автоматический перевод ромадзи в кану{' '}
-              <span className="key">hiragana</span>→<span className="key">ひらがな</span>{' '}
-              <span className="key">KATAKANA</span>→<span className="key">カタカナ</span>
-            </p>
-          </li>
-        </ul>
+        <Trans
+          i18nKey="SearchPage.Info"
+          components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+        />
       </Info>
     </form>
   );

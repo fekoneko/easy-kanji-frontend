@@ -7,12 +7,15 @@ import usePopup from '../../hooks/usePopup';
 import { editKanjiInList } from '../../controllers/kanjiController';
 import useAbortController from '../../hooks/useAbortController';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 
 type EditKanjiFormProps = {
   initialKanji: Kanji | null;
 };
 
 const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
+  const { t } = useTranslation();
+
   const [kanjiWriting, setKanjWriting] = useState('');
   const [kanjiWritingValid, setKanjiWritingValid] = useState(false);
   const [kanjiWritingFocus, setKanjiWritingFocus] = useState(false);
@@ -34,7 +37,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   }, [kanjiWriting, kanjiOnReadings, kanjiKunReadings, kanjiMeaning]);
 
   useEffect(() => {
-    if (editOrAddErrorStatus) showPopup('При сохранении возникла ошибка');
+    if (editOrAddErrorStatus) showPopup(t('Forms.EditKanjis.Errors.EditOrAddFailed'));
   }, [editOrAddErrorStatus]);
 
   useEffect(() => {
@@ -86,7 +89,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="kanjiWritingInput">Кандзи:</label>
+        <label htmlFor="kanjiWritingInput">{t('Forms.EditKanjis.Writing')}</label>
         <input
           ref={kanjiWritingRef}
           required
@@ -102,16 +105,16 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
         />
       </fieldset>
       <Tooltip shown={!kanjiWritingValid && kanjiWritingFocus} anchorRef={kanjiWritingRef}>
-        Введите один символ
+        {t('Forms.EditKanjis.Errors.WritingHint')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="kanjiMeaningInput">Значение:</label>
+        <label htmlFor="kanjiMeaningInput">{t('Forms.EditKanjis.Meaning')}</label>
         <input
           required
           id="kanjiMeaningInput"
           type="text"
-          placeholder="Введите значение"
+          placeholder={t('Forms.EditKanjis.MeaningPlaceholder')}
           value={kanjiMeaning}
           onChange={(e) => setKanjMeaning(e.target.value)}
         />
@@ -120,7 +123,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
       <TextArrayInputs
         array={kanjiOnReadings}
         setArray={setKanjOnReadings}
-        name="Оны"
+        name={t('Forms.EditKanjis.OnReadings')}
         ids="kanjiOnReadingsInputs"
         placeholder="–"
       />
@@ -128,13 +131,19 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
       <TextArrayInputs
         array={kanjiKunReadings}
         setArray={setKanjKunReadings}
-        name="Куны"
+        name={t('Forms.EditKanjis.KunReadings')}
         ids="kanjiKunReadingsInputs"
         placeholder="–"
       />
 
       <button type="submit" ref={submitRef}>
-        {loading ? <LoadingSpinner /> : initialKanji ? 'Изменить' : 'Добавить'}
+        {loading ? (
+          <LoadingSpinner />
+        ) : initialKanji ? (
+          t('Forms.EditKanjis.Edit')
+        ) : (
+          t('Forms.EditKanjis.Add')
+        )}
       </button>
     </form>
   );

@@ -3,14 +3,16 @@ import { ReactComponent as UserAvatar } from '../assets/userAvatar.svg';
 import { Link } from 'react-router-dom';
 import ProtectedContent from '../components/content/ProtectedContent';
 import TitledPage from '../components/routing/TitledPage';
+import { useTranslation } from 'react-i18next';
 
 const UserPage = () => {
+  const { t } = useTranslation();
   const { auth } = useAuth();
 
   return (
-    <TitledPage title="Мой профиль">
+    <TitledPage title={t('Pages.User.Title')}>
       <div className="scrollContent">
-        <h1 className="pageTitle">Мой профиль</h1>
+        <h1 className="pageTitle">{t('Pages.User.Title')}</h1>
         <figure className="userProfileCard">
           <UserAvatar />
           <div className="userInfo">
@@ -18,10 +20,10 @@ const UserPage = () => {
             <p>{auth?.roles.join(', ')}</p>
           </div>
         </figure>
-        <div className="userPageOptions">
-          <Link to="/user/edit">Редактировать профиль</Link>
+        <div className="userPageLinks">
+          <Link to="/user/edit">{t('Pages.User.Links.EditProfile')}</Link>
           <ProtectedContent allowedRoles={['Admin']}>
-            <Link to="/edit/popular">Панель редактирования кандзи</Link>
+            <Link to="/edit/popular">{t('Pages.User.Links.EditKanji')}</Link>
           </ProtectedContent>
         </div>
       </div>

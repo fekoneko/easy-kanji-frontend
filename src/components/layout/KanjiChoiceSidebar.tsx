@@ -8,6 +8,7 @@ import kanjisApi from '../../api/kanjisApi';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import { Trans, useTranslation } from 'react-i18next';
 
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
@@ -22,6 +23,7 @@ const KanjiChoiceSidebar = ({
   chosenKanji,
   setChosenKanji,
 }: KanjiSelectionSidebarProps) => {
+  const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { showPopup } = usePopup();
   const [loading, setLoading] = useState(false);
@@ -40,7 +42,7 @@ const KanjiChoiceSidebar = ({
   );
 
   useEffect(() => {
-    if (getKanjisErrorStatus) showPopup('Ошибка загрузки');
+    if (getKanjisErrorStatus) showPopup(t('KanjiGrid.Errors.LoadingFailed'));
   }, [getKanjisErrorStatus]);
 
   return (
@@ -69,7 +71,7 @@ const KanjiChoiceSidebar = ({
         </div>
       ) : (
         <div className="contentPlaceholder">
-          <p>Пустой список</p>
+          <Trans i18nKey="PopularPage.Placeholder" components={{ p: <p /> }} />
         </div>
       )}
     </aside>

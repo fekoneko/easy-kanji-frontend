@@ -8,12 +8,14 @@ import usePopup from '../hooks/usePopup';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
+import { Trans, useTranslation } from 'react-i18next';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
 };
 
 const PopularPage = ({ mainRef }: PopularPageProps) => {
+  const { t } = useTranslation();
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const titleRef = useRef<HTMLDivElement>(null);
   const { showPopup } = usePopup();
@@ -33,47 +35,19 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
   );
 
   useEffect(() => {
-    if (getKanjisErrorStatus) showPopup('Ошибка загрузки');
+    if (getKanjisErrorStatus) showPopup(t('KanjiGrid.Errors.LoadingFailed'));
   }, [getKanjisErrorStatus]);
 
   return (
-    <TitledPage title="Популярные кандзи">
+    <TitledPage title={t('Pages.Popular.Title')}>
       <div className="scrollContent">
         <div className="pageTitle" ref={titleRef}>
-          <h1>Популярные кандзи</h1>
+          <h1>{t('Pages.Popular.Title')}</h1>
           <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
-            <p>
-              В этом списке кандзи расположены в порядке частоты их употребления. Это хорошая идея -
-              начать изучение отсюда.
-            </p>
-
-            <ul>
-              <li>
-                <p>
-                  Выделите необходимые кандзи <span className="key">щелчком мыши</span> или при
-                  помощи <span className="key">Пробела</span>, чтобы они появились в режиме обучения
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Если Вы вошли в аккаунт, Вы можете сохранять кандзи, нажав на иконку справа от
-                  значения или клавишу <span className="key">Enter</span>. Сохранённые кандзи будут
-                  доступны на соответствующей вкладке
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Вы можете быстро перемещаться по таблице при помощи стрелок{' '}
-                  <span className="key">←</span>
-                  <span className="key">↑</span>
-                  <span className="key">→</span>
-                  <span className="key">↓</span> (<span className="key">Shift</span> ускоряет
-                  перемещение)
-                </p>
-              </li>
-            </ul>
+            <Trans
+              i18nKey="Pages.Popular.Info"
+              components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+            />
           </Info>
         </div>
 
@@ -85,7 +59,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
           </div>
         ) : (
           <div className="contentPlaceholder">
-            <p>Тут пока ничего нет</p>
+            <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
           </div>
         )}
       </div>

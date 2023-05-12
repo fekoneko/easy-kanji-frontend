@@ -17,6 +17,7 @@ import LoadingSpinner from '../animations/LoadingSpinner';
 import KanjiReadings from './KanjiReadings';
 import authContext from '../../contexts/authContext';
 import useOnKeyUp from '../../hooks/useOnKeyUp';
+import { useTranslation } from 'react-i18next';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -26,6 +27,7 @@ type KanjiCellProps = {
 };
 
 const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => {
+  const { t } = useTranslation();
   const { selectedKanjis, setSelectedKanjis, savedKanjis, setSavedKanjis } =
     useContext(kanjiContext);
   const { auth } = useContext(authContext);
@@ -69,11 +71,11 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   };
 
   useEffect(() => {
-    if (saveKanjiErrorStatus) showPopup('Не получилось сохранить кандзи');
+    if (saveKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.SaveFailed'));
   }, [saveKanjiErrorStatus]);
 
   useEffect(() => {
-    if (removeKanjiErrorStatus) showPopup('Не получилось удалить кандзи');
+    if (removeKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.RemoveFailed'));
   }, [removeKanjiErrorStatus]);
 
   useOnClick(
@@ -143,19 +145,19 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
           placeholder={
             <ControlButton
               shown={focus || showControls || kanjiSaved}
-              title={'Войдите, чтобы сохранять кандзи'}
+              title={t('KanjiGrid.Tooltips.AuthRequired')}
               action={() => {
                 cellButtonRef.current?.focus();
                 showModal(<AuthModal />);
               }}
             >
-              {kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
+              <SaveKanjiIcon />
             </ControlButton>
           }
         >
           <ControlButton
             shown={focus || showControls || kanjiSaved || loading}
-            title={kanjiSaved ? 'Удалить из сохранённых' : 'Сохранить кандзи'}
+            title={kanjiSaved ? t('KanjiGrid.Tooltips.Remove') : t('KanjiGrid.Tooltips.Save')}
             action={() => {
               cellButtonRef.current?.focus();
               saveKanji();

@@ -5,12 +5,15 @@ import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
 };
 
 const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
+  const { t } = useTranslation();
+
   const [username, setUsername] = useState<string>('');
   const [usernameValid, setUsernameValid] = useState<boolean>(true);
   const [usernameFocus, setUsernameFocus] = useState<boolean>(false);
@@ -44,7 +47,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       setPasswordValid(false);
       passwordRef.current?.focus();
     } else {
-      showPopup('Неизвестная ошибка авторизации');
+      showPopup(t('Forms.SignIn.Errors.Unknown'));
     }
   }, [signInErrorStatus]);
 
@@ -67,13 +70,13 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   return (
     <form className="SignInForm" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="usernameInput">Логин:</label>
+        <label htmlFor="usernameInput">{t('Forms.SignIn.Username')}</label>
         <input
           ref={usernameRef}
           id="usernameInput"
           type="text"
           autoFocus
-          placeholder="Введите логин…"
+          placeholder={t('Forms.SignIn.UsernamePlaceholder')}
           autoComplete="off"
           required
           onChange={(e) => setUsername(e.target.value)}
@@ -85,16 +88,16 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
         />
       </fieldset>
       <Tooltip id="usernameHint" shown={!usernameValid && usernameFocus} anchorRef={usernameRef}>
-        Пользователя с таким именем не существует
+        {t('Forms.SignIn.Errors.UsernameDoesNotExist')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="passwordInput">Пароль:</label>
+        <label htmlFor="passwordInput">{t('Forms.SignIn.Password')}</label>
         <input
           ref={passwordRef}
           id="passwordInput"
           type="password"
-          placeholder="Введите пароль…"
+          placeholder={t('Forms.SignIn.PasswordPlaceholder')}
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -105,11 +108,11 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
         />
       </fieldset>
       <Tooltip id="passwordHint" shown={!passwordValid && passwordFocus} anchorRef={passwordRef}>
-        Пароль введён неверно
+        {t('Forms.SignIn.Errors.PasswordIncorrect')}
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        {loading ? <LoadingSpinner /> : 'Войти'}
+        {loading ? <LoadingSpinner /> : t('Forms.SignIn.SignIn')}
       </button>
     </form>
   );

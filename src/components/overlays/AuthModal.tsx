@@ -3,10 +3,12 @@ import SignInForm from '../forms/SignInForm';
 import SignUpForm from '../forms/SignUpForm';
 import useModal from '../../hooks/useModal';
 import UserModal from './UserModal';
+import { Trans, useTranslation } from 'react-i18next';
 
 type Mode = 'reg' | 'log';
 
 const AuthModal = () => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<Mode>('log');
   const { showModal } = useModal();
 
@@ -14,19 +16,23 @@ const AuthModal = () => {
     case 'reg':
       return (
         <>
-          <h1>Регистрация</h1>
+          <h1>{t('Modals.Auth.SignUpTitle')}</h1>
           <SignUpForm onSignedUp={() => showModal(<UserModal />)} />
           <p>
-            Уже есть акаунт?{' '}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setMode('log');
+            <Trans
+              i18nKey="Modals.Auth.SignUpHint"
+              components={{
+                linkElement: (
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMode('log');
+                    }}
+                  />
+                ),
               }}
-            >
-              Войдите
-            </a>
+            />
           </p>
         </>
       );
@@ -34,19 +40,23 @@ const AuthModal = () => {
     default:
       return (
         <>
-          <h1>Вход</h1>
+          <h1>{t('Modals.Auth.SignInTitle')}</h1>
           <SignInForm onLoggedIn={() => showModal(<UserModal />)} />
           <p>
-            Нет акаунта?{' '}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setMode('reg');
+            <Trans
+              i18nKey="Modals.Auth.SignInHint"
+              components={{
+                linkElement: (
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMode('reg');
+                    }}
+                  />
+                ),
               }}
-            >
-              Зарегистрируйтесь
-            </a>
+            />
           </p>
         </>
       );

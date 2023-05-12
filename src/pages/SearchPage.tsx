@@ -7,8 +7,10 @@ import usePageKanjis from '../hooks/usePageKanjis';
 import usePopup from '../hooks/usePopup';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import TitledPage from '../components/routing/TitledPage';
+import { Trans, useTranslation } from 'react-i18next';
 
 const SearchPage = () => {
+  const { t } = useTranslation();
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
@@ -57,13 +59,13 @@ const SearchPage = () => {
   }, [searchRequest]);
 
   useEffect(() => {
-    if (searchErrorStatus) showPopup('Ошибка поиска');
+    if (searchErrorStatus) showPopup(t('KanjiGrid.Errors.LoadingFailed'));
   }, [searchErrorStatus]);
 
   return (
-    <TitledPage title="Поиск кандзи">
+    <TitledPage title={t('Pages.Search.Title')}>
       <div className="scrollContent">
-        <h1 className="pageTitle">Поиск кандзи</h1>
+        <h1 className="pageTitle">{t('Pages.Search.Title')}</h1>
         <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
 
         {pageKanjis.length > 0 ? (
@@ -75,9 +77,9 @@ const SearchPage = () => {
         ) : (
           <div className="contentPlaceholder">
             {searchRequest.length > 0 ? (
-              <p>По запросу ничего не найдено</p>
+              <Trans i18nKey="Pages.Search.Placeholders.NotFound" components={{ p: <p /> }} />
             ) : (
-              <p>Введите поисковой запрос</p>
+              <Trans i18nKey="Pages.Search.Placeholders.EmptyRequest" components={{ p: <p /> }} />
             )}
           </div>
         )}

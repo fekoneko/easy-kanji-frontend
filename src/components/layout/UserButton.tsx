@@ -2,8 +2,10 @@ import AuthModal from '../overlays/AuthModal';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
 import UserModal from '../overlays/UserModal';
+import { useTranslation } from 'react-i18next';
 
 const UserButton = () => {
+  const { t } = useTranslation();
   const { auth, setAuth } = useAuth();
   const { showModal } = useModal();
 
@@ -22,7 +24,7 @@ const UserButton = () => {
         </button>
       ) : (
         <button onClick={handleSignIn} className="userButton">
-          Войти
+          {t('Layout.Header.SignIn')}
         </button>
       )}
     </>

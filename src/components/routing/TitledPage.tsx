@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 type PageTitleProps = {
   title: string;
@@ -7,10 +8,14 @@ type PageTitleProps = {
 };
 
 const TitledPage = ({ title, children }: PageTitleProps) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Helmet>
-        <title>{title} – EasyKanji</title>
+        <title>
+          {title} – {t('SiteTitle')}
+        </title>
       </Helmet>
       {children}
     </>

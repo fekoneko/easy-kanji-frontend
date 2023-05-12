@@ -5,6 +5,7 @@ import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 
 const USERNAME_REGEX = /^.{2,16}$/;
 const PASSWORD_REGEX = /^.{6,24}$/;
@@ -14,6 +15,7 @@ type EditUserFormProps = {
 };
 
 const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
+  const { t } = useTranslation();
   const { auth } = useAuth();
 
   const [newUsername, setNewUsername] = useState<string>(auth?.username ?? '');
@@ -70,7 +72,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
     if (editUserErrorStatus === 400) {
       usernameRef.current?.focus();
     } else {
-      showPopup('При сохранении возникла ошибка');
+      showPopup(t('Forms.EditUser.Errors.EditFailed'));
     }
   }, [editUserErrorStatus]);
 
@@ -130,13 +132,13 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   return (
     <form className="RegistrationForm" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="usernameInput">Логин:</label>
+        <label htmlFor="usernameInput">{t('Forms.EditUser.Username')}</label>
         <input
           ref={usernameRef}
           id="usernameInput"
           type="text"
           autoFocus
-          placeholder="Придумайте логин…"
+          placeholder={t('Forms.EditUser.UsernamePlaceholder')}
           autoComplete="off"
           onChange={(e) => setNewUsername(e.target.value)}
           value={newUsername}
@@ -151,19 +153,19 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         shown={usernameHintShown && !usernameOccupied}
         anchorRef={usernameRef}
       >
-        Логин должен содержать от 2 до 16 символов
+        {t('Forms.EditUser.Errors.UsernameHint')}
       </Tooltip>
       <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
-        Пользователь с таким именем уже существует
+        {t('Forms.EditUser.Errors.UsernameOccupied')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="oldPasswordInput">Старый пароль:</label>
+        <label htmlFor="oldPasswordInput">{t('Forms.EditUser.OldPassword')}</label>
         <input
           ref={oldPasswordRef}
           id="oldPasswordInput"
           type="password"
-          placeholder="Введите старый пароль…"
+          placeholder={t('Forms.EditUser.OldPasswordPlaceholder')}
           autoComplete="off"
           required
           onChange={(e) => setOldPassword(e.target.value)}
@@ -175,16 +177,16 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         />
       </fieldset>
       <Tooltip id="oldPasswordHint" shown={oldPasswordHintShown} anchorRef={oldPasswordRef}>
-        Пароль неверный.
+        {t('Forms.EditUser.Errors.OldPasswordIncorrect')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="passwordInput">Новый пароль:</label>
+        <label htmlFor="passwordInput">{t('Forms.EditUser.NewPassword')}</label>
         <input
           ref={passwordRef}
           id="passwordInput"
           type="password"
-          placeholder="Придумайте пароль…"
+          placeholder={t('Forms.EditUser.NewPasswordPlaceholder')}
           autoComplete="off"
           onChange={(e) => setNewPassword(e.target.value)}
           value={newPassword}
@@ -195,16 +197,16 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         />
       </fieldset>
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
-        Пароль должен содержать от 6 до 24 символов.
+        {t('Forms.EditUser.Errors.NewPasswordHint')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="confirmInput">Подтвердите пароль:</label>
+        <label htmlFor="confirmInput">{t('Forms.EditUser.Confirm')}</label>
         <input
           ref={confirmRef}
           id="confirmInput"
           type="password"
-          placeholder="Введите пароль ещё раз…"
+          placeholder={t('Forms.EditUser.ConfirmPlaceholder')}
           autoComplete="off"
           required={!!newPassword}
           onChange={(e) => setConfirm(e.target.value)}
@@ -216,11 +218,11 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         />
       </fieldset>
       <Tooltip id="confirmHint" shown={confirmHintShown} anchorRef={confirmRef}>
-        Пароли не совпадают
+        {t('Forms.EditUser.Errors.ConfirmHint')}
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        {loading ? <LoadingSpinner /> : 'Сохранить изменения'}
+        {loading ? <LoadingSpinner /> : t('Forms.EditUser.Edit')}
       </button>
     </form>
   );

@@ -6,35 +6,24 @@ import usePageKanjis from '../hooks/usePageKanjis';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
+import { Trans, useTranslation } from 'react-i18next';
 
 const SavedKanjiPage = () => {
+  const { t } = useTranslation();
   const { savedKanjis, savedKanjisLoading } = useContext(kanjiContext);
   usePageKanjis(savedKanjis);
   const titleRef = useRef<HTMLDivElement>(null);
 
   return (
-    <TitledPage title="Сохранённые кандзи">
+    <TitledPage title={t('Pages.SavedKanji.Title')}>
       <div className="scrollContent">
         <div className="pageTitle" ref={titleRef}>
-          <h1>Сохранённые кандзи</h1>
+          <h1>{t('Pages.SavedKanji.Title')}</h1>
           <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
-            <p>Здесь находятся кандзи, которые вы сохранили к себе в профиль.</p>
-
-            <ul>
-              <li>
-                <p>
-                  Выделите необходимые кандзи <span className="key">щелчком мыши</span> или при
-                  помощи <span className="key">Пробела</span>, чтобы они появились в режиме обучения
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Вы можете удалить ненужные кандзи, нажав на галочку справа от значения или клавишу{' '}
-                  <span className="key">Enter</span>
-                </p>
-              </li>
-            </ul>
+            <Trans
+              i18nKey="Pages.SavedKanji.Info"
+              components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+            />
           </Info>
         </div>
 
@@ -46,10 +35,10 @@ const SavedKanjiPage = () => {
           </div>
         ) : (
           <div className="contentPlaceholder">
-            <p>Вы пока не сохранили ни одного Кандзи</p>
-            <p>
-              Перейти в раздел <Link to="/popular">Популярные</Link>
-            </p>
+            <Trans
+              i18nKey="Pages.SavedKanji.Placeholder"
+              components={{ linkElement: <Link to="/popular" />, p: <p /> }}
+            />
           </div>
         )}
       </div>

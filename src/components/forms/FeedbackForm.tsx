@@ -3,8 +3,10 @@ import feedbackApi from '../../api/feedbackApi';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import usePopup from '../../hooks/usePopup';
+import { useTranslation } from 'react-i18next';
 
 const FeedbackForm = () => {
+  const { t } = useTranslation();
   const { auth } = useAuth();
   const { showPopup } = usePopup();
   const [feedbackBody, setFeedbackBody] = useState('');
@@ -19,7 +21,7 @@ const FeedbackForm = () => {
   }, [feedbackBody, feedbackEmail, feedbackAnonimus, auth?.username]);
 
   useEffect(() => {
-    if (sendErrorStatus) showPopup('При отпрвке возникла ошибка');
+    if (sendErrorStatus) showPopup(t('Forms.Feedback.Errors.SendFailed'));
   }, [sendErrorStatus]);
 
   const handleSubmit = (e: FormEvent) => {
@@ -36,12 +38,12 @@ const FeedbackForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="feedbackBody">Отзыв:</label>
+        <label htmlFor="feedbackBody">{t('Forms.Feedback.Body')}</label>
         <textarea
           autoFocus
           required
           id="feedbackBody"
-          placeholder="Напишите, что вы думаете о сайте или предложите свою идею"
+          placeholder={t('Forms.Feedback.BodyPlaceholder')}
           value={feedbackBody}
           onChange={(e) => setFeedbackBody(e.target.value)}
         />
@@ -49,12 +51,12 @@ const FeedbackForm = () => {
 
       <fieldset>
         <label htmlFor="feedbackEmail" aria-disabled={feedbackAnonimus}>
-          Email:
+          {t('Forms.Feedback.Email')}
         </label>
         <input
           id="feedbackEmail"
           type="email"
-          placeholder="Как с вами связаться?"
+          placeholder={t('Forms.Feedback.EmailPlaceholder')}
           value={feedbackEmail}
           onChange={(e) => setFeedbackEmail(e.target.value)}
           disabled={feedbackAnonimus}
@@ -63,17 +65,17 @@ const FeedbackForm = () => {
 
       <fieldset>
         <input
-          id="feedbackContacts"
+          id="feedbackAnonimus"
           type="checkbox"
-          title="Вы можете скрыть свой логин и контакты"
+          title={t('Forms.Feedback.AnonimusTooltip')}
           checked={feedbackAnonimus}
           onChange={(e) => setFeedbackAnonimus(e.target.checked)}
         />
-        <label htmlFor="feedbackContacts">Остаться анонимным</label>
+        <label htmlFor="feedbackAnonimus">{t('Forms.Feedback.Anonimus')}</label>
       </fieldset>
 
       <button ref={submitRef} type="submit">
-        Отправить
+        {t('Forms.Feedback.Send')}
       </button>
     </form>
   );

@@ -13,6 +13,7 @@ import kanjisApi from '../api/kanjisApi';
 import useAuth from '../hooks/useAuth';
 import usersApi from '../api/usersApi';
 import usePopup from '../hooks/usePopup';
+import { useTranslation } from 'react-i18next';
 
 export type Kanji = {
   id: number;
@@ -40,6 +41,8 @@ type KanjiContextProviderProps = { children: ReactNode };
 const kanjiContext = createContext({} as KanjiContextValue);
 
 export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) => {
+  const { t } = useTranslation();
+
   const [pageKanjis, setPageKanjis] = useState<Kanji[]>([]);
   const [savedKanjis, setSavedKanjis] = useState<Kanji[]>([]);
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
@@ -108,11 +111,11 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   }, [auth]);
 
   useEffect(() => {
-    if (getSelectedErrorStatus) showPopup('Ошибка загрузки выдененных кандзи');
+    if (getSelectedErrorStatus) showPopup(t('KanjiGrid.Errors.SelectedLoadingFailed'));
   }, [getSelectedErrorStatus]);
 
   useEffect(() => {
-    if (getSavedErrorStatus) showPopup('Ошибка загрузки сохранённых кандзи');
+    if (getSavedErrorStatus) showPopup(t('KanjiGrid.Errors.SavedLoadingFailed'));
   }, [getSavedErrorStatus]);
 
   return (

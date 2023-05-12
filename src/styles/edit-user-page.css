@@ -13,7 +13,7 @@
     border-radius: 50%;
     border: var(--border-style);
   }
-  .userPageOptions {
+  .userPageLinks {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

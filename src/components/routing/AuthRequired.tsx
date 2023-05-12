@@ -3,12 +3,14 @@ import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
 import UserModal from '../overlays/AuthModal';
 import { Role } from '../../contexts/authContext';
+import { Trans, useTranslation } from 'react-i18next';
 
 type AuthRequiredProps = {
   allowedRoles?: Role[];
 };
 
 const AuthRequired = ({ allowedRoles }: AuthRequiredProps) => {
+  const { t } = useTranslation();
   const { auth } = useAuth();
   const { showModal } = useModal();
 
@@ -23,18 +25,22 @@ const AuthRequired = ({ allowedRoles }: AuthRequiredProps) => {
     return (
       <div className="scrollContent">
         <div className="contentPlaceholder">
-          <h2>Требуется вход</h2>
+          <h2>{t('AuthRequired.AuthRequiredTitle')}</h2>
           <p>
-            Пожауйста,{' '}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                showModal(<UserModal />);
+            <Trans
+              i18nKey="AuthRequired.AuthRequiredHint"
+              components={{
+                linkElement: (
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      showModal(<UserModal />);
+                    }}
+                  />
+                ),
               }}
-            >
-              войдите в аккаунт
-            </a>
+            />
           </p>
         </div>
       </div>
@@ -44,8 +50,10 @@ const AuthRequired = ({ allowedRoles }: AuthRequiredProps) => {
   return (
     <div className="scrollContent">
       <div className="contentPlaceholder">
-        <h2>Страница не доступна</h2>
-        <p>К сожалению, у вас нет разрешения на просмотр этой страницы :(</p>
+        <h2>{t('AuthRequired.UnallowedRoleTitle')}</h2>
+        <p>
+          <Trans i18nKey="AuthRequired.UnallowedRoleHint" />
+        </p>
       </div>
     </div>
   );

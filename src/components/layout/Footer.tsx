@@ -11,8 +11,10 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Info from '../content/Info';
+import { Trans, useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const footerRef = useRef<HTMLElement>(null);
   const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
@@ -54,13 +56,19 @@ const Footer = () => {
           case 'search':
             return (
               <>
-                <p>{`выделено ${pageKanjis ? getSelectedCount() : '?'} из ${
-                  pageKanjis?.length
-                }`}</p>
+                <p>
+                  <Trans
+                    i18nKey="Layout.Footer.SelectedOf"
+                    values={{
+                      selected: pageKanjis ? getSelectedCount() : '?',
+                      of: pageKanjis?.length ?? '?',
+                    }}
+                  />
+                </p>
                 {isAllSelected() ? (
-                  <button onClick={deselectAll}>снять выделение</button>
+                  <button onClick={deselectAll}>{t('Layout.Footer.DeselectAll')}</button>
                 ) : (
-                  <button onClick={selectAll}>выделить всё</button>
+                  <button onClick={selectAll}>{t('Layout.Footer.SelectAll')}</button>
                 )}
               </>
             );
@@ -68,50 +76,24 @@ const Footer = () => {
           case 'selected':
             return (
               <>
-                <p>{`выделено ${selectedKanjis ? selectedKanjis.length : '?'}`}</p>
-                <button onClick={clearSelection}>очистить список</button>
+                <p>
+                  <Trans
+                    i18nKey="Layout.Footer.Selected"
+                    values={{ selected: selectedKanjis ? selectedKanjis.length : '?' }}
+                  />
+                </p>
+                <button onClick={clearSelection}>{t('Layout.Footer.ClearList')}</button>
               </>
             );
 
           case 'learn':
             return (
               <>
-                <Info tooltipAnchorRef={footerRef} caption="помощь">
-                  <p>Добро пожаловать в режим обучения!</p>
-                  <p>
-                    Ваша задача – вспомнить всю недостающую информацию о кандзи, смотря на лицевую
-                    сторону карточки. Затем Вы можете проверить себя, перевернув карточку. Если Вы
-                    не смогли что-то вспомнить сейчас или думали слишком долго, отложите кандзи для
-                    дальнейшего повторения и переходите к следующему. Когда вы окажетесь в конце
-                    списка, Вам будет предложено повторить все кандзи, которые вы отложили.
-                  </p>
-                  <p>Продолжайте повторение до тех пор, пока не сможете назвать все кандзи</p>
-                  <p>
-                    Советуется повторять тренировки периодически, каждый раз добавляя небольшое
-                    количество неизвестных кандзи
-                  </p>
-
-                  <ul>
-                    <li>
-                      <p>
-                        Используйте стрелки <span className="key">←</span>
-                        <span className="key">→</span> для перемещения.
-                      </p>
-                    </li>
-
-                    <li>
-                      <p>
-                        Используйте <span className="key">Пробел</span>, чтобы перевернуть карточку.
-                      </p>
-                    </li>
-
-                    <li>
-                      <p>
-                        Нажмите <span className="key">Enter</span>, чтобы пометить кандзи для
-                        дальнейшего повторения.
-                      </p>
-                    </li>
-                  </ul>
+                <Info tooltipAnchorRef={footerRef} caption={t('Layout.Footer.HelpCaption')}>
+                  <Trans
+                    i18nKey="Pages.Learn.Info"
+                    components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+                  />
                 </Info>
                 <button
                   onClick={(e: any) => {
@@ -119,7 +101,9 @@ const Footer = () => {
                     e.target.blur();
                   }}
                 >
-                  {learnModeShuffleFlag ? 'карточки перемешаны' : 'перемешать карточки'}
+                  {learnModeShuffleFlag
+                    ? t('Layout.Footer.CardsShuffled')
+                    : t('Layout.Footer.ShuffleCards')}
                 </button>
               </>
             );
@@ -128,7 +112,7 @@ const Footer = () => {
             return (
               <>
                 <p>EasyKanji</p>
-                <Link to="/feedback">Оставить отзыв</Link>
+                <Link to="/feedback">{t('Layout.Footer.LeaveFeedback')}</Link>
               </>
             );
         }

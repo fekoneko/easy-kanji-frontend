@@ -5,6 +5,7 @@ import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 
 const USERNAME_REGEX = /^.{2,16}$/;
 const PASSWORD_REGEX = /^.{6,24}$/;
@@ -14,6 +15,8 @@ type SignUpFormProps = {
 };
 
 const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
+  const { t } = useTranslation();
+
   const [username, setUsername] = useState<string>('');
   const [usernameValid, setUsernameValid] = useState<boolean>(false);
   const [usernameFocus, setUsernameFocus] = useState<boolean>(false);
@@ -61,7 +64,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     if (signUpErrorStatus === 400) {
       usernameRef.current?.focus();
     } else {
-      showPopup('Неизвестная ошибка регистрации');
+      showPopup(t('Forms.SignUp.Errors.Unknown'));
     }
   }, [signUpErrorStatus]);
 
@@ -101,13 +104,13 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   return (
     <form className="RegistrationForm" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="usernameInput">Логин:</label>
+        <label htmlFor="usernameInput">{t('Forms.SignUp.Username')}</label>
         <input
           ref={usernameRef}
           id="usernameInput"
           type="text"
           autoFocus
-          placeholder="Придумайте логин…"
+          placeholder={t('Forms.SignUp.UsernamePlaceholder')}
           autoComplete="off"
           required
           onChange={(e) => setUsername(e.target.value)}
@@ -123,19 +126,19 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         shown={usernameHintShown && !usernameOccupied}
         anchorRef={usernameRef}
       >
-        Логин должен содержать от 2 до 16 символов
+        {t('Forms.SignUp.Errors.UsernameHint')}
       </Tooltip>
       <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
-        Пользователь с таким именем уже существует
+        {t('Forms.SignUp.Errors.UsernameOccupied')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="passwordInput">Пароль:</label>
+        <label htmlFor="passwordInput">{t('Forms.SignUp.Password')}</label>
         <input
           ref={passwordRef}
           id="passwordInput"
           type="password"
-          placeholder="Придумайте пароль…"
+          placeholder={t('Forms.SignUp.PasswordPlaceholder')}
           autoComplete="off"
           required
           onChange={(e) => setPassword(e.target.value)}
@@ -147,16 +150,16 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         />
       </fieldset>
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
-        Пароль должен содержать от 6 до 24 символов.
+        {t('Forms.SignUp.Errors.PasswordHint')}
       </Tooltip>
 
       <fieldset>
-        <label htmlFor="confirmInput">Подтвердите пароль:</label>
+        <label htmlFor="confirmInput">{t('Forms.SignUp.Confirm')}</label>
         <input
           ref={confirmRef}
           id="confirmInput"
           type="password"
-          placeholder="Введите пароль ещё раз…"
+          placeholder={t('Forms.SignUp.ConfirmPlaceholder')}
           autoComplete="off"
           required
           onChange={(e) => setConfirm(e.target.value)}
@@ -168,11 +171,11 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         />
       </fieldset>
       <Tooltip id="confirmHint" shown={confirmHintShown} anchorRef={confirmRef}>
-        Пароли не совпадают
+        {t('Forms.SignUp.Errors.ConfirmHint')}
       </Tooltip>
 
       <button ref={submitRef} type="submit">
-        {loading ? <LoadingSpinner /> : 'Зарегистрироваться'}
+        {loading ? <LoadingSpinner /> : t('Forms.SignUp.SignUp')}
       </button>
     </form>
   );

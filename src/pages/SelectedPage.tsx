@@ -6,40 +6,24 @@ import usePageKanjis from '../hooks/usePageKanjis';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
+import { Trans, useTranslation } from 'react-i18next';
 
 const SelectedPage = () => {
+  const { t } = useTranslation();
   const { selectedKanjis, selectedKanjisLoading } = useContext(kanjiContext);
   usePageKanjis(selectedKanjis);
   const titleRef = useRef<HTMLDivElement>(null);
 
   return (
-    <TitledPage title="Выбранные кандзи">
+    <TitledPage title={t('Pages.Selected.Title')}>
       <div className="scrollContent">
         <div className="pageTitle" ref={titleRef}>
-          <h1>Выбранные кандзи</h1>
+          <h1>{t('Pages.Selected.Title')}</h1>
           <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
-            <p>
-              Здесь расположены кандзи, которые вы выделили. Перейдите в режим обучения, чтобы
-              начать их изучение.
-            </p>
-
-            <ul>
-              <li>
-                <p>
-                  Вы можете снять выделение с кандзи <span className="key">щелчком мыши</span> или
-                  при помощи <span className="key">Пробела</span> или очистить список целиком, нажав
-                  на кнопку снизу
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Если Вы вошли в аккаунт, Вы можете сохранять кандзи, нажав на иконку справа от
-                  значения или клавишу <span className="key">Enter</span>. Сохранённые кандзи будут
-                  доступны на соответствующей вкладке
-                </p>
-              </li>
-            </ul>
+            <Trans
+              i18nKey="Pages.Selected.Info"
+              components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+            />
           </Info>
         </div>
 
@@ -51,10 +35,10 @@ const SelectedPage = () => {
           </div>
         ) : (
           <div className="contentPlaceholder">
-            <p>Вы пока не выбрали ни одного Кандзи</p>
-            <p>
-              Перейти в раздел <Link to="/popular">Популярные</Link>
-            </p>
+            <Trans
+              i18nKey="Pages.Selected.Placeholder"
+              components={{ linkElement: <Link to="/popular" />, p: <p /> }}
+            />
           </div>
         )}
       </div>

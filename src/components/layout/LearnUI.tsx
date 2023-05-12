@@ -9,6 +9,7 @@ import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transiti
 import KanjiCardNav from './KanjiCardNav';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
 import ActionCard from '../content/ActionCard';
+import { Trans, useTranslation } from 'react-i18next';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -16,6 +17,7 @@ type LearnUIProps = {
 };
 
 const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
+  const { t } = useTranslation();
   const { selectedKanjis, setSelectedKanjis, repeatKanjis, setRepeatKanjis } =
     useContext(kanjiContext);
   const [pageKanjis] = usePageKanjis(selectedKanjis);
@@ -97,7 +99,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                     }
                     cardIndex={maxIndex}
                     action={selectRepeatKanjis}
-                    caption="Повторить помеченные кандзи"
+                    caption={t('LearnUI.RepeatMarked')}
                   />
                 )}
               </div>
@@ -114,10 +116,10 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   } else
     return (
       <div className="contentPlaceholder">
-        <p>Выберите кандзи для обучения</p>
-        <p>
-          Перейти в раздел <Link to="/popular">Популярные</Link>
-        </p>
+        <Trans
+          i18nKey="Pages.Learn.Placeholder"
+          components={{ linkElement: <Link to="/popular" />, p: <p /> }}
+        />
       </div>
     );
 };

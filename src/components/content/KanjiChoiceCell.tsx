@@ -9,6 +9,7 @@ import kanjisApi from '../../api/kanjisApi';
 import { removeKanjiFromList } from '../../controllers/kanjiController';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import KanjiReadings from './KanjiReadings';
+import { useTranslation } from 'react-i18next';
 
 type KanjiChoiceCellProps = {
   kanji: Kanji;
@@ -27,6 +28,7 @@ const KanjiChoiceCell = ({
   chosenKanji,
   setChosenKanji,
 }: KanjiChoiceCellProps) => {
+  const { t } = useTranslation();
   const [showControls, setShowControls] = useState(false);
   const cellButtonRef = useRef<HTMLButtonElement>(null);
   const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
@@ -42,7 +44,7 @@ const KanjiChoiceCell = ({
   }, [focus]);
 
   useEffect(() => {
-    if (deleteKanjiErrorStatus) showPopup('Ошибка удаления кандзи');
+    if (deleteKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.DeleteFailed'));
   }, [deleteKanjiErrorStatus]);
 
   const chooseKanji = () => {
@@ -98,7 +100,7 @@ const KanjiChoiceCell = ({
       <ProtectedContent allowedRoles={['Admin']}>
         <ControlButton
           shown={focus || showControls || loading}
-          title={'Удалить кандзи'}
+          title={t('KanjiGrid.Tooltips.Delete')}
           action={() => {
             cellButtonRef.current?.focus();
             deleteKanji();

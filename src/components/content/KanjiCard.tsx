@@ -5,6 +5,7 @@ import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiView, { ViewContent } from './KanjiView';
 import { changeKanjiInList, isKanjiInList } from '../../controllers/kanjiController';
+import { useTranslation } from 'react-i18next';
 
 type Side = 'front' | 'back';
 
@@ -27,6 +28,7 @@ const KanjiCard = ({
   cardIndex,
   handleFocus,
 }: KanjiCardProps) => {
+  const { t } = useTranslation();
   const { repeatKanjis, setRepeatKanjis } = useContext(kanjiContext);
   const cardContainerRef = useRef<HTMLElement>(null);
   const cardActionButtonRef = useRef<HTMLButtonElement>(null);
@@ -109,7 +111,7 @@ const KanjiCard = ({
           nodeRef={cardActionButtonRef}
         >
           <button ref={cardActionButtonRef} className="cardActionButton" onClick={repeatCard}>
-            {cardRepeated ? 'помечено для повторения' : 'повторить позже'}
+            {cardRepeated ? t('LearnUI.CardRepeated') : t('LearnUI.RepeatCard')}
           </button>
         </CSSTransition>
       </figure>
