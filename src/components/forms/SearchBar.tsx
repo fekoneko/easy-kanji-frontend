@@ -36,7 +36,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
 
       <Info tooltipId="searchHint" tooltipAnchorRef={searchFormRef}>
         <Trans
-          i18nKey="SearchPage.Info"
+          i18nKey="Pages.Search.Info"
           components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
         />
       </Info>

@@ -1,3 +1,211 @@
 {
-  "PopularPage": { "Title": "よく使う漢字" }
+  "SiteTitle": "EasyKanji",
+
+  "UserRoles": {
+    "User": "ユーザー",
+    "Admin": "管理者"
+  },
+
+  "Pages": {
+    "Popular": {
+      "Title": "頻繁な漢字",
+      "Info": "<p>このタブでは、漢字を使用頻度の順に並べています。ここから学びを始めることをおすすめします。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li><li><p>矢印キー<span className=\"key\">←</span><span className=\"key\">↑</span><span className=\"key\">→</span><span className=\"key\">↓</span>を使用してテーブル内を移動できます。（<span className=\"key\">Shift</span>で速く移動）</p></li></ul>",
+      "Placeholder": "<p>空です</p>"
+    },
+    "EditKanjis": {
+      "Title": "漢字を編集",
+      "Info": "<p>漢字選択パネルにようこそ!</p><p>ここには漢字を追加、編集、削除ができます。</p><ul><li><p>左側のメニューで編集したい漢字を選択すると、右側にその漢字の詳細が表示されます。</p></li><li><p>新しい漢字を追加したい場合は、左側のメニューで選択を削除。</p></li><li><p>漢字を削除場合は、左側のメニューにあるゴミ箱アイコンをクリック。</p></li></ul>"
+    },
+    "EditUser": {
+      "Title": "プロフィルを編集",
+      "BackLink": "プロフィルへ"
+    },
+    "Feedback": {
+      "Title": "フィードバック"
+    },
+    "Learn": {
+      "Title": "学習モード",
+      "Info": "<p>学習モードへようこそ!</p><p>ご課題は、カードの表面を見て、漢字の足りない詳細を思い出すことです。次に、カードを裏返してご推測を確認できます。何かを思い出せない場合、または長時間考えすぎた場合は、その漢字を後で記憶について延期して、次の漢字に進みなさい。カードがもうなくなったら、漢字を記憶ボタンを押しなさい。</p><p>全ての漢字を思い出せるまで続けるが必要です。</p><p>未知の漢字を少しずつ追加しながら、定期的に勉強を繰り返すことをおすすめします。</p><ul><li><p>矢印キー<span className=\"key\">←</span><span className=\"key\">→</span>を使用してテーブル内を移動できます。</p></li><li><p><span className=\"key\">Space</span>を押して、カードを裏返します。</p></li><li><p><span className=\"key\">Enter</span>を押して、記憶リストに付けます。</p></li></ul>",
+      "Placeholder": "<p>学び漢字を選択してください。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
+    },
+    "NotFound": {
+      "Title": "ページが見つかりません",
+      "Code": "404",
+      "Hint": "<linkElement>頻繁な漢字</linkElement>のページへ"
+    },
+    "SavedKanji": {
+      "Title": "保存された漢字",
+      "Info": "<p>このタブでは、あなたの保存された漢字があります。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字をこのページから削除できます。</p></li></ul>",
+      "Placeholder": "<p>まだ漢字を保存していません。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
+    },
+    "Search": {
+      "Title": "漢字を検索",
+      "Info": "<ul><li><p>複数のリクエストはカンマ（<span className=\"key\">,</span>）、読点（<span className=\"key\">、</span>）、全角空格（<span className=\"key\">　</span>）で区切る必要があります。</p></li><li><p>ローマ字は自動でかなに変換されます（<span className=\"key\">hiragana</span>→<span className=\"key\">ひらがな</span> <span className=\"key\">KATAKANA</span>→<span className=\"key\">カタカナ</span>）</p></li></ul>",
+      "Placeholders": {
+        "NotFound": "<p>何も見つかりません。</p>",
+        "EmptyRequest": "<p>検索リクエストを入力してください。</p>"
+      }
+    },
+    "Selected": {
+      "Title": "選択した漢字",
+      "Info": "<p>このタブであなたの選択した漢字があります。今その漢字を学び始めたい場合は、学習モードを開始できます。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択します。しかも、ページの下部にあるボタンを押してすべての選択を解除します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li></ul>",
+      "Placeholder": "<p>まだ漢字を選択していません。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
+    },
+    "User": {
+      "Title": "プロフィル",
+      "Links": {
+        "EditProfile": "プロフィルを編集",
+        "EditKanji": "漢字編集パネル"
+      }
+    },
+    "AuthRequired": {
+      "AuthRequiredTitle": "ログインが必要です",
+      "AuthRequiredHint": "<linkElement>ログインフォーム</linkElement>へ",
+      "UnallowedRoleTitle": "問題があります",
+      "UnallowedRoleHint": "このページにアクセスできません。"
+    }
+  },
+
+  "Layout": {
+    "Header": {
+      "SignIn": "ログイン",
+      "LeaveLearnMode": "学習モードを終了",
+      "LearnMode": "学習モード"
+    },
+    "Nav": {
+      "LearnByMeaning": "意味モード",
+      "LearnByWriting": "文字モード",
+      "Popular": "よく使う",
+      "Saved": "保存された",
+      "Search": "検索",
+      "Selected": "選択した"
+    },
+    "Footer": {
+      "SelectedOf": "{{of}}文字のうち {{selected}}文字を選択した",
+      "Selected": "{{selected}}文字を選択した",
+      "DeselectAll": "選択を解除",
+      "SelectAll": "全て選択",
+      "ClearList": "選択を解除",
+      "HelpCaption": "情報",
+      "ShuffleCards": "カードを切る",
+      "CardsShuffled": "カードが切った",
+      "LeaveFeedback": "フィードバック"
+    }
+  },
+
+  "LearnUI": {
+    "RepeatCard": "後で記憶",
+    "CardRepeated": "記憶リストに付けた",
+    "RepeatMarked": "記憶リストを覚える"
+  },
+
+  "KanjiGrid": {
+    "Errors": {
+      "SaveFailed": "漢字が保存できません。",
+      "RemoveFailed": "漢字が削除できません。",
+      "DeleteFailed": "漢字が削除できません。",
+      "LoadingFailed": "漢字を読み込めません。",
+      "SelectedLoadingFailed": "選択した漢字が読み込めません。",
+      "SavedLoadingFailed": "保存された漢字が読み込めません。"
+    },
+    "Tooltips": {
+      "AuthRequired": "漢字を保存ためにログインが必要です。",
+      "Save": "保存",
+      "Remove": "削除",
+      "Delete": "漢字を削除"
+    }
+  },
+
+  "Modals": {
+    "Auth": {
+      "SignUpTitle": "サインアップ",
+      "SignUpHint": "すでにアカウントがありますか。<linkElement>ログイン</linkElement>",
+      "SignInTitle": "ログイン",
+      "SignInHint": "まだアカウントがありませんか。<linkElement>サインアップ</linkElement>"
+    },
+    "User": {
+      "Profile": "プロフィル",
+      "Feedback": "フィードバック",
+      "SignOut": "サインアウト"
+    }
+  },
+
+  "Forms": {
+    "EditKanjis": {
+      "Writing": "文字:",
+      "Meaning": "意味:",
+      "MeaningPlaceholder": "漢字の意味を入力",
+      "OnReadings": "音読み",
+      "KunReadings": "訓読み",
+      "Add": "漢字の追加",
+      "Edit": "漢字を編集",
+      "Errors": {
+        "EditOrAddFailed": "エラーが発生しました。",
+        "WritingHint": "1文字限りが必要です。"
+      }
+    },
+    "EditUser": {
+      "Username": "ユーザー名:",
+      "UsernamePlaceholder": "新しいお名前を思いついてください。",
+      "OldPassword": "現在のパスワード:",
+      "OldPasswordPlaceholder": "あなたのパスワードを入力",
+      "NewPassword": "新しいパスワード:",
+      "NewPasswordPlaceholder": "新しいパスワードを思いついてください。",
+      "Confirm": "パスワードを繰り返し:",
+      "ConfirmPlaceholder": "新しいパスワードをもう一度入力",
+      "Edit": "編集",
+      "Errors": {
+        "EditFailed": "編集エラーが発生しました。",
+        "UsernameHint": "ユーザー名は 2～16文字にする必要があります。",
+        "UsernameOccupied": "そのユーザー名はすでに使用されています。",
+        "OldPasswordIncorrect": "現在のパスワードが間違っています。",
+        "NewPasswordHint": "パスワードは 6～24文字にする必要があります。",
+        "ConfirmHint": "パスワードが一致していません。"
+      }
+    },
+    "Feedback": {
+      "Body": "フィードバック:",
+      "BodyPlaceholder": "このサイトについてご意見やお考えをお書きください。",
+      "Email": "Eメイル:",
+      "EmailPlaceholder": "連絡先を残してください",
+      "Anonimus": "匿名で送信",
+      "AnonimusTooltip": "ユーザー名や連絡先を非表示できます。",
+      "Send": "送信",
+      "Errors": {
+        "SendFailed": "送信エラーが発生しました。"
+      }
+    },
+    "SearchBar": {
+      "Search": "検索:",
+      "SearchPlaceholder": "文字や意味や読みを入力"
+    },
+    "SignIn": {
+      "Username": "ユーザー名:",
+      "UsernamePlaceholder": "お名前を入力",
+      "Password": "パスワード:",
+      "PasswordPlaceholder": "パスワードを入力",
+      "SignIn": "ログイン",
+      "Errors": {
+        "Unknown": "ログインエラーが発生しました。",
+        "UsernameDoesNotExist": "そのユーザー名が存在しません。",
+        "PasswordIncorrect": "パスワードが間違っています。"
+      }
+    },
+    "SignUp": {
+      "Username": "ユーザー名:",
+      "UsernamePlaceholder": "お名前を思いついてください。",
+      "Password": "パスワード:",
+      "PasswordPlaceholder": "パスワードを思いついてください。",
+      "Confirm": "パスワードを繰り返し:",
+      "ConfirmPlaceholder": "パスワードをもう一度入力",
+      "SignUp": "サインアップ",
+      "Errors": {
+        "Unknown": "サインアップエラーが発生しました。",
+        "UsernameHint": "ユーザー名は 2～16文字にする必要があります。",
+        "UsernameOccupied": "そのユーザー名はすでに使用されています。",
+        "PasswordHint": "パスワードは 6～24文字にする必要があります。",
+        "ConfirmHint": "パスワードが一致していません。"
+      }
+    }
+  }
 }

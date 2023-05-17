@@ -5,7 +5,7 @@ import ProtectedContent from '../components/content/ProtectedContent';
 import TitledPage from '../components/routing/TitledPage';
 import { useTranslation } from 'react-i18next';
 
-const UserPage = () => {
+const ProfilePage = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
 
@@ -17,7 +17,7 @@ const UserPage = () => {
           <UserAvatar />
           <div className="userInfo">
             <h1>{auth?.username}</h1>
-            <p>{auth?.roles.join(', ')}</p>
+            <p>{auth?.roles.map((role) => t(`UserRoles.${role}`) ?? role).join(' | ')}</p>
           </div>
         </figure>
         <div className="userPageLinks">
@@ -30,4 +30,4 @@ const UserPage = () => {
     </TitledPage>
   );
 };
-export default UserPage;
+export default ProfilePage;

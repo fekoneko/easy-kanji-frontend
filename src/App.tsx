@@ -13,7 +13,7 @@ import AnimatedRoutes from './components/routing/AnimatedRoutes';
 import PageNotFound from './pages/PageNotFound';
 import NavigateOnce from './components/routing/NavigateOnce';
 import AuthRequired from './components/routing/AuthRequired';
-import UserPage from './pages/UserPage';
+import ProfilePage from './pages/ProfilePage';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import FeedbackPage from './pages/FeedbackPage';
 import EditKanjisPage from './pages/EditKanjisPage';
@@ -44,7 +44,7 @@ const App = () => {
 
           <Route element={<AuthRequired />}>
             <Route path="user">
-              <Route index element={<UserPage />} />
+              <Route index element={<ProfilePage />} />
               <Route path="edit" element={<EditUserPage />} />
             </Route>
             <Route path="saved" element={<SavedKanjiPage />} />
