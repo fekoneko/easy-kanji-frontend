@@ -1,7 +1,7 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import TextArrayInputs from './TextArrayInputs';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
-import Tooltip from '../content/Tooltip';
+import Tooltip from '../overlays/Tooltip';
 import kanjisApi from '../../api/kanjisApi';
 import usePopup from '../../hooks/usePopup';
 import { editKanjiInList } from '../../controllers/kanjiController';

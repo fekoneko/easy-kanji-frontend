@@ -12,12 +12,16 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Info from '../content/Info';
 import { Trans, useTranslation } from 'react-i18next';
+import settingsContext from '../../contexts/settingsContext';
+import { ReactComponent as LightThemeIcon } from '../../assets/lightTheme.svg';
+import { ReactComponent as DarkThemeIcon } from '../../assets/darkTheme.svg';
 
 const Footer = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const footerRef = useRef<HTMLElement>(null);
   const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const { theme, setTheme, language, setLanguage } = useContext(settingsContext);
   const [learnModeShuffleFlag, setLearnModeShuffleFlag] = useState<boolean>(false);
 
   const section = location.pathname.split('/')[1];
@@ -38,14 +42,18 @@ const Footer = () => {
   }, [location]);
 
   const deselectAll = () => pageKanjis && removeKanjisFromList(setSelectedKanjis, pageKanjis);
-
   const selectAll = () => pageKanjis && addKanjisToList(setSelectedKanjis, pageKanjis);
-
   const clearSelection = () => setSelectedKanjis([]);
-
   const getSelectedCount = () => pageKanjis && getCountOfKanjisInList(selectedKanjis, pageKanjis);
-
   const isAllSelected = () => pageKanjis && isKanjisInList(selectedKanjis, pageKanjis);
+
+  const handleLanguageSwitch = () => {
+    setLanguage((prev) => (prev === 'ru' ? 'ja' : 'ru'));
+  };
+
+  const handleThemeSwitch = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   return (
     <footer ref={footerRef} role="contentinfo">
@@ -117,6 +125,10 @@ const Footer = () => {
             );
         }
       })()}
+      <button onClick={handleLanguageSwitch}>{language === 'ja' ? 'jap' : 'rus'}</button>
+      <button onClick={handleThemeSwitch}>
+        {theme === 'light' ? <LightThemeIcon /> : <DarkThemeIcon />}
+      </button>
     </footer>
   );
 };

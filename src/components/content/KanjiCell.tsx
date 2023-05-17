@@ -3,7 +3,7 @@ import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import { isKanjiInList, changeKanjiInList } from '../../controllers/kanjiController';
 import ControlButton from './ControlButton';
 import KanjiView from './KanjiView';
-import Tooltip from './Tooltip';
+import Tooltip from '../overlays/Tooltip';
 import { ReactComponent as SaveKanjiIcon } from '../../assets/saveKanji.svg';
 import { ReactComponent as KanjiSavedIcon } from '../../assets/kanjiSaved.svg';
 import useOnClick from '../../hooks/useOnClick';

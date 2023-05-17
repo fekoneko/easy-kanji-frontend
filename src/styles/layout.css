@@ -23,28 +23,47 @@
     background-color: var(--primary-color);
   }
   header .siteTitle {
-    flex-grow: 1;
+    flex-grow: 3;
     font-size: 2rem;
     font-weight: bold;
     color: var(--header-text-color);
     text-decoration: none;
   }
   header .learnButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  header .userButton {
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
-  }
-  header .userButton:hover {
-    text-decoration: underline;
+    flex-grow: 1;
   }
   header a,
   header button {
     color: var(--header-text-color);
+  }
+
+  .learnButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+  .learnButton:hover {
+    text-decoration: none;
+  }
+  .learnButton > * {
+    width: 100%;
+    padding: 0.1rem 0.6rem;
+    text-align: center;
+    border: 1.5px solid var(--header-text-color);
+    transition: color var(--transition-params), background-color var(--transition-params);
+  }
+  .learnButton:hover > * {
+    color: var(--primary-color);
+    background-color: var(--header-text-color);
+  }
+  .userButton {
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+  }
+  .userButton:hover {
+    text-decoration: underline;
   }
 
   nav {
@@ -108,18 +127,28 @@
   }
 
   footer {
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
+    align-items: baseline;
+    gap: 0.7rem;
     z-index: 100;
+    padding-top: 0.2rem;
     padding-bottom: 0.6rem;
     color: var(--secondary-text-color);
     background-color: var(--bg-color);
   }
+  footer > :first-child {
+    margin-right: auto;
+  }
+  footer > :nth-child(2) {
+    margin-left: auto;
+  }
   footer::before {
     position: absolute;
+    top: -0.1rem;
     display: block;
     content: '';
+    min-width: calc(var(--min-w) - 2 * var(--app-padding));
     width: calc(100vw - 2 * var(--app-padding));
     height: 1.5px;
     background-color: var(--secondary-text-color);
@@ -130,8 +159,20 @@
   footer button {
     border: none;
     background-color: transparent;
+    transition: color var(--transition-params);
   }
   footer button:hover {
     text-decoration: underline;
+    color: var(--primary-text-color);
+  }
+  footer button path {
+    fill: var(--secondary-text-color);
+    transition: fill var(--transition-params);
+  }
+  footer button:hover path {
+    fill: var(--primary-text-color);
+  }
+  footer button:has(svg) {
+    align-self: center;
   }
 }

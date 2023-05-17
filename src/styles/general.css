@@ -16,6 +16,17 @@
     overflow: hidden;
   }
 
+  svg {
+    display: block;
+    height: 1rem;
+    width: 1rem;
+  }
+  button:has(svg) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   a {
     color: var(--a-color);
     text-decoration: none;

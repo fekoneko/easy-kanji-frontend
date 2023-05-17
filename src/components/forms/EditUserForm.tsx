@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import Tooltip from '../content/Tooltip';
+import Tooltip from '../overlays/Tooltip';
 import usersApi, { EditedUserData } from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';

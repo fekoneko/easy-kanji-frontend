@@ -1,6 +1,6 @@
 import { ReactNode, RefObject, useRef, useState } from 'react';
 import { ReactComponent as InfoIcon } from '../../assets/infoIcon.svg';
-import Tooltip from './Tooltip';
+import Tooltip from '../overlays/Tooltip';
 
 type InfoHoverProps = {
   tooltipId?: string;

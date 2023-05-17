@@ -67,7 +67,9 @@ const KanjiGrid = ({
       ref={gridRef}
       className="kanjiGrid"
       style={{
-        gridTemplateColumns: `repeat(${columns}, calc(${100 / columns}% - ${GRID_GAP / 2}px))`,
+        gridTemplateColumns: `repeat(${columns}, calc(${100 / columns}% - ${
+          GRID_GAP - GRID_GAP / columns
+        }px))`,
         gap: GRID_GAP,
       }}
     >
