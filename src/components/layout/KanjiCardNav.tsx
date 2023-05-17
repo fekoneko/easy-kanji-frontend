@@ -10,10 +10,18 @@ const PREVIEW_REACT_DISTANCE = 100;
 type KanjiCardNavProps = {
   mode?: KanjiCardPreviewMode;
   kanjis: Kanji[];
+  currentIndex: number;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
+  navCardCount: number;
 };
 
-const KanjiCardNav = ({ mode, kanjis, setCurrentIndex }: KanjiCardNavProps) => {
+const KanjiCardNav = ({
+  mode,
+  kanjis,
+  currentIndex,
+  setCurrentIndex,
+  navCardCount,
+}: KanjiCardNavProps) => {
   const mousePosition = useMousePosition();
   const kanjiCardNavRef = useRef<HTMLElement>(null);
 
@@ -43,15 +51,31 @@ const KanjiCardNav = ({ mode, kanjis, setCurrentIndex }: KanjiCardNavProps) => {
     }
   };
 
+  let startIndex = Math.ceil(currentIndex - navCardCount / 2);
+  let endIndex = Math.ceil(currentIndex + navCardCount / 2);
+  if (startIndex < 0 && endIndex > kanjis.length) {
+    startIndex = 0;
+    endIndex = kanjis.length;
+  } else {
+    if (startIndex < 0) {
+      endIndex -= startIndex;
+      startIndex = 0;
+    } else if (endIndex > kanjis.length) {
+      startIndex += kanjis.length - endIndex;
+      endIndex = kanjis.length;
+    }
+  }
+
   return (
     <nav className="kanjiCardNav" ref={kanjiCardNavRef}>
-      {kanjis.map((kanji, index) => (
+      {kanjis.slice(startIndex, endIndex).map((kanji, index) => (
         <KanjiCardPreview
-          key={index}
+          key={startIndex + index}
+          active={startIndex + index === currentIndex}
           mode={mode}
           kanji={kanji}
           getSize={getKanjiCardPreviewSize}
-          onClick={() => setCurrentIndex(index)}
+          onClick={() => setCurrentIndex(startIndex + index)}
         />
       ))}
     </nav>

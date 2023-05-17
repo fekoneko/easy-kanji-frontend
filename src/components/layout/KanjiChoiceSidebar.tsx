@@ -71,7 +71,7 @@ const KanjiChoiceSidebar = ({
         </div>
       ) : (
         <div className="contentPlaceholder">
-          <Trans i18nKey="PopularPage.Placeholder" components={{ p: <p /> }} />
+          <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
         </div>
       )}
     </aside>

@@ -5,13 +5,14 @@ import { isKanjiInList } from '../../controllers/kanjiController';
 export type KanjiCardPreviewMode = 'writing' | 'meaning';
 
 type KanjiCardPreviewProps = {
+  active?: boolean;
   mode?: KanjiCardPreviewMode;
   kanji: Kanji;
   getSize?: (centerX?: number) => number;
   onClick?: (e: MouseEvent) => any;
 };
 
-const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewProps) => {
+const KanjiCardPreview = ({ active, mode, kanji, getSize, onClick }: KanjiCardPreviewProps) => {
   const { repeatKanjis } = useContext(kanjiContext);
   const kanjiCardPreviewRef = useRef<HTMLButtonElement>(null);
 
@@ -32,7 +33,7 @@ const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewPro
   return (
     <button
       ref={kanjiCardPreviewRef}
-      className={`kanjiCardPreview${cardRepeated ? ' repeat' : ''}`}
+      className={`kanjiCardPreview${cardRepeated ? ' repeat' : ''}${active ? ' active' : ''}`}
       onClick={(e) => {
         if (onClick) onClick(e);
       }}
@@ -41,7 +42,7 @@ const KanjiCardPreview = ({ mode, kanji, getSize, onClick }: KanjiCardPreviewPro
       style={getStyle()}
     >
       {mode === 'meaning' ? (
-        <p className="kanjiMeaning">{kanji.meaning}</p>
+        <p className="kanjiMeaning">{kanji.meaning.split(',')[0]}</p>
       ) : (
         <p className="kanjiWriting">{kanji.writing}</p>
       )}

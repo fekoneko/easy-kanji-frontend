@@ -52,6 +52,7 @@
   .kanjiCard.front .kanjiView {
     color: var(--card-front-text-color);
     background-color: var(--card-front-color);
+    word-wrap: break-word;
   }
   .kanjiCard.back .kanjiView {
     background-color: var(--card-back-color);
@@ -107,5 +108,13 @@
   }
   .kanjiCardPreview.repeat {
     background-color: var(--card-repeat-color);
+  }
+  .kanjiCardPreview.active {
+    font-weight: bold;
+    zoom: 1.1;
+    border-color: var(--primary-color);
+  }
+  .kanjiCardPreview:not(:hover) {
+    white-space: nowrap;
   }
 }

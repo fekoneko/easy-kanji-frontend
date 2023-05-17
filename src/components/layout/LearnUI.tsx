@@ -1,5 +1,5 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import kanjiContext from '../../contexts/kanjiContext';
 import KanjiCard from '../content/KanjiCard';
 import { ViewContent } from '../content/KanjiView';
@@ -24,6 +24,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   const learnUIRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
+  const navCardCount = useMemo(() => Math.ceil(windowWidth / 50), [windowWidth]);
 
   const maxIndex = pageKanjis.length - (repeatKanjis.length > 0 ? 0 : 1);
 
@@ -106,7 +107,9 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
               <KanjiCardNav
                 mode={frontSide.writing ? 'writing' : 'meaning'}
                 kanjis={pageKanjis}
+                currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
+                navCardCount={navCardCount}
               />
             </section>
           </CSSTransition>
