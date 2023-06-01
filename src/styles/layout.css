@@ -9,7 +9,6 @@
     background-color: var(--bg-color);
   }
   .App > * {
-    min-width: none;
     padding-left: var(--app-padding);
     padding-right: var(--app-padding);
   }
@@ -142,7 +141,7 @@
     position: absolute;
     display: block;
     content: '';
-    min-width: calc(var(--min-w) - 2 * var(--app-padding));
+    min-width: calc(var(--min-w) - 2 * var(--min-w) * 0.15);
     width: calc(100vw - 2 * var(--app-padding));
     height: 1.5px;
     background-color: var(--secondary-text-color);
