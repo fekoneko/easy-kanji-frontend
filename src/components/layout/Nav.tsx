@@ -16,7 +16,7 @@ const Nav = () => {
       ) : (
         <>
           <NavLink to="/popular">{t('Layout.Nav.Popular')}</NavLink>
-          <ProtectedContent allowedRoles={['Admin']}>
+          <ProtectedContent>
             <NavLink to="/saved">{t('Layout.Nav.Saved')}</NavLink>
           </ProtectedContent>
           <NavLink to="/search">{t('Layout.Nav.Search')}</NavLink>
