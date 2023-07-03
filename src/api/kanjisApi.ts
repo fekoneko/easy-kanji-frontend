@@ -50,14 +50,34 @@ export default {
     setLoading?: SetLoading,
     signal?: AbortSignal
   ): Promise<Kanji[] | null> {
-    const [serverKanjis] = await catchAxiosErrors(
-      () =>
-        axiosPublic.get<ServerKanji[]>(`/kanjis/?${kanjiIds.map((id) => `ids=${id}`).join('&')}`, {
-          signal,
-        }),
-      setErrorStatus,
-      setLoading
-    );
+    const serverKanjis: ServerKanji[] = [];
+    if (setLoading) setLoading(true);
+
+    const getKanjiRange = async (startIndex: number) => {
+      const idsToLoad = kanjiIds.slice(startIndex, startIndex + 200);
+
+      const [serverKanjisPart] = await catchAxiosErrors(
+        () =>
+          axiosPublic.get<ServerKanji[]>(
+            `/kanjis/?${idsToLoad.map((id) => `ids=${id}`).join('&')}`,
+            {
+              signal,
+            }
+          ),
+        setErrorStatus
+      );
+
+      serverKanjisPart?.forEach((kanji, index) => (serverKanjis[startIndex + index] = kanji));
+    };
+
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < kanjiIds.length; i += 200) {
+      promises.push(getKanjiRange(i));
+    }
+
+    for (let i = 0; i < promises.length; i++) await promises[i];
+    if (setLoading) setLoading(false);
+
     return serverKanjis && parseServerKanjis(serverKanjis);
   },
 

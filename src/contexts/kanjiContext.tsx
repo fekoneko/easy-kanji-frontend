@@ -58,34 +58,20 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
 
   useEffect(() => {
     const abortController = new AbortController();
-    const newSelectedIds = getFromLocalStorage<number[]>('selected');
 
-    if (newSelectedIds) {
-      const newSelectedKanjis: Kanji[] = [];
-
-      const getKanjiRange = async (startIndex: number) => {
-        const idsToLoad = newSelectedIds.slice(startIndex, startIndex + 200);
-        const loadedKanjis = await kanjisApi.getKanjisByIds(
-          idsToLoad,
+    const loadSelectedKanjis = async () => {
+      const newSelectedIds = getFromLocalStorage<number[]>('selected');
+      if (newSelectedIds && newSelectedIds.length > 0) {
+        const newSelectedKanjis = await kanjisApi.getKanjisByIds(
+          newSelectedIds,
           setGetSelectedErrorStatus,
-          undefined,
+          setSelectedKanjisLoading,
           abortController.signal
         );
-        loadedKanjis?.forEach((kanji, index) => (newSelectedKanjis[startIndex + index] = kanji));
-      };
-
-      const getSelectedKanjis = async () => {
-        const promises: Promise<void>[] = [];
-        for (let i = 0; i < newSelectedIds.length; i += 200) {
-          promises.push(getKanjiRange(i));
-        }
-
-        for (let i = 0; i < promises.length; i++) await promises[i];
-        setSelectedKanjis(newSelectedKanjis);
-        setSelectedKanjisLoading(false);
-      };
-      getSelectedKanjis();
-    }
+        if (newSelectedKanjis) addKanjisToList(setSelectedKanjis, newSelectedKanjis);
+      }
+    };
+    loadSelectedKanjis();
 
     return () => {
       abortController.abort();
