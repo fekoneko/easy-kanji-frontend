@@ -4,6 +4,7 @@ import KanjiCell from './KanjiCell';
 import useResizeObserver from '../../hooks/useResizeObserver';
 import KanjiChoiceCell from './KanjiChoiceCell';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
+import DisplayInViewport from '../layout/DisplayInViewport';
 
 const GRID_GAP = 8;
 const COLUMNS_DEFAULT = 2;
@@ -40,7 +41,6 @@ const KanjiGrid = ({
   const moveFocus = (offset: number) => {
     if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.nodeName))
       return;
-    if (kanjis.length === -1) return;
 
     setFocusIndex((prev) => {
       if (prev === null) return 0;
@@ -73,27 +73,27 @@ const KanjiGrid = ({
         gap: GRID_GAP,
       }}
     >
-      {kanjis.map((kanji, index) =>
-        kanjiChoiceMode ? (
-          <KanjiChoiceCell
-            key={index}
-            kanji={kanji}
-            focus={focusIndex === index}
-            setFocus={() => setFocusIndex(index)}
-            detailedMode={detailedMode}
-            chosenKanji={chosenKanji}
-            setChosenKanji={setChosenKanji}
-          />
-        ) : (
-          <KanjiCell
-            key={index}
-            kanji={kanji}
-            focus={focusIndex === index}
-            setFocus={() => setFocusIndex(index)}
-            detailedMode={detailedMode}
-          />
-        )
-      )}
+      {kanjis.map((kanji, index) => (
+        <DisplayInViewport key={index} forceDisplay={kanjis.length < 500}>
+          {kanjiChoiceMode ? (
+            <KanjiChoiceCell
+              kanji={kanji}
+              focus={focusIndex === index}
+              setFocus={() => setFocusIndex(index)}
+              detailedMode={detailedMode}
+              chosenKanji={chosenKanji}
+              setChosenKanji={setChosenKanji}
+            />
+          ) : (
+            <KanjiCell
+              kanji={kanji}
+              focus={focusIndex === index}
+              setFocus={() => setFocusIndex(index)}
+              detailedMode={detailedMode}
+            />
+          )}
+        </DisplayInViewport>
+      ))}
     </section>
   );
 };

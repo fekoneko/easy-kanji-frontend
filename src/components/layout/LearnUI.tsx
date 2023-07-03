@@ -69,24 +69,27 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                   }px - var(--card-width) / 2))`,
                 }}
               >
-                {pageKanjis.map((kanji, index) => (
-                  <KanjiCard
-                    key={index}
-                    kanji={kanji}
-                    frontSide={frontSide}
-                    backSide={backSide}
-                    shown={Math.abs(index - currentIndex) <= 1}
-                    positionOnScreen={
-                      index === currentIndex
-                        ? 'center'
-                        : index - currentIndex < 0
-                        ? 'left'
-                        : 'right'
-                    }
-                    cardIndex={index}
-                    handleFocus={() => setCurrentIndex(index)}
-                  />
-                ))}
+                {pageKanjis.map(
+                  (kanji, index) =>
+                    Math.abs(index - currentIndex) <= 6 && (
+                      <KanjiCard
+                        key={index}
+                        kanji={kanji}
+                        frontSide={frontSide}
+                        backSide={backSide}
+                        shown={Math.abs(index - currentIndex) <= 1}
+                        positionOnScreen={
+                          index === currentIndex
+                            ? 'center'
+                            : index - currentIndex < 0
+                            ? 'left'
+                            : 'right'
+                        }
+                        cardIndex={index}
+                        handleFocus={() => setCurrentIndex(index)}
+                      />
+                    )
+                )}
                 {repeatKanjis.length > 0 && (
                   <ActionCard
                     key={maxIndex}

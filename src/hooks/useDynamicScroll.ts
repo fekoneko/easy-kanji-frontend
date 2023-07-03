@@ -12,7 +12,7 @@ const useDynamicScroll = <T extends { id: number }>(
   content: T[],
   setContent: SetContent<T>,
   loadContent: LoadContentFunction<T>,
-  loadCount: number = 50,
+  loadCount: number = 100,
   onLoading?: () => any,
   onLoaded?: () => any
 ) => {
@@ -50,7 +50,7 @@ const useDynamicScroll = <T extends { id: number }>(
     const scrollContainer = e.target as HTMLElement;
 
     if (
-      scrollContainer.scrollTop + scrollContainer.offsetHeight + 20 >=
+      scrollContainer.scrollTop + scrollContainer.offsetHeight + 200 >=
       scrollContainer.scrollHeight
     ) {
       updateContent();
