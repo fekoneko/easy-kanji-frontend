@@ -1,5 +1,4 @@
 import { Route } from 'react-router-dom';
-import kanjiContext from './contexts/kanjiContext';
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import Nav from './components/layout/Nav';
@@ -26,10 +25,14 @@ const App = () => {
   useAxiosInterceptors();
 
   return (
-    <div className="App">
+    <div className="flex h-screen w-screen flex-col justify-between transition-colors dark:bg-soft-black dark:text-soft-white">
       <Header />
       <Nav />
-      <main role="main" ref={mainRef}>
+      <main
+        role="main"
+        ref={mainRef}
+        className="app-paddings flex flex-grow flex-col overflow-y-scroll"
+      >
         <AnimatedRoutes>
           <Route index element={<NavigateOnce to="popular" />} />
           <Route path="popular" element={<PopularPage mainRef={mainRef} />} />

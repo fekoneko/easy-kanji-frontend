@@ -54,15 +54,24 @@ const Tooltip = ({ anchorRef, shown, handleClose, className, id, children }: Too
     <CSSTransition in={shown} unmountOnExit timeout={200} classNames="tooltip" nodeRef={tooltipRef}>
       <div
         ref={tooltipRef}
-        className="tooltip"
+        className="pointer-events-none absolute z-[100000] flex flex-col"
         style={{ left: tooltipPosition.x, top: tooltipPosition.y, width: tooltipWidth }}
       >
-        {tooltipDirection === 'down' ? <TooltipPointer className="tooltipPointer" /> : <></>}
-        <div className={`tooltipContent${className ? ` ${className}` : ''}`} id={id}>
+        {tooltipDirection === 'down' ? (
+          <TooltipPointer className="z-[100001] m-[-0.25rem] w-5 self-center fill-blue dark:fill-blue" />
+        ) : (
+          <></>
+        )}
+        <div
+          className={`border-2 border-blue bg-white p-2 shadow-md shadow-black dark:bg-soft-black ${
+            className ?? ''
+          }`}
+          id={id}
+        >
           {children}
         </div>
         {tooltipDirection === 'up' ? (
-          <TooltipPointer className="tooltipPointer" style={{ transform: 'rotate(180deg)' }} />
+          <TooltipPointer className="z-[100001] m-[-0.25rem] w-5 self-center fill-blue [transform:rotate(180deg)] dark:fill-blue" />
         ) : (
           <></>
         )}

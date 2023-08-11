@@ -37,9 +37,12 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="modalWindowBG"
+        className="absolute left-0 top-0 z-[99000] flex h-screen w-screen items-center justify-center bg-black bg-opacity-40"
       >
-        <div ref={modalWindowRef} className="modalWindow">
+        <div
+          ref={modalWindowRef}
+          className="border-2 border-blue bg-white p-4 shadow-md shadow-black dark:bg-soft-black dark:text-soft-white"
+        >
           {children}
         </div>
       </div>

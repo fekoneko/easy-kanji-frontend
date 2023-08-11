@@ -23,38 +23,34 @@ const AuthRequired = ({ allowedRoles }: AuthRequiredProps) => {
 
   if (!auth) {
     return (
-      <div className="scrollContent">
-        <div className="contentPlaceholder">
-          <h2>{t('Pages.AuthRequired.AuthRequiredTitle')}</h2>
-          <p>
-            <Trans
-              i18nKey="Pages.AuthRequired.AuthRequiredHint"
-              components={{
-                linkElement: (
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      showModal(<UserModal />);
-                    }}
-                  />
-                ),
-              }}
-            />
-          </p>
-        </div>
+      <div className="content-placeholder">
+        <h2>{t('Pages.AuthRequired.AuthRequiredTitle')}</h2>
+        <p>
+          <Trans
+            i18nKey="Pages.AuthRequired.AuthRequiredHint"
+            components={{
+              linkElement: (
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showModal(<UserModal />);
+                  }}
+                />
+              ),
+            }}
+          />
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="scrollContent">
-      <div className="contentPlaceholder">
-        <h2>{t('Pages.AuthRequired.UnallowedRoleTitle')}</h2>
-        <p>
-          <Trans i18nKey="Pages.AuthRequired.UnallowedRoleHint" />
-        </p>
-      </div>
+    <div className="content-placeholder">
+      <h2>{t('Pages.AuthRequired.UnallowedRoleTitle')}</h2>
+      <p>
+        <Trans i18nKey="Pages.AuthRequired.UnallowedRoleHint" />
+      </p>
     </div>
   );
 };

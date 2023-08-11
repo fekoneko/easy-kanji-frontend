@@ -102,25 +102,26 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const usernameOccupied = signUpErrorStatus === 400 && usernameValid && passwordValid;
 
   return (
-    <form className="RegistrationForm" onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="usernameInput">{t('Forms.SignUp.Username')}</label>
-        <input
-          ref={usernameRef}
-          id="usernameInput"
-          type="text"
-          autoFocus
-          placeholder={t('Forms.SignUp.UsernamePlaceholder')}
-          autoComplete="off"
-          required
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          aria-describedby="usernameHint"
-          aria-invalid={(!usernameValid || usernameOccupied) && !!username}
-          onFocus={() => setUsernameFocus(true)}
-          onBlur={() => setUsernameFocus(false)}
-        />
-      </fieldset>
+    <form
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.6fr)_minmax(0,1.4fr)]"
+      onSubmit={handleSubmit}
+    >
+      <label htmlFor="usernameInput">{t('Forms.SignUp.Username')}</label>
+      <input
+        ref={usernameRef}
+        id="usernameInput"
+        type="text"
+        autoFocus
+        placeholder={t('Forms.SignUp.UsernamePlaceholder')}
+        autoComplete="off"
+        required
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        aria-describedby="usernameHint"
+        aria-invalid={(!usernameValid || usernameOccupied) && !!username}
+        onFocus={() => setUsernameFocus(true)}
+        onBlur={() => setUsernameFocus(false)}
+      />
       <Tooltip
         id="usernameHint"
         shown={usernameHintShown && !usernameOccupied}
@@ -132,49 +133,45 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         {t('Forms.SignUp.Errors.UsernameOccupied')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="passwordInput">{t('Forms.SignUp.Password')}</label>
-        <input
-          ref={passwordRef}
-          id="passwordInput"
-          type="password"
-          placeholder={t('Forms.SignUp.PasswordPlaceholder')}
-          autoComplete="off"
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          aria-describedby="passwordHint"
-          aria-invalid={!passwordValid && !!password}
-          onFocus={() => setPasswordFocus(true)}
-          onBlur={() => setPasswordFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="passwordInput">{t('Forms.SignUp.Password')}</label>
+      <input
+        ref={passwordRef}
+        id="passwordInput"
+        type="password"
+        placeholder={t('Forms.SignUp.PasswordPlaceholder')}
+        autoComplete="off"
+        required
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+        aria-describedby="passwordHint"
+        aria-invalid={!passwordValid && !!password}
+        onFocus={() => setPasswordFocus(true)}
+        onBlur={() => setPasswordFocus(false)}
+      />
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
         {t('Forms.SignUp.Errors.PasswordHint')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="confirmInput">{t('Forms.SignUp.Confirm')}</label>
-        <input
-          ref={confirmRef}
-          id="confirmInput"
-          type="password"
-          placeholder={t('Forms.SignUp.ConfirmPlaceholder')}
-          autoComplete="off"
-          required
-          onChange={(e) => setConfirm(e.target.value)}
-          value={confirm}
-          aria-describedby="confirmHint"
-          aria-invalid={!confirmValid && !!confirm}
-          onFocus={() => setConfirmFocus(true)}
-          onBlur={() => setConfirmFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="confirmInput">{t('Forms.SignUp.Confirm')}</label>
+      <input
+        ref={confirmRef}
+        id="confirmInput"
+        type="password"
+        placeholder={t('Forms.SignUp.ConfirmPlaceholder')}
+        autoComplete="off"
+        required
+        onChange={(e) => setConfirm(e.target.value)}
+        value={confirm}
+        aria-describedby="confirmHint"
+        aria-invalid={!confirmValid && !!confirm}
+        onFocus={() => setConfirmFocus(true)}
+        onBlur={() => setConfirmFocus(false)}
+      />
       <Tooltip id="confirmHint" shown={confirmHintShown} anchorRef={confirmRef}>
         {t('Forms.SignUp.Errors.ConfirmHint')}
       </Tooltip>
 
-      <button ref={submitRef} type="submit">
+      <button ref={submitRef} type="submit" className="col-span-2">
         {loading ? <LoadingSpinner /> : t('Forms.SignUp.SignUp')}
       </button>
     </form>

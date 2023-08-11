@@ -7,10 +7,8 @@ const FeedbackPage = () => {
 
   return (
     <TitledPage title={t('Pages.Feedback.Title')}>
-      <div className="scrollContent">
-        <h1 className="pageTitle">{t('Pages.Feedback.Title')}</h1>
-        <FeedbackForm />
-      </div>
+      <h1 className="pageTitle">{t('Pages.Feedback.Title')}</h1>
+      <FeedbackForm />
     </TitledPage>
   );
 };

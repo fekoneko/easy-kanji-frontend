@@ -14,10 +14,10 @@ import AuthModal from '../overlays/AuthModal';
 import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
-import KanjiReadings from './KanjiReadings';
 import authContext from '../../contexts/authContext';
 import useOnKeyUp from '../../hooks/useOnKeyUp';
 import { useTranslation } from 'react-i18next';
+import KanjiCellContent from './KanjiCellContent';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -111,11 +111,15 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
 
   return (
     <>
-      <div className={`kanjiCell${kanjiSelected ? ' selected' : ''}`}>
+      <div
+        className={`relative flex items-center border-2 border-gray dark:border-dark-gray [&.selected]:border-black [&.selected]:bg-black [&.selected]:bg-opacity-10 dark:[&.selected]:border-white dark:[&.selected]:bg-white dark:[&.selected]:bg-opacity-10 ${
+          kanjiSelected ? 'selected' : ''
+        }`}
+      >
         <button
           tabIndex={focus ? undefined : -1}
           ref={cellButtonRef}
-          className="kanjiCellButton"
+          className="flex-grow"
           onMouseEnter={() => {
             waitAndShowTooltip();
             setShowControls(true);
@@ -125,20 +129,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
             setShowControls(false);
           }}
         >
-          <p className="kanjiWriting">{kanji.writing}</p>
-          <div>
-            <p className="kanjiMeaning">{kanji.meaning}</p>
-            {detailedMode && (
-              <>
-                <p className="kanjiOnReadings">
-                  <KanjiReadings readings={kanji.onReadings} />
-                </p>
-                <p className="kanjiKunReadings">
-                  <KanjiReadings readings={kanji.kunReadings} />
-                </p>
-              </>
-            )}
-          </div>
+          <KanjiCellContent kanji={kanji} detailedMode={detailedMode} />
         </button>
 
         <ProtectedContent

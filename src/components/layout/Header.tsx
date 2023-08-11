@@ -7,8 +7,12 @@ const Header = () => {
   const { t } = useTranslation();
 
   return (
-    <header>
-      <Link className="siteTitle" to="/popular" role="banner">
+    <header className="app-paddings flex items-center gap-5 bg-primary py-2 text-white">
+      <Link
+        className="flex-grow text-3xl font-bold text-white hover:no-underline"
+        to="/popular"
+        role="banner"
+      >
         {t('SiteTitle')}
       </Link>
       <LearnButton />

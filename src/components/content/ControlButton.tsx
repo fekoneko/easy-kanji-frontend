@@ -26,7 +26,7 @@ const ControlButton = ({ shown, disabled, title, action, children }: ControlButt
         ref={buttonRef}
         title={title}
         disabled={disabled}
-        className="controlButton"
+        className="absolute right-0 p-2"
         onClick={(e) => !disabled && action && action(e)}
         onMouseEnter={() => setButtonHover(true)}
         onMouseLeave={() => setButtonHover(false)}

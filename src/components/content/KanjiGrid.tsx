@@ -65,7 +65,7 @@ const KanjiGrid = ({
   return (
     <section
       ref={gridRef}
-      className="kanjiGrid"
+      className="grid"
       style={{
         gridTemplateColumns: `repeat(${columns}, calc(${100 / columns}% - ${
           GRID_GAP - GRID_GAP / columns

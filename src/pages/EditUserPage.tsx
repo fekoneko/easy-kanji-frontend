@@ -8,13 +8,11 @@ const EditUserPage = () => {
 
   return (
     <TitledPage title={t('Pages.EditUser.Title')}>
-      <div className="scrollContent">
-        <h1 className="pageTitle">{t('Pages.EditUser.Title')}</h1>
-        <EditUserForm />
-        <Link to="/user" style={{ alignSelf: 'flex-end' }}>
-          {t('Pages.EditUser.BackLink')}
-        </Link>
-      </div>
+      <h1 className="pageTitle">{t('Pages.EditUser.Title')}</h1>
+      <EditUserForm />
+      <Link to="/user" style={{ alignSelf: 'flex-end' }}>
+        {t('Pages.EditUser.BackLink')}
+      </Link>
     </TitledPage>
   );
 };

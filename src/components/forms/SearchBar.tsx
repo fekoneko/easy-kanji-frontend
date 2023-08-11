@@ -15,7 +15,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
   useWanaKana(searchInputRef);
 
   return (
-    <form className="searchForm" ref={searchFormRef} onSubmit={(e) => e.preventDefault()}>
+    <form className="flex gap-4" ref={searchFormRef} onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search" style={{ position: 'absolute', left: '-99999px' }}>
         {t('Forms.SearchBar.Search')}
       </label>
@@ -32,12 +32,13 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
           // Need to use onInput for correct value updating when using Wanakana
         }
         aria-describedby="searchHint"
+        className="flex-grow"
       />
 
       <Info tooltipId="searchHint" tooltipAnchorRef={searchFormRef}>
         <Trans
           i18nKey="Pages.Search.Info"
-          components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
+          components={{ p: <p />, ul: <ul />, li: <li />, key: <span className="key" /> }}
         />
       </Info>
     </form>

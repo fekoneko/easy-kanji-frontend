@@ -18,7 +18,7 @@ const AuthModal = () => {
         <>
           <h1>{t('Modals.Auth.SignUpTitle')}</h1>
           <SignUpForm onSignedUp={() => showModal(<UserModal />)} />
-          <p>
+          <p className="text-center">
             <Trans
               i18nKey="Modals.Auth.SignUpHint"
               components={{
@@ -42,7 +42,7 @@ const AuthModal = () => {
         <>
           <h1>{t('Modals.Auth.SignInTitle')}</h1>
           <SignInForm onLoggedIn={() => showModal(<UserModal />)} />
-          <p>
+          <p className="text-center">
             <Trans
               i18nKey="Modals.Auth.SignInHint"
               components={{

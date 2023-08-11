@@ -22,9 +22,7 @@ const LearnByMeaningPage = () => {
 
   return (
     <TitledPage title={t('Pages.Learn.Title')}>
-      <div className="onScreenContent ">
-        <LearnUI frontSide={frontSide} backSide={backSide} />
-      </div>
+      <LearnUI frontSide={frontSide} backSide={backSide} />
     </TitledPage>
   );
 };

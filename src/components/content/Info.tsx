@@ -17,19 +17,18 @@ const Info = ({ tooltipId, tooltipAnchorRef, caption, children }: InfoHoverProps
     <>
       <button
         ref={infoIconRef}
-        className="infoHover"
         onMouseEnter={() => setTooltipShown(true)}
         onMouseLeave={() => setTooltipShown(false)}
+        className={
+          caption !== undefined
+            ? 'flex items-center gap-1 hover:text-blue [&>svg]:h-4 [&>svg]:w-4'
+            : '[&>svg]:h-7 [&>svg]:w-7 hover:[&>svg]:fill-blue'
+        }
       >
         {caption && <p>{caption}</p>}
         <InfoIcon />
       </button>
-      <Tooltip
-        id={tooltipId}
-        shown={tooltipShown}
-        anchorRef={tooltipAnchorRef ?? infoIconRef}
-        className="infoTooltip"
-      >
+      <Tooltip id={tooltipId} shown={tooltipShown} anchorRef={tooltipAnchorRef ?? infoIconRef}>
         {children}
       </Tooltip>
     </>

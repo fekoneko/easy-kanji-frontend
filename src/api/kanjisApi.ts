@@ -13,8 +13,8 @@ export type ServerKanji = {
 
 export const parseServerKanji = (serverKanji: ServerKanji): Kanji => ({
   ...serverKanji,
-  onReadings: serverKanji.onReadings.split(','),
-  kunReadings: serverKanji.kunReadings.split(','),
+  onReadings: serverKanji.onReadings ? serverKanji.onReadings.split(',') : [],
+  kunReadings: serverKanji.kunReadings ? serverKanji.kunReadings.split(',') : [],
 });
 
 export const parseServerKanjis = (serverKanjis: ServerKanji[]): Kanji[] =>

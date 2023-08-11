@@ -56,80 +56,104 @@ const Footer = () => {
   };
 
   return (
-    <footer ref={footerRef} role="contentinfo">
-      {(() => {
-        switch (section) {
-          case 'popular':
-          case 'saved':
-          case 'search':
-            return (
-              <>
-                <p>
-                  <Trans
-                    i18nKey="Layout.Footer.SelectedOf"
-                    values={{
-                      selected: pageKanjis ? getSelectedCount() : '?',
-                      of: pageKanjis?.length ?? '?',
+    <>
+      <div className="app-paddings min-h-[1.5px] before:block before:h-full before:w-full before:bg-dark-gray dark:before:bg-gray" />
+      <footer
+        ref={footerRef}
+        role="contentinfo"
+        className="app-paddings flex gap-2 py-0.5 text-dark-gray dark:text-gray hover:[&_button]:text-black dark:hover:[&_button]:text-white"
+      >
+        {(() => {
+          switch (section) {
+            case 'popular':
+            case 'saved':
+            case 'search':
+              return (
+                <>
+                  <p>
+                    <Trans
+                      i18nKey="Layout.Footer.SelectedOf"
+                      values={{
+                        selected: pageKanjis ? getSelectedCount() : '?',
+                        of: pageKanjis?.length ?? '?',
+                      }}
+                    />
+                  </p>
+                  {isAllSelected() ? (
+                    <button className="ml-auto" onClick={deselectAll}>
+                      {t('Layout.Footer.DeselectAll')}
+                    </button>
+                  ) : (
+                    <button className="ml-auto" onClick={selectAll}>
+                      {t('Layout.Footer.SelectAll')}
+                    </button>
+                  )}
+                </>
+              );
+
+            case 'selected':
+              return (
+                <>
+                  <p>
+                    <Trans
+                      i18nKey="Layout.Footer.Selected"
+                      values={{ selected: selectedKanjis ? selectedKanjis.length : '?' }}
+                    />
+                  </p>
+                  <button className="ml-auto" onClick={clearSelection}>
+                    {t('Layout.Footer.ClearList')}
+                  </button>
+                </>
+              );
+
+            case 'learn':
+              return (
+                <>
+                  <Info tooltipAnchorRef={footerRef} caption={t('Layout.Footer.HelpCaption')}>
+                    <Trans
+                      i18nKey="Pages.Learn.Info"
+                      components={{
+                        p: <p />,
+                        ul: <ul />,
+                        li: <li />,
+                        key: <span className="key" />,
+                      }}
+                    />
+                  </Info>
+                  <button
+                    className="ml-auto"
+                    onClick={(e: any) => {
+                      setLearnModeShuffleFlag((prev) => !prev);
+                      e.target.blur();
                     }}
-                  />
-                </p>
-                {isAllSelected() ? (
-                  <button onClick={deselectAll}>{t('Layout.Footer.DeselectAll')}</button>
-                ) : (
-                  <button onClick={selectAll}>{t('Layout.Footer.SelectAll')}</button>
-                )}
-              </>
-            );
+                  >
+                    {learnModeShuffleFlag
+                      ? t('Layout.Footer.CardsShuffled')
+                      : t('Layout.Footer.ShuffleCards')}
+                  </button>
+                </>
+              );
 
-          case 'selected':
-            return (
-              <>
-                <p>
-                  <Trans
-                    i18nKey="Layout.Footer.Selected"
-                    values={{ selected: selectedKanjis ? selectedKanjis.length : '?' }}
-                  />
-                </p>
-                <button onClick={clearSelection}>{t('Layout.Footer.ClearList')}</button>
-              </>
-            );
-
-          case 'learn':
-            return (
-              <>
-                <Info tooltipAnchorRef={footerRef} caption={t('Layout.Footer.HelpCaption')}>
-                  <Trans
-                    i18nKey="Pages.Learn.Info"
-                    components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
-                  />
-                </Info>
-                <button
-                  onClick={(e: any) => {
-                    setLearnModeShuffleFlag((prev) => !prev);
-                    e.target.blur();
-                  }}
-                >
-                  {learnModeShuffleFlag
-                    ? t('Layout.Footer.CardsShuffled')
-                    : t('Layout.Footer.ShuffleCards')}
-                </button>
-              </>
-            );
-
-          default:
-            return (
-              <>
-                <p>EasyKanji</p>
-                <Link to="/feedback">{t('Layout.Footer.LeaveFeedback')}</Link>
-              </>
-            );
-        }
-      })()}
-      <button onClick={handleLanguageSwitch}>{language === 'ja' ? 'jap' : 'rus'}</button>
-      <button onClick={handleThemeSwitch}>
-        {theme === 'light' ? <LightThemeIcon /> : <DarkThemeIcon />}
-      </button>
-    </footer>
+            default:
+              return (
+                <>
+                  <p>EasyKanji</p>
+                  <Link className="ml-auto" to="/feedback">
+                    {t('Layout.Footer.LeaveFeedback')}
+                  </Link>
+                </>
+              );
+          }
+        })()}
+        <button onClick={handleLanguageSwitch}>{language === 'ja' ? 'jap' : 'rus'}</button>
+        <button
+          onClick={handleThemeSwitch}
+          className="[&>svg]:fill-dark-gray hover:[&>svg]:fill-black dark:[&>svg]:fill-gray dark:hover:[&>svg]:fill-white"
+        >
+          {theme === 'light' ? <LightThemeIcon /> : <DarkThemeIcon />}
+        </button>
+      </footer>
+    </>
   );
 };
 export default Footer;

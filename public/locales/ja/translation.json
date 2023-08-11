@@ -9,7 +9,7 @@
   "Pages": {
     "Popular": {
       "Title": "頻繁な漢字",
-      "Info": "<p>このタブでは、漢字を使用頻度の順に並べています。ここから学びを始めることをおすすめします。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li><li><p>矢印キー<span className=\"key\">←</span><span className=\"key\">↑</span><span className=\"key\">→</span><span className=\"key\">↓</span>を使用してテーブル内を移動できます。（<span className=\"key\">Shift</span>で速く移動）</p></li></ul>",
+      "Info": "<p>このタブでは、漢字を使用頻度の順に並べています。ここから学びを始めることをおすすめします。</p><ul><li><p><key>クリック</key>または<key>Space</key>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<key>Enter</key>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li><li><p>矢印キー<key>←</key><key>↑</key><key>→</key><key>↓</key>を使用してテーブル内を移動できます。（<key>Shift</key>で速く移動）</p></li></ul>",
       "Placeholder": "<p>空です</p>"
     },
     "EditKanjis": {
@@ -25,7 +25,7 @@
     },
     "Learn": {
       "Title": "学習モード",
-      "Info": "<p>学習モードへようこそ!</p><p>ご課題は、カードの表面を見て、漢字の足りない詳細を思い出すことです。次に、カードを裏返してご推測を確認できます。何かを思い出せない場合、または長時間考えすぎた場合は、その漢字を後で記憶について延期して、次の漢字に進みなさい。カードがもうなくなったら、漢字を記憶ボタンを押しなさい。</p><p>全ての漢字を思い出せるまで続けるが必要です。</p><p>未知の漢字を少しずつ追加しながら、定期的に勉強を繰り返すことをおすすめします。</p><ul><li><p>矢印キー<span className=\"key\">←</span><span className=\"key\">→</span>を使用してテーブル内を移動できます。</p></li><li><p><span className=\"key\">Space</span>を押して、カードを裏返します。</p></li><li><p><span className=\"key\">Enter</span>を押して、記憶リストに付けます。</p></li></ul>",
+      "Info": "<p>学習モードへようこそ!</p><p>ご課題は、カードの表面を見て、漢字の足りない詳細を思い出すことです。次に、カードを裏返してご推測を確認できます。何かを思い出せない場合、または長時間考えすぎた場合は、その漢字を後で記憶について延期して、次の漢字に進みなさい。カードがもうなくなったら、漢字を記憶ボタンを押しなさい。</p><p>全ての漢字を思い出せるまで続けるが必要です。</p><p>未知の漢字を少しずつ追加しながら、定期的に勉強を繰り返すことをおすすめします。</p><ul><li><p>矢印キー<key>←</key><key>→</key>を使用してテーブル内を移動できます。</p></li><li><p><key>Space</key>を押して、カードを裏返します。</p></li><li><p><key>Enter</key>を押して、記憶リストに付けます。</p></li></ul>",
       "Placeholder": "<p>学び漢字を選択してください。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
     },
     "NotFound": {
@@ -35,12 +35,12 @@
     },
     "SavedKanji": {
       "Title": "保存された漢字",
-      "Info": "<p>このタブでは、あなたの保存された漢字があります。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字をこのページから削除できます。</p></li></ul>",
+      "Info": "<p>このタブでは、あなたの保存された漢字があります。</p><ul><li><p><key>クリック</key>または<key>Space</key>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>漢字の意味の右にあるアイコンをクリックまたは<key>Enter</key>を押して漢字をこのページから削除できます。</p></li></ul>",
       "Placeholder": "<p>まだ漢字を保存していません。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
     },
     "Search": {
       "Title": "漢字を検索",
-      "Info": "<ul><li><p>複数のリクエストはカンマ（<span className=\"key\">,</span>）、読点（<span className=\"key\">、</span>）、全角空格（<span className=\"key\">　</span>）で区切る必要があります。</p></li><li><p>ローマ字は自動でかなに変換されます（<span className=\"key\">hiragana</span>→<span className=\"key\">ひらがな</span> <span className=\"key\">KATAKANA</span>→<span className=\"key\">カタカナ</span>）</p></li></ul>",
+      "Info": "<ul><li><p>複数のリクエストはカンマ（<key>,</key>）、読点（<key>、</key>）、全角空格（<key>　</key>）で区切る必要があります。</p></li><li><p>ローマ字は自動でかなに変換されます（<key>hiragana</key>→<key>ひらがな</key> <key>KATAKANA</key>→<key>カタカナ</key>）</p></li></ul>",
       "Placeholders": {
         "NotFound": "<p>何も見つかりません。</p>",
         "EmptyRequest": "<p>検索リクエストを入力してください。</p>"
@@ -48,7 +48,7 @@
     },
     "Selected": {
       "Title": "選択した漢字",
-      "Info": "<p>このタブであなたの選択した漢字があります。今その漢字を学び始めたい場合は、学習モードを開始できます。</p><ul><li><p><span className=\"key\">クリック</span>または<span className=\"key\">Space</span>を押して漢字を選択します。しかも、ページの下部にあるボタンを押してすべての選択を解除します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<span className=\"key\">Enter</span>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li></ul>",
+      "Info": "<p>このタブであなたの選択した漢字があります。今その漢字を学び始めたい場合は、学習モードを開始できます。</p><ul><li><p><key>クリック</key>または<key>Space</key>を押して漢字を選択します。しかも、ページの下部にあるボタンを押してすべての選択を解除します。</p></li><li><p>ログイン場合は、漢字の意味の右にあるアイコンをクリックまたは<key>Enter</key>を押して漢字を保存できます。その漢字は「保存された」タブで表示されます。</p></li></ul>",
       "Placeholder": "<p>まだ漢字を選択していません。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
     },
     "User": {

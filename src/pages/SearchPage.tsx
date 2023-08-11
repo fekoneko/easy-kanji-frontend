@@ -64,26 +64,24 @@ const SearchPage = () => {
 
   return (
     <TitledPage title={t('Pages.Search.Title')}>
-      <div className="scrollContent">
-        <h1 className="pageTitle">{t('Pages.Search.Title')}</h1>
-        <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
+      <h1 className="mb-4 mt-7">{t('Pages.Search.Title')}</h1>
+      <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
 
-        {pageKanjis.length > 0 ? (
-          <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
-        ) : loading ? (
-          <div className="contentPlaceholder">
-            <LoadingSpinner />
-          </div>
-        ) : (
-          <div className="contentPlaceholder">
-            {searchRequest.length > 0 ? (
-              <Trans i18nKey="Pages.Search.Placeholders.NotFound" components={{ p: <p /> }} />
-            ) : (
-              <Trans i18nKey="Pages.Search.Placeholders.EmptyRequest" components={{ p: <p /> }} />
-            )}
-          </div>
-        )}
-      </div>
+      {pageKanjis.length > 0 ? (
+        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
+      ) : loading ? (
+        <div className="content-placeholder">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <div className="content-placeholder">
+          {searchRequest.length > 0 ? (
+            <Trans i18nKey="Pages.Search.Placeholders.NotFound" components={{ p: <p /> }} />
+          ) : (
+            <Trans i18nKey="Pages.Search.Placeholders.EmptyRequest" components={{ p: <p /> }} />
+          )}
+        </div>
+      )}
     </TitledPage>
   );
 };
