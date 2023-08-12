@@ -10,7 +10,7 @@ const EditKanjisPage = () => {
 
   return (
     <TitledPage title={t('Pages.EditKanjis.Title')}>
-      <div className="pageTitle" ref={titleRef}>
+      <div className="mb-4 mt-7 flex items-center justify-between" ref={titleRef}>
         <h1>{t('Pages.EditKanjis.Title')}</h1>
         <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
           <Trans

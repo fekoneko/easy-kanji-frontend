@@ -15,7 +15,7 @@ const SearchBar = ({ searchRequest, setSearchRequest }: SearchBarProps) => {
   useWanaKana(searchInputRef);
 
   return (
-    <form className="flex gap-4" ref={searchFormRef} onSubmit={(e) => e.preventDefault()}>
+    <form className="mb-3 flex gap-4" ref={searchFormRef} onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search" style={{ position: 'absolute', left: '-99999px' }}>
         {t('Forms.SearchBar.Search')}
       </label>

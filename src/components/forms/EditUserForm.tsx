@@ -130,24 +130,25 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   const usernameOccupied = !!newUsername && editUserErrorStatus === 400 && newUsernameValid;
 
   return (
-    <form className="RegistrationForm" onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="usernameInput">{t('Forms.EditUser.Username')}</label>
-        <input
-          ref={usernameRef}
-          id="usernameInput"
-          type="text"
-          autoFocus
-          placeholder={t('Forms.EditUser.UsernamePlaceholder')}
-          autoComplete="off"
-          onChange={(e) => setNewUsername(e.target.value)}
-          value={newUsername}
-          aria-describedby="usernameHint"
-          aria-invalid={(!newUsernameValid || usernameOccupied) && !!newUsername}
-          onFocus={() => setNewUsernameFocus(true)}
-          onBlur={() => setNewUsernameFocus(false)}
-        />
-      </fieldset>
+    <form
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.4fr)_minmax(0,1.6fr)]"
+      onSubmit={handleSubmit}
+    >
+      <label htmlFor="usernameInput">{t('Forms.EditUser.Username')}</label>
+      <input
+        ref={usernameRef}
+        id="usernameInput"
+        type="text"
+        autoFocus
+        placeholder={t('Forms.EditUser.UsernamePlaceholder')}
+        autoComplete="off"
+        onChange={(e) => setNewUsername(e.target.value)}
+        value={newUsername}
+        aria-describedby="usernameHint"
+        aria-invalid={(!newUsernameValid || usernameOccupied) && !!newUsername}
+        onFocus={() => setNewUsernameFocus(true)}
+        onBlur={() => setNewUsernameFocus(false)}
+      />
       <Tooltip
         id="usernameHint"
         shown={usernameHintShown && !usernameOccupied}
@@ -159,69 +160,63 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         {t('Forms.EditUser.Errors.UsernameOccupied')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="oldPasswordInput">{t('Forms.EditUser.OldPassword')}</label>
-        <input
-          ref={oldPasswordRef}
-          id="oldPasswordInput"
-          type="password"
-          placeholder={t('Forms.EditUser.OldPasswordPlaceholder')}
-          autoComplete="off"
-          required
-          onChange={(e) => setOldPassword(e.target.value)}
-          value={oldPassword}
-          aria-describedby="oldPasswordHint"
-          aria-invalid={!oldPasswordValid && !!oldPassword}
-          onFocus={() => setOldPasswordFocus(true)}
-          onBlur={() => setOldPasswordFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="oldPasswordInput">{t('Forms.EditUser.OldPassword')}</label>
+      <input
+        ref={oldPasswordRef}
+        id="oldPasswordInput"
+        type="password"
+        placeholder={t('Forms.EditUser.OldPasswordPlaceholder')}
+        autoComplete="off"
+        required
+        onChange={(e) => setOldPassword(e.target.value)}
+        value={oldPassword}
+        aria-describedby="oldPasswordHint"
+        aria-invalid={!oldPasswordValid && !!oldPassword}
+        onFocus={() => setOldPasswordFocus(true)}
+        onBlur={() => setOldPasswordFocus(false)}
+      />
       <Tooltip id="oldPasswordHint" shown={oldPasswordHintShown} anchorRef={oldPasswordRef}>
         {t('Forms.EditUser.Errors.OldPasswordIncorrect')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="passwordInput">{t('Forms.EditUser.NewPassword')}</label>
-        <input
-          ref={passwordRef}
-          id="passwordInput"
-          type="password"
-          placeholder={t('Forms.EditUser.NewPasswordPlaceholder')}
-          autoComplete="off"
-          onChange={(e) => setNewPassword(e.target.value)}
-          value={newPassword}
-          aria-describedby="passwordHint"
-          aria-invalid={!newPasswordValid && !!newPassword}
-          onFocus={() => setNewPasswordFocus(true)}
-          onBlur={() => setNewPasswordFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="passwordInput">{t('Forms.EditUser.NewPassword')}</label>
+      <input
+        ref={passwordRef}
+        id="passwordInput"
+        type="password"
+        placeholder={t('Forms.EditUser.NewPasswordPlaceholder')}
+        autoComplete="off"
+        onChange={(e) => setNewPassword(e.target.value)}
+        value={newPassword}
+        aria-describedby="passwordHint"
+        aria-invalid={!newPasswordValid && !!newPassword}
+        onFocus={() => setNewPasswordFocus(true)}
+        onBlur={() => setNewPasswordFocus(false)}
+      />
       <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
         {t('Forms.EditUser.Errors.NewPasswordHint')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="confirmInput">{t('Forms.EditUser.Confirm')}</label>
-        <input
-          ref={confirmRef}
-          id="confirmInput"
-          type="password"
-          placeholder={t('Forms.EditUser.ConfirmPlaceholder')}
-          autoComplete="off"
-          required={!!newPassword}
-          onChange={(e) => setConfirm(e.target.value)}
-          value={confirm}
-          aria-describedby="confirmHint"
-          aria-invalid={!confirmValid && !!confirm}
-          onFocus={() => setConfirmFocus(true)}
-          onBlur={() => setConfirmFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="confirmInput">{t('Forms.EditUser.Confirm')}</label>
+      <input
+        ref={confirmRef}
+        id="confirmInput"
+        type="password"
+        placeholder={t('Forms.EditUser.ConfirmPlaceholder')}
+        autoComplete="off"
+        required={!!newPassword}
+        onChange={(e) => setConfirm(e.target.value)}
+        value={confirm}
+        aria-describedby="confirmHint"
+        aria-invalid={!confirmValid && !!confirm}
+        onFocus={() => setConfirmFocus(true)}
+        onBlur={() => setConfirmFocus(false)}
+      />
       <Tooltip id="confirmHint" shown={confirmHintShown} anchorRef={confirmRef}>
         {t('Forms.EditUser.Errors.ConfirmHint')}
       </Tooltip>
 
-      <button ref={submitRef} type="submit">
+      <button ref={submitRef} type="submit" className="col-span-2">
         {loading ? <LoadingSpinner /> : t('Forms.EditUser.Edit')}
       </button>
     </form>

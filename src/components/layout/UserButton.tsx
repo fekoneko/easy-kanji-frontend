@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const UserButton = () => {
   const { t } = useTranslation();
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
   const { showModal } = useModal();
 
   const handleSignIn = () => {

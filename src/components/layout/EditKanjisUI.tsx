@@ -5,17 +5,15 @@ import KanjiChoiceSidebar from './KanjiChoiceSidebar';
 import EditKanjiForm from '../forms/EditKanjiForm';
 import usePageKanjis from '../../hooks/usePageKanjis';
 
-export const KANJI_LIST_NAMES = ['popular']; // TODO Move it somwere
-
 const EditKanjisUI = () => {
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const [chosenKanji, setChosenKanji] = useState<Kanji | null>(null);
 
   return (
-    <section className="editKanjisUI">
+    <section className="grid flex-grow grid-cols-2 gap-2">
       <Routes>
         <Route
-          path={'popular'}
+          path="popular"
           element={
             <KanjiChoiceSidebar
               kanjis={pageKanjis}
@@ -27,7 +25,9 @@ const EditKanjisUI = () => {
         />
         <Route path="*" element={<Navigate to="popular" />} />
       </Routes>
-      <EditKanjiForm initialKanji={chosenKanji} />
+      <div>
+        <EditKanjiForm initialKanji={chosenKanji} />
+      </div>
     </section>
   );
 };

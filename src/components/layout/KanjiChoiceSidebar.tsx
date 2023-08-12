@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Kanji } from '../../contexts/kanjiContext';
 import KanjiGrid from '../content/KanjiGrid';
-import { KANJI_LIST_NAMES } from './EditKanjisUI';
 import { NavLink } from 'react-router-dom';
 import useDynamicScroll from '../../hooks/useDynamicScroll';
 import kanjisApi from '../../api/kanjisApi';
@@ -9,6 +8,8 @@ import useAbortController from '../../hooks/useAbortController';
 import usePopup from '../../hooks/usePopup';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { Trans, useTranslation } from 'react-i18next';
+
+type Link = { title: string; to: string };
 
 type KanjiSelectionSidebarProps = {
   kanjis: Kanji[];
@@ -30,6 +31,8 @@ const KanjiChoiceSidebar = ({
   const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
 
+  const links: Link[] = [{ title: 'Popular', to: '/edit/popular' }];
+
   useDynamicScroll(scrollContainerRef, kanjis, setKanjis, (startIndex, endIndex) =>
     kanjisApi.getKanjiListPart(
       'popular',
@@ -46,16 +49,16 @@ const KanjiChoiceSidebar = ({
   }, [getKanjisErrorStatus]);
 
   return (
-    <aside>
+    <aside className="flex h-[20rem] flex-col">
       <nav>
-        {KANJI_LIST_NAMES.map((listName, index) => (
-          <NavLink to={`/edit/${listName}`} key={index}>
-            {listName}
+        {links.map((link, index) => (
+          <NavLink to={link.to} key={index}>
+            {link.title}
           </NavLink>
         ))}
       </nav>
       {kanjis.length > 0 ? (
-        <div ref={scrollContainerRef} style={{ overflowY: 'scroll' }}>
+        <div ref={scrollContainerRef} className="overflow-y-scroll">
           <KanjiGrid
             kanjis={kanjis}
             maxColumns={1}

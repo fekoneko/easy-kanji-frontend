@@ -8,7 +8,8 @@ const EditUserPage = () => {
 
   return (
     <TitledPage title={t('Pages.EditUser.Title')}>
-      <h1 className="pageTitle">{t('Pages.EditUser.Title')}</h1>
+      <h1 className="mb-4 mt-7">{t('Pages.EditUser.Title')}</h1>
+
       <EditUserForm />
       <Link to="/user" style={{ alignSelf: 'flex-end' }}>
         {t('Pages.EditUser.BackLink')}

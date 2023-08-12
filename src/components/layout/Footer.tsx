@@ -61,7 +61,7 @@ const Footer = () => {
       <footer
         ref={footerRef}
         role="contentinfo"
-        className="app-paddings flex gap-2 py-0.5 text-dark-gray dark:text-gray hover:[&_button]:text-black dark:hover:[&_button]:text-white"
+        className="app-paddings flex gap-2 py-0.5 text-dark-gray dark:text-gray hover:[&_a]:text-black hover:[&_a]:no-underline dark:hover:[&_a]:text-white dark:hover:[&_a]:transition-colors hover:[&_button]:text-black dark:hover:[&_button]:text-white"
       >
         {(() => {
           switch (section) {
@@ -138,7 +138,7 @@ const Footer = () => {
               return (
                 <>
                   <p>EasyKanji</p>
-                  <Link className="ml-auto" to="/feedback">
+                  <Link className="ml-auto [color:inherit]" to="/feedback">
                     {t('Layout.Footer.LeaveFeedback')}
                   </Link>
                 </>

@@ -63,7 +63,7 @@ const Tooltip = ({ anchorRef, shown, handleClose, className, id, children }: Too
           <></>
         )}
         <div
-          className={`border-2 border-blue bg-white p-2 shadow-md shadow-black dark:bg-soft-black ${
+          className={`rounded-sm border-2 border-blue bg-white p-2 shadow-md shadow-black dark:bg-soft-black ${
             className ?? ''
           }`}
           id={id}

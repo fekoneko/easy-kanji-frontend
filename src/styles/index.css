@@ -35,6 +35,9 @@
   h1 {
     @apply text-3xl font-bold;
   }
+  h2 {
+    @apply text-2xl font-bold;
+  }
   svg {
     @apply h-4 w-4 transition-colors dark:fill-soft-white;
   }
@@ -48,10 +51,15 @@
     @apply my-2 ml-1 flex gap-3 before:my-1 before:min-w-[3px] before:rounded-sm before:bg-blue;
   }
 
-  input,
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
   button[type='submit'],
   textarea {
-    @apply border-2 border-dark-gray bg-white px-3 py-1 outline-none focus:border-black dark:border-e-gray dark:bg-soft-black dark:focus:border-white;
+    @apply rounded-sm border-2 border-dark-gray bg-white px-3 py-1 outline-none transition-colors focus:border-black hover:enabled:bg-black hover:enabled:bg-opacity-10 disabled:border-gray dark:border-gray  dark:bg-soft-black dark:focus:border-white dark:hover:enabled:bg-soft-white dark:hover:enabled:bg-opacity-10 dark:disabled:border-dark-gray;
+  }
+  input[type='checkbox'] {
+    @apply h-4 w-4 before:block before:h-full before:w-full before:rounded-sm before:border-2 before:border-black before:bg-white before:transition-colors checked:before:border-blue checked:before:bg-blue focus:before:outline focus:before:outline-offset-2 focus:before:outline-blue dark:before:border-soft-white dark:before:bg-soft-black dark:checked:before:border-blue dark:checked:before:bg-blue;
   }
 }
 

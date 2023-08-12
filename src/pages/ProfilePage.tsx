@@ -11,15 +11,18 @@ const ProfilePage = () => {
 
   return (
     <TitledPage title={t('Pages.User.Title')}>
-      <h1 className="pageTitle">{t('Pages.User.Title')}</h1>
-      <figure className="userProfileCard">
+      <h1 className="mb-4 mt-7">{t('Pages.User.Title')}</h1>
+
+      <figure className="mb-2.5 flex items-center justify-center gap-2 rounded-md border-2 border-dark-gray p-3 dark:border-gray [&>svg]:h-20 [&>svg]:w-20">
         <UserAvatar />
-        <div className="userInfo">
+        <div>
           <h1>{auth?.username}</h1>
-          <p>{auth?.roles.map((role) => t(`UserRoles.${role}`) ?? role).join(' | ')}</p>
+          <p className="text-dark-gray dark:text-gray">
+            {auth?.roles.map((role) => t(`UserRoles.${role}`) ?? role).join(' | ')}
+          </p>
         </div>
       </figure>
-      <div className="userPageLinks">
+      <div className="flex gap-4">
         <Link to="/user/edit">{t('Pages.User.Links.EditProfile')}</Link>
         <ProtectedContent allowedRoles={['Admin']}>
           <Link to="/edit/popular">{t('Pages.User.Links.EditKanji')}</Link>

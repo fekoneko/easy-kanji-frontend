@@ -36,45 +36,44 @@ const FeedbackForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="feedbackBody">{t('Forms.Feedback.Body')}</label>
-        <textarea
-          autoFocus
-          required
-          id="feedbackBody"
-          placeholder={t('Forms.Feedback.BodyPlaceholder')}
-          value={feedbackBody}
-          onChange={(e) => setFeedbackBody(e.target.value)}
-        />
-      </fieldset>
+    <form
+      onSubmit={handleSubmit}
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.4fr)_minmax(0,1.6fr)]"
+    >
+      <label htmlFor="feedbackBody">{t('Forms.Feedback.Body')}</label>
+      <textarea
+        autoFocus
+        required
+        id="feedbackBody"
+        placeholder={t('Forms.Feedback.BodyPlaceholder')}
+        value={feedbackBody}
+        onChange={(e) => setFeedbackBody(e.target.value)}
+        className="h-40 min-h-[4rem]"
+      />
 
-      <fieldset>
-        <label htmlFor="feedbackEmail" aria-disabled={feedbackAnonimus}>
-          {t('Forms.Feedback.Email')}
-        </label>
-        <input
-          id="feedbackEmail"
-          type="email"
-          placeholder={t('Forms.Feedback.EmailPlaceholder')}
-          value={feedbackEmail}
-          onChange={(e) => setFeedbackEmail(e.target.value)}
-          disabled={feedbackAnonimus}
-        />
-      </fieldset>
+      <label htmlFor="feedbackEmail" aria-disabled={feedbackAnonimus}>
+        {t('Forms.Feedback.Email')}
+      </label>
+      <input
+        id="feedbackEmail"
+        type="email"
+        placeholder={t('Forms.Feedback.EmailPlaceholder')}
+        value={feedbackEmail}
+        onChange={(e) => setFeedbackEmail(e.target.value)}
+        disabled={feedbackAnonimus}
+      />
 
-      <fieldset>
-        <input
-          id="feedbackAnonimus"
-          type="checkbox"
-          title={t('Forms.Feedback.AnonimusTooltip')}
-          checked={feedbackAnonimus}
-          onChange={(e) => setFeedbackAnonimus(e.target.checked)}
-        />
-        <label htmlFor="feedbackAnonimus">{t('Forms.Feedback.Anonimus')}</label>
-      </fieldset>
+      <input
+        id="feedbackAnonimus"
+        type="checkbox"
+        title={t('Forms.Feedback.AnonimusTooltip')}
+        checked={feedbackAnonimus}
+        onChange={(e) => setFeedbackAnonimus(e.target.checked)}
+        className="self-center justify-self-end"
+      />
+      <label htmlFor="feedbackAnonimus">{t('Forms.Feedback.Anonimus')}</label>
 
-      <button ref={submitRef} type="submit">
+      <button ref={submitRef} type="submit" className="col-span-2">
         {t('Forms.Feedback.Send')}
       </button>
     </form>

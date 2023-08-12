@@ -24,7 +24,7 @@ const Nav = () => {
     <nav role="navigation" className="app-paddings flex">
       {links.map((link, index) => (
         <NavLink
-          className="w-5 flex-grow p-0.5 text-center text-black hover:bg-black hover:bg-opacity-20 dark:text-soft-white dark:hover:bg-white dark:hover:bg-opacity-10 [&.active]:text-white [&.active]:[background:theme('colors.primary')!important]"
+          className="w-5 flex-grow rounded-b-sm p-0.5 text-center text-black hover:bg-black hover:bg-opacity-20 dark:text-soft-white dark:hover:bg-white dark:hover:bg-opacity-10 [&.active]:text-white [&.active]:[background:theme('colors.primary')!important]"
           to={link.to}
           key={index}
         >

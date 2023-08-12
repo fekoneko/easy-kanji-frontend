@@ -112,14 +112,14 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   return (
     <>
       <div
-        className={`relative flex items-center border-2 border-gray dark:border-dark-gray [&.selected]:border-black [&.selected]:bg-black [&.selected]:bg-opacity-10 dark:[&.selected]:border-white dark:[&.selected]:bg-white dark:[&.selected]:bg-opacity-10 ${
+        className={`relative flex items-center rounded-sm border-2 border-gray dark:border-dark-gray [&.selected]:border-black [&.selected]:bg-black [&.selected]:bg-opacity-10 dark:[&.selected]:border-white dark:[&.selected]:bg-white dark:[&.selected]:bg-opacity-10 [&:has(button:focus)]:border-blue dark:[&:has(button:focus)]:border-blue ${
           kanjiSelected ? 'selected' : ''
         }`}
       >
         <button
           tabIndex={focus ? undefined : -1}
           ref={cellButtonRef}
-          className="flex-grow"
+          className="flex-grow focus:outline-none"
           onMouseEnter={() => {
             waitAndShowTooltip();
             setShowControls(true);

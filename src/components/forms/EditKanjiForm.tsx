@@ -87,38 +87,37 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="kanjiWritingInput">{t('Forms.EditKanjis.Writing')}</label>
-        <input
-          ref={kanjiWritingRef}
-          required
-          id="kanjiWritingInput"
-          className="kanjiWritingInput"
-          type="text"
-          placeholder="字"
-          value={kanjiWriting}
-          onChange={(e) => setKanjWriting(e.target.value)}
-          onFocus={() => setKanjiWritingFocus(true)}
-          onBlur={() => setKanjiWritingFocus(false)}
-          aria-invalid={!kanjiWritingValid}
-        />
-      </fieldset>
+    <form
+      onSubmit={handleSubmit}
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.4fr)_minmax(0,1.6fr)]"
+    >
+      <label htmlFor="kanjiWritingInput">{t('Forms.EditKanjis.Writing')}</label>
+      <input
+        ref={kanjiWritingRef}
+        required
+        id="kanjiWritingInput"
+        className="kanjiWritingInput"
+        type="text"
+        placeholder="字"
+        value={kanjiWriting}
+        onChange={(e) => setKanjWriting(e.target.value)}
+        onFocus={() => setKanjiWritingFocus(true)}
+        onBlur={() => setKanjiWritingFocus(false)}
+        aria-invalid={!kanjiWritingValid}
+      />
       <Tooltip shown={!kanjiWritingValid && kanjiWritingFocus} anchorRef={kanjiWritingRef}>
         {t('Forms.EditKanjis.Errors.WritingHint')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="kanjiMeaningInput">{t('Forms.EditKanjis.Meaning')}</label>
-        <input
-          required
-          id="kanjiMeaningInput"
-          type="text"
-          placeholder={t('Forms.EditKanjis.MeaningPlaceholder')}
-          value={kanjiMeaning}
-          onChange={(e) => setKanjMeaning(e.target.value)}
-        />
-      </fieldset>
+      <label htmlFor="kanjiMeaningInput">{t('Forms.EditKanjis.Meaning')}</label>
+      <input
+        required
+        id="kanjiMeaningInput"
+        type="text"
+        placeholder={t('Forms.EditKanjis.MeaningPlaceholder')}
+        value={kanjiMeaning}
+        onChange={(e) => setKanjMeaning(e.target.value)}
+      />
 
       <TextArrayInputs
         array={kanjiOnReadings}
@@ -136,7 +135,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
         placeholder="–"
       />
 
-      <button type="submit" ref={submitRef}>
+      <button type="submit" ref={submitRef} className="col-span-2">
         {loading ? (
           <LoadingSpinner />
         ) : initialKanji ? (

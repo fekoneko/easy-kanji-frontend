@@ -15,18 +15,18 @@ type KanjiViewProps = {
 
 const KanjiView = ({ kanji, viewContent }: KanjiViewProps) => {
   return (
-    <div className="kanjiView">
-      {viewContent.writing && <p className="kanjiWriting">{kanji.writing}</p>}
+    <div className="flex h-full w-full flex-col items-center justify-center gap-1 p-2">
+      {viewContent.writing && <p className="text-6xl">{kanji.writing}</p>}
       {viewContent.meaning && (
-        <p className={`kanjiMeaning${!viewContent.writing ? ' main' : ''}`}>{kanji.meaning}</p>
+        <p className={viewContent.writing ? 'text-xl' : 'text-2xl font-bold'}>{kanji.meaning}</p>
       )}
       {viewContent.onReadings && (
-        <p className="kanjiOnReadings">
+        <p>
           <KanjiReadings readings={kanji.onReadings} />
         </p>
       )}
       {viewContent.kunReadings && (
-        <p className="kanjiKunReadings">
+        <p>
           <KanjiReadings readings={kanji.kunReadings} />
         </p>
       )}
