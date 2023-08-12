@@ -8,13 +8,20 @@ const LearnButton = () => {
 
   if (location.pathname.split('/')[1] === 'learn') {
     return (
-      <Link className="learnButton" to={location.state?.from ?? '/popular'}>
+      <Link
+        className="rounded-md border-[1.5px] px-7 py-1 text-white hover:bg-white hover:text-primary"
+        to={location.state?.from ?? '/popular'}
+      >
         <div>{t('Layout.Header.LeaveLearnMode')}</div>
       </Link>
     );
   } else {
     return (
-      <Link className="learnButton" to="/learn/by-meaning" state={{ from: location.pathname }}>
+      <Link
+        className="rounded-md border-[1.5px] px-7 py-1 text-white hover:bg-white hover:text-primary"
+        to="/learn/by-meaning"
+        state={{ from: location.pathname }}
+      >
         <div>{t('Layout.Header.LearnMode')}</div>
       </Link>
     );

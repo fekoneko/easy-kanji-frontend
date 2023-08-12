@@ -121,7 +121,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     );
   } else
     return (
-      <div className="contentPlaceholder">
+      <div className="content-placeholder">
         <Trans
           i18nKey="Pages.Learn.Placeholder"
           components={{ linkElement: <Link to="/popular" />, p: <p /> }}

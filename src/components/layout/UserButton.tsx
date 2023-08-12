@@ -19,11 +19,11 @@ const UserButton = () => {
   return (
     <>
       {auth ? (
-        <button onClick={handleUser} className="userButton">
+        <button onClick={handleUser} className="hover:underline">
           {auth?.username}
         </button>
       ) : (
-        <button onClick={handleSignIn} className="userButton">
+        <button onClick={handleSignIn} className="hover:underline">
           {t('Layout.Header.SignIn')}
         </button>
       )}

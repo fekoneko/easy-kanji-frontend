@@ -12,15 +12,15 @@ function useOnClick<T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     let cleanupFunction: CleanupFunction | void;
     const onClick = (e: MouseEvent) => {
-      const element = ref?.current;
+      const element = ref.current;
+
+      if (!element) return;
       if (
-        !element ||
-        (mode === 'outside' && element.contains(e.target as Node)) ||
-        (mode === 'inside' && element !== e.target)
+        (mode === 'outside' && !element.contains(e.target as Node)) ||
+        (mode === 'inside' && element.contains(e.target as Node))
       ) {
-        return;
-      }
-      cleanupFunction = handler(e);
+        cleanupFunction = handler(e);
+      } else return;
     };
     addEventListener(mouseEvent, onClick);
     return () => {

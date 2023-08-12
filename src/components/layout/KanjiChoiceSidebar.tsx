@@ -66,11 +66,11 @@ const KanjiChoiceSidebar = ({
           />
         </div>
       ) : loading ? (
-        <div className="contentPlaceholder">
+        <div className="content-placeholder">
           <LoadingSpinner />
         </div>
       ) : (
-        <div className="contentPlaceholder">
+        <div className="content-placeholder">
           <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
         </div>
       )}

@@ -11,21 +11,19 @@ const ProfilePage = () => {
 
   return (
     <TitledPage title={t('Pages.User.Title')}>
-      <div className="scrollContent">
-        <h1 className="pageTitle">{t('Pages.User.Title')}</h1>
-        <figure className="userProfileCard">
-          <UserAvatar />
-          <div className="userInfo">
-            <h1>{auth?.username}</h1>
-            <p>{auth?.roles.map((role) => t(`UserRoles.${role}`) ?? role).join(' | ')}</p>
-          </div>
-        </figure>
-        <div className="userPageLinks">
-          <Link to="/user/edit">{t('Pages.User.Links.EditProfile')}</Link>
-          <ProtectedContent allowedRoles={['Admin']}>
-            <Link to="/edit/popular">{t('Pages.User.Links.EditKanji')}</Link>
-          </ProtectedContent>
+      <h1 className="pageTitle">{t('Pages.User.Title')}</h1>
+      <figure className="userProfileCard">
+        <UserAvatar />
+        <div className="userInfo">
+          <h1>{auth?.username}</h1>
+          <p>{auth?.roles.map((role) => t(`UserRoles.${role}`) ?? role).join(' | ')}</p>
         </div>
+      </figure>
+      <div className="userPageLinks">
+        <Link to="/user/edit">{t('Pages.User.Links.EditProfile')}</Link>
+        <ProtectedContent allowedRoles={['Admin']}>
+          <Link to="/edit/popular">{t('Pages.User.Links.EditKanji')}</Link>
+        </ProtectedContent>
       </div>
     </TitledPage>
   );

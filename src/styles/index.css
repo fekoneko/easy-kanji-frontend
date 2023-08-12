@@ -1,25 +1,74 @@
-@import url(general.css);
-@import url(form.css);
-@import url(kanji-view.css);
-@import url(layout.css);
-@import url(main-section.css);
-@import url(learn-section.css);
-@import url(edit-user-page.css);
-@import url(edit-kanjis-page.css);
-@import url(overlays.css);
+@import url(animations/loading-spinner.css);
 @import url(css-transition.css);
 
-@import url(animations/loading-spinner.css);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --app-padding: 15%;
-  --card-width: 16rem;
-  --border-style: 2px solid var(--secondary-text-color);
-  --overlay-border-style: 2px solid var(--primary-color);
-  --disabled-border-style: 2px solid var(--disabled-color);
-  --shadow-style: 0 0 1rem #0000004f;
-  --focus-border-style: 2px solid var(--primary-text-color);
-  --transition-params: 0.2s ease;
-  --min-w: 45rem;
-  --min-h: 10rem;
+@layer base {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #979797;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+  svg {
+    @apply h-4 w-4 transition-colors dark:fill-soft-white;
+  }
+  button {
+    @apply transition-colors;
+  }
+  a {
+    @apply text-blue hover:underline;
+  }
+  li {
+    @apply my-2 ml-1 flex gap-3 before:my-1 before:min-w-[3px] before:rounded-sm before:bg-blue;
+  }
+
+  input,
+  button[type='submit'],
+  textarea {
+    @apply border-2 border-dark-gray bg-white px-3 py-1 outline-none focus:border-black dark:border-e-gray dark:bg-soft-black dark:focus:border-white;
+  }
+}
+
+@layer components {
+  .content-placeholder {
+    @apply m-2 flex flex-grow flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray dark:border-dark-gray;
+  }
+  .key {
+    @apply mx-0.5 rounded-md border px-1.5;
+  }
+}
+
+@layer utilities {
+  .app-paddings {
+    @apply px-[1.25rem] sm:px-[10vw] md:px-[15vw] 2xl:px-[calc((50vw-540px))];
+  }
+  main.app-paddings {
+    @apply pl-[1.25rem] pr-[calc(1.25rem-10px)] sm:pl-[10vw] sm:pr-[calc(10vw-10px)] md:pl-[15vw] md:pr-[calc(15vw-10px)] 2xl:pl-[calc((50vw-540px))] 2xl:pr-[calc((50vw-550px))];
+  }
 }

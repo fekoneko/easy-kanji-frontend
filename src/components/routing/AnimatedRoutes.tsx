@@ -15,7 +15,7 @@ const AnimatedRoutes = ({ ...routesProps }: RoutesProps) => {
           classNames="animatedRoute"
           nodeRef={nodeRef}
         >
-          <div className="animatedRoute" ref={nodeRef}>
+          <div className="animatedRoute flex flex-grow flex-col" ref={nodeRef}>
             <Routes {...routesProps} location={location} />
           </div>
         </CSSTransition>

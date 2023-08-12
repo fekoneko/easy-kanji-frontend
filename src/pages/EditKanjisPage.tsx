@@ -10,19 +10,17 @@ const EditKanjisPage = () => {
 
   return (
     <TitledPage title={t('Pages.EditKanjis.Title')}>
-      <div className="onScreenContent">
-        <div className="pageTitle" ref={titleRef}>
-          <h1>{t('Pages.EditKanjis.Title')}</h1>
-          <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
-            <Trans
-              i18nKey="Pages.EditKanjis.Info"
-              components={{ p: <p />, ul: <ul />, li: <li />, span: <span /> }}
-            />
-          </Info>
-        </div>
-
-        <EditKanjisUI />
+      <div className="pageTitle" ref={titleRef}>
+        <h1>{t('Pages.EditKanjis.Title')}</h1>
+        <Info tooltipId="searchHint" tooltipAnchorRef={titleRef}>
+          <Trans
+            i18nKey="Pages.EditKanjis.Info"
+            components={{ p: <p />, ul: <ul />, li: <li />, key: <span className="key" /> }}
+          />
+        </Info>
       </div>
+
+      <EditKanjisUI />
     </TitledPage>
   );
 };

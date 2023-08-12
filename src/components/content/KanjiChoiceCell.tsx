@@ -8,8 +8,8 @@ import usePopup from '../../hooks/usePopup';
 import kanjisApi from '../../api/kanjisApi';
 import { removeKanjiFromList } from '../../controllers/kanjiController';
 import LoadingSpinner from '../animations/LoadingSpinner';
-import KanjiReadings from './KanjiReadings';
 import { useTranslation } from 'react-i18next';
+import KanjiCellContent from './KanjiCellContent';
 
 type KanjiChoiceCellProps = {
   kanji: Kanji;
@@ -69,11 +69,15 @@ const KanjiChoiceCell = ({
   };
 
   return (
-    <div className={`kanjiCell${kanji.id === chosenKanji?.id ? ' selected' : ''}`}>
+    <div
+      className={`relative flex items-center border-2 border-gray dark:border-dark-gray [&.selected]:border-black [&.selected]:bg-black [&.selected]:bg-opacity-10 dark:[&.selected]:border-white dark:[&.selected]:bg-white dark:[&.selected]:bg-opacity-10 ${
+        kanji.id === chosenKanji?.id ? 'selected' : ''
+      }`}
+    >
       <button
         tabIndex={focus ? undefined : -1}
         ref={cellButtonRef}
-        className="kanjiCellButton"
+        className="flex-grow"
         onClick={chooseKanji}
         onMouseEnter={() => {
           setShowControls(true);
@@ -82,20 +86,7 @@ const KanjiChoiceCell = ({
           setShowControls(false);
         }}
       >
-        <p className="kanjiWriting">{kanji.writing}</p>
-        <div>
-          <p className="kanjiMeaning">{kanji.meaning}</p>
-          {detailedMode && (
-            <>
-              <p className="kanjiOnReadings">
-                <KanjiReadings readings={kanji.onReadings} />
-              </p>
-              <p className="kanjiKunReadings">
-                <KanjiReadings readings={kanji.kunReadings} />
-              </p>
-            </>
-          )}
-        </div>
+        <KanjiCellContent kanji={kanji} detailedMode={detailedMode} />
       </button>
       <ProtectedContent allowedRoles={['Admin']}>
         <ControlButton

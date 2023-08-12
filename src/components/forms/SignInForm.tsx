@@ -68,50 +68,49 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   };
 
   return (
-    <form className="SignInForm" onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="usernameInput">{t('Forms.SignIn.Username')}</label>
-        <input
-          ref={usernameRef}
-          id="usernameInput"
-          type="text"
-          autoFocus
-          placeholder={t('Forms.SignIn.UsernamePlaceholder')}
-          autoComplete="off"
-          required
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          aria-describedby="usernameHint"
-          aria-invalid={usernameValid || !username ? 'false' : 'true'}
-          onFocus={() => setUsernameFocus(true)}
-          onBlur={() => setUsernameFocus(false)}
-        />
-      </fieldset>
+    <form
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.6fr)_minmax(0,1.4fr)]"
+      onSubmit={handleSubmit}
+    >
+      <label htmlFor="usernameInput">{t('Forms.SignIn.Username')}</label>
+      <input
+        ref={usernameRef}
+        id="usernameInput"
+        type="text"
+        autoFocus
+        placeholder={t('Forms.SignIn.UsernamePlaceholder')}
+        autoComplete="off"
+        required
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        aria-describedby="usernameHint"
+        aria-invalid={usernameValid || !username ? 'false' : 'true'}
+        onFocus={() => setUsernameFocus(true)}
+        onBlur={() => setUsernameFocus(false)}
+      />
       <Tooltip id="usernameHint" shown={!usernameValid && usernameFocus} anchorRef={usernameRef}>
         {t('Forms.SignIn.Errors.UsernameDoesNotExist')}
       </Tooltip>
 
-      <fieldset>
-        <label htmlFor="passwordInput">{t('Forms.SignIn.Password')}</label>
-        <input
-          ref={passwordRef}
-          id="passwordInput"
-          type="password"
-          placeholder={t('Forms.SignIn.PasswordPlaceholder')}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          aria-describedby="passwordHint"
-          aria-invalid={passwordValid || !password ? 'false' : 'true'}
-          onFocus={() => setPasswordFocus(true)}
-          onBlur={() => setPasswordFocus(false)}
-        />
-      </fieldset>
+      <label htmlFor="passwordInput">{t('Forms.SignIn.Password')}</label>
+      <input
+        ref={passwordRef}
+        id="passwordInput"
+        type="password"
+        placeholder={t('Forms.SignIn.PasswordPlaceholder')}
+        required
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+        aria-describedby="passwordHint"
+        aria-invalid={passwordValid || !password ? 'false' : 'true'}
+        onFocus={() => setPasswordFocus(true)}
+        onBlur={() => setPasswordFocus(false)}
+      />
       <Tooltip id="passwordHint" shown={!passwordValid && passwordFocus} anchorRef={passwordRef}>
         {t('Forms.SignIn.Errors.PasswordIncorrect')}
       </Tooltip>
 
-      <button ref={submitRef} type="submit">
+      <button ref={submitRef} type="submit" className="col-span-2">
         {loading ? <LoadingSpinner /> : t('Forms.SignIn.SignIn')}
       </button>
     </form>
