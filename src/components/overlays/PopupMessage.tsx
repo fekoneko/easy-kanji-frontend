@@ -20,8 +20,13 @@ const PopupMessage = ({ popupKey, shown, children }: PopupMessageProps) => {
           nodeRef={popupMessageRef}
         >
           {shown ? (
-            <div ref={popupMessageRef} className="popupMessage">
-              <p>{children}</p>
+            <div
+              ref={popupMessageRef}
+              className="absolute bottom-4 z-[99001] flex w-screen justify-center"
+            >
+              <div className="max-w-[60vw] rounded-md border-[1.5px] bg-red bg-opacity-90 px-6 py-2 text-center text-white shadow-md">
+                <p>{children}</p>
+              </div>
             </div>
           ) : (
             <></>

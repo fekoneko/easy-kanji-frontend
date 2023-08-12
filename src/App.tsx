@@ -31,7 +31,7 @@ const App = () => {
       <main
         role="main"
         ref={mainRef}
-        className="app-paddings flex flex-grow flex-col overflow-y-scroll"
+        className="app-paddings flex flex-grow flex-col overflow-x-hidden overflow-y-scroll"
       >
         <AnimatedRoutes>
           <Route index element={<NavigateOnce to="popular" />} />

@@ -56,7 +56,11 @@
   input[type='email'],
   button[type='submit'],
   textarea {
-    @apply rounded-sm border-2 border-dark-gray bg-white px-3 py-1 outline-none transition-colors focus:border-black hover:enabled:bg-black hover:enabled:bg-opacity-10 disabled:border-gray dark:border-gray  dark:bg-soft-black dark:focus:border-white dark:hover:enabled:bg-soft-white dark:hover:enabled:bg-opacity-10 dark:disabled:border-dark-gray;
+    @apply rounded-sm border-2 border-dark-gray bg-white px-3 py-1 outline-none transition-colors focus:border-black hover:enabled:bg-black hover:enabled:bg-opacity-10 disabled:border-gray  dark:border-gray dark:bg-soft-black dark:focus:border-white dark:hover:enabled:bg-soft-white dark:hover:enabled:bg-opacity-10 dark:disabled:border-dark-gray;
+  }
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    @apply border-red !important;
   }
   input[type='checkbox'] {
     @apply h-4 w-4 before:block before:h-full before:w-full before:rounded-sm before:border-2 before:border-black before:bg-white before:transition-colors checked:before:border-blue checked:before:bg-blue focus:before:outline focus:before:outline-offset-2 focus:before:outline-blue dark:before:border-soft-white dark:before:bg-soft-black dark:checked:before:border-blue dark:checked:before:bg-blue;
@@ -64,6 +68,10 @@
 }
 
 @layer components {
+  :root {
+    --card-width: 15rem;
+  }
+
   .content-placeholder {
     @apply m-2 flex flex-grow flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray dark:border-dark-gray;
   }

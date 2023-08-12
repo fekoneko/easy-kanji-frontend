@@ -1,6 +1,10 @@
-const LoadingSpinner = () => {
+type LoadingSpinnerProps = {
+  small?: boolean;
+};
+
+const LoadingSpinner = ({ small }: LoadingSpinnerProps) => {
   return (
-    <div className="loadingSpinner">
+    <div className={`loadingSpinner ${small ? '[zoom:0.4]' : ''}`}>
       <div className="loadingSpinnerPoint_1 loadingSpinnerPoint"></div>
       <div className="loadingSpinnerPoint_2 loadingSpinnerPoint"></div>
       <div className="loadingSpinnerPoint_3 loadingSpinnerPoint"></div>

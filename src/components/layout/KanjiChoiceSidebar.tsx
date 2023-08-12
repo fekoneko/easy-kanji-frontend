@@ -70,7 +70,7 @@ const KanjiChoiceSidebar = ({
         </div>
       ) : loading ? (
         <div className="content-placeholder">
-          <LoadingSpinner />
+          <LoadingSpinner small />
         </div>
       ) : (
         <div className="content-placeholder">

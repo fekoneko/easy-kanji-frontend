@@ -40,14 +40,18 @@ const ActionCard = ({
       nodeRef={cardContainerRef}
     >
       <figure
-        className={`cardContainer  ${positionOnScreen}`}
+        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center ${
+          positionOnScreen === 'center' ? 'z-10' : ''
+        }`}
         ref={cardContainerRef}
         style={{
           transform: `translateX(${(windowWidth / 3) * cardIndex}px)`,
         }}
       >
         <button
-          className="actionCard"
+          className={`h-full w-full rounded-lg border-2 p-2 shadow-md transition-all ${
+            positionOnScreen !== 'center' ? 'scale-75' : ''
+          }`}
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
             if (e.button === 0) {

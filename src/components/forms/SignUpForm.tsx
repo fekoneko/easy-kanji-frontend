@@ -172,7 +172,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner /> : t('Forms.SignUp.SignUp')}
+        {loading ? <LoadingSpinner small /> : t('Forms.SignUp.SignUp')}
       </button>
     </form>
   );

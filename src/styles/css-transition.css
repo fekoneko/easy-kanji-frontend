@@ -1,4 +1,8 @@
 @layer css-transition {
+  :root {
+    --transition-params: 0.2s ease;
+  }
+
   .animatedRoute-enter {
     transform: translateY(2rem);
     opacity: 0;

@@ -67,7 +67,10 @@ const KanjiCardNav = ({
   }
 
   return (
-    <nav className="kanjiCardNav" ref={kanjiCardNavRef}>
+    <nav
+      className="absolute bottom-0 flex w-full min-w-full max-w-full items-end justify-center gap-0.5 overflow-x-hidden"
+      ref={kanjiCardNavRef}
+    >
       {kanjis.slice(startIndex, endIndex).map((kanji, index) => (
         <KanjiCardPreview
           key={startIndex + index}

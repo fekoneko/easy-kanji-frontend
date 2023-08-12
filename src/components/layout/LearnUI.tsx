@@ -60,9 +60,12 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
             classNames="learnUI"
             nodeRef={learnUIRef}
           >
-            <section ref={learnUIRef} className="learnUI">
+            <section
+              ref={learnUIRef}
+              className="relative flex flex-1 flex-col items-center justify-center"
+            >
               <div
-                className="kanjiQueue"
+                className="flex items-center transition-transform"
                 style={{
                   transform: `translateX(calc(${
                     -(windowWidth / 3) * currentIndex

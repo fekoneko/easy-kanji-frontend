@@ -111,7 +111,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner /> : t('Forms.SignIn.SignIn')}
+        {loading ? <LoadingSpinner small /> : t('Forms.SignIn.SignIn')}
       </button>
     </form>
   );

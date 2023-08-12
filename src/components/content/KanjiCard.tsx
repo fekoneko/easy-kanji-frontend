@@ -73,7 +73,9 @@ const KanjiCard = ({
       nodeRef={cardContainerRef}
     >
       <figure
-        className={`cardContainer  ${positionOnScreen}`}
+        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center ${
+          positionOnScreen === 'center' ? 'z-10' : ''
+        }`}
         ref={cardContainerRef}
         style={{
           transform: `translateX(${(windowWidth / 3) * cardIndex}px)`,
@@ -81,10 +83,13 @@ const KanjiCard = ({
       >
         <button
           className={[
-            'kanjiCard',
-            side,
-            ...(zoom ? ['zoom'] : []),
-            ...(cardRepeated ? ['repeat'] : []),
+            'h-full w-full rounded-lg border-2 p-2 shadow-md transition-all [&>*]:break-words [&>*]:rounded-lg [&>*]:border-2 [&>*]:border-dashed',
+            side === 'front'
+              ? '[&>*]:bg-soft-white dark:[&>*]:bg-softer-black'
+              : '[&>*]:bg-white dark:[&>*]:bg-soft-black',
+            positionOnScreen !== 'center' ? 'scale-75' : '',
+            zoom ? 'scale-105' : '',
+            cardRepeated ? 'bg-blue' : '',
           ].join(' ')}
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
@@ -110,7 +115,11 @@ const KanjiCard = ({
           classNames="fade"
           nodeRef={cardActionButtonRef}
         >
-          <button ref={cardActionButtonRef} className="cardActionButton" onClick={repeatCard}>
+          <button
+            ref={cardActionButtonRef}
+            className="absolute -top-8 hover:underline"
+            onClick={repeatCard}
+          >
             {cardRepeated ? t('LearnUI.CardRepeated') : t('LearnUI.RepeatCard')}
           </button>
         </CSSTransition>

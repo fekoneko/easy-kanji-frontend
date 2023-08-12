@@ -137,7 +137,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
 
       <button type="submit" ref={submitRef} className="col-span-2">
         {loading ? (
-          <LoadingSpinner />
+          <LoadingSpinner small />
         ) : initialKanji ? (
           t('Forms.EditKanjis.Edit')
         ) : (

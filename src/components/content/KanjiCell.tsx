@@ -119,7 +119,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
         <button
           tabIndex={focus ? undefined : -1}
           ref={cellButtonRef}
-          className="flex-grow focus:outline-none"
+          className="flex-grow px-1 focus:outline-none"
           onMouseEnter={() => {
             waitAndShowTooltip();
             setShowControls(true);
@@ -154,7 +154,13 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
               saveKanji();
             }}
           >
-            {loading ? <LoadingSpinner /> : kanjiSaved ? <KanjiSavedIcon /> : <SaveKanjiIcon />}
+            {loading ? (
+              <LoadingSpinner small />
+            ) : kanjiSaved ? (
+              <KanjiSavedIcon />
+            ) : (
+              <SaveKanjiIcon />
+            )}
           </ControlButton>
         </ProtectedContent>
       </div>

@@ -77,7 +77,7 @@ const KanjiChoiceCell = ({
       <button
         tabIndex={focus ? undefined : -1}
         ref={cellButtonRef}
-        className="flex-grow"
+        className="flex-grow px-1 focus:outline-none"
         onClick={chooseKanji}
         onMouseEnter={() => {
           setShowControls(true);
@@ -97,7 +97,7 @@ const KanjiChoiceCell = ({
             deleteKanji();
           }}
         >
-          {loading ? <LoadingSpinner /> : <DeleteKanjiIcon />}
+          {loading ? <LoadingSpinner small /> : <DeleteKanjiIcon />}
         </ControlButton>
       </ProtectedContent>
     </div>

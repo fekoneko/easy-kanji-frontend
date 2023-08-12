@@ -217,7 +217,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner /> : t('Forms.EditUser.Edit')}
+        {loading ? <LoadingSpinner small /> : t('Forms.EditUser.Edit')}
       </button>
     </form>
   );
