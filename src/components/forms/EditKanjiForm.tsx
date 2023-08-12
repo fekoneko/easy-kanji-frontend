@@ -89,14 +89,14 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.4fr)_minmax(0,1.6fr)]"
+      className="my-4 grid gap-2 [grid-template-columns:minmax(0,0.6fr)_minmax(0,1.4fr)]"
     >
       <label htmlFor="kanjiWritingInput">{t('Forms.EditKanjis.Writing')}</label>
       <input
         ref={kanjiWritingRef}
         required
         id="kanjiWritingInput"
-        className="kanjiWritingInput"
+        className="h-12 w-14 justify-self-center text-center text-2xl"
         type="text"
         placeholder="字"
         value={kanjiWriting}

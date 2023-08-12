@@ -22,17 +22,17 @@ const TextArrayInputs = ({ array, setArray, name, ids, placeholder }: ArrayInput
     });
 
   return (
-    <fieldset className="arrayInputsContainer">
+    <>
       {name ? <label htmlFor={ids}>{`${name}:`}</label> : <></>}
 
-      <div>
-        <div id={ids} className="arrayInputs">
+      <div className="flex flex-col items-center gap-2">
+        <div id={ids} className="flex flex-1 flex-wrap gap-2">
           {array.map((item, index) => (
-            <div key={index}>
+            <div key={index} className="w-[calc(50%-0.25rem)] min-w-[5rem] flex-grow">
               {name ? (
                 <label
                   htmlFor={ids ? `${ids}${index}` : undefined}
-                  style={{ position: 'absolute', left: '-99999px' }}
+                  className="absolute left-[-99999px]"
                 >{`${name} (${index}):`}</label>
               ) : (
                 <></>
@@ -43,21 +43,30 @@ const TextArrayInputs = ({ array, setArray, name, ids, placeholder }: ArrayInput
                 placeholder={placeholder}
                 value={item}
                 onChange={(e) => handleEditElement(index, e.target.value)}
+                className="w-full"
               />
             </div>
           ))}
         </div>
 
-        <div className="arrayInputsButtons">
-          <button type="button" onClick={handleAddElement}>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleAddElement}
+            className="h-8 w-8 rounded-sm border-2 border-dark-gray  hover:bg-black hover:bg-opacity-10 dark:border-gray dark:hover:bg-soft-white dark:hover:bg-opacity-10"
+          >
             +
           </button>
-          <button type="button" onClick={handleRemoveElement}>
+          <button
+            type="button"
+            onClick={handleRemoveElement}
+            className="h-8 w-8 rounded-sm border-2 border-dark-gray  hover:bg-black hover:bg-opacity-10 dark:border-gray dark:hover:bg-soft-white dark:hover:bg-opacity-10"
+          >
             -
           </button>
         </div>
       </div>
-    </fieldset>
+    </>
   );
 };
 export default TextArrayInputs;
