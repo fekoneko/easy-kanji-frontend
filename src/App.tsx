@@ -25,7 +25,7 @@ const App = () => {
   useAxiosInterceptors();
 
   return (
-    <div className="flex h-screen min-h-[27rem] w-screen min-w-[17rem] flex-col justify-between transition-colors dark:bg-soft-black dark:text-soft-white">
+    <div className="flex h-[100dvh] min-h-[27rem] w-screen min-w-[17rem] flex-col justify-between transition-colors dark:bg-soft-black dark:text-soft-white">
       <Header />
       <Nav />
       <main
