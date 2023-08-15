@@ -1,6 +1,6 @@
 import { catchAxiosErrors, SetErrorStatus, SetLoading } from '../controllers/axiosController';
 import { Kanji } from '../contexts/kanjiContext';
-import { axiosPrivate, axiosPublic } from './axios';
+import { axiosInstance } from './axiosInstance';
 
 export type KanjiListName = 'popular';
 export type ServerKanji = {
@@ -37,7 +37,7 @@ export default {
     signal?: AbortSignal
   ): Promise<Kanji | null> {
     const [serverKanji] = await catchAxiosErrors(
-      () => axiosPublic.get<ServerKanji>(`/kanjis/${kanjiId}`, { signal }),
+      () => axiosInstance.get<ServerKanji>(`/kanjis/${kanjiId}`, { signal }),
       setErrorStatus,
       setLoading
     );
@@ -58,7 +58,7 @@ export default {
 
       const [serverKanjisPart] = await catchAxiosErrors(
         () =>
-          axiosPublic.get<ServerKanji[]>(
+          axiosInstance.get<ServerKanji[]>(
             `/kanjis/?${idsToLoad.map((id) => `ids=${id}`).join('&')}`,
             {
               signal,
@@ -88,7 +88,7 @@ export default {
     signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const [serverKanjis] = await catchAxiosErrors(
-      () => axiosPublic.get<ServerKanji[]>(`/kanjis/${listName}`, { signal }),
+      () => axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, { signal }),
       setErrorStatus,
       setLoading
     );
@@ -105,7 +105,7 @@ export default {
   ): Promise<Kanji[] | null> {
     const [serverKanjis] = await catchAxiosErrors(
       () =>
-        axiosPublic.get<ServerKanji[]>(`/kanjis/${listName}`, {
+        axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, {
           params: { s: startIndex, e: endIndex },
           signal,
         }),
@@ -123,7 +123,7 @@ export default {
   ): Promise<Kanji[] | null> {
     const [serverKanjis] = await catchAxiosErrors(
       () =>
-        axiosPublic.get<ServerKanji[]>('/kanjis/search', {
+        axiosInstance.get<ServerKanji[]>('/kanjis/search', {
           params: { q: request },
           signal,
         }),
@@ -142,7 +142,7 @@ export default {
     const kanjiData: any = { ...newKanji };
     delete kanjiData.id;
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal }),
+      () => axiosInstance.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal }),
       setErrorStatus,
       setLoading
     );
@@ -159,7 +159,7 @@ export default {
     const kanjiData: any = { ...editedKanji };
     delete kanjiData.id;
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal }),
+      () => axiosInstance.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal }),
       setErrorStatus,
       setLoading
     );
@@ -173,7 +173,7 @@ export default {
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.delete(`/kanjis/${kanjiId}`, { signal }),
+      () => axiosInstance.delete(`/kanjis/${kanjiId}`, { signal }),
       setErrorStatus,
       setLoading
     );

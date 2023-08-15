@@ -1,6 +1,6 @@
 import useAuth from './useAuth';
 import { catchAxiosErrors } from '../controllers/axiosController';
-import { axiosPublic } from '../api/axios';
+import axios from 'axios';
 
 export const useRefreshTokenFunction = () => {
   const { auth, setAuth } = useAuth();
@@ -9,7 +9,9 @@ export const useRefreshTokenFunction = () => {
     if (!auth) return null;
 
     const [newAccessToken, errorStatus] = await catchAxiosErrors<string>(() =>
-      axiosPublic.get('/tokens/', {
+      axios.get('/tokens/', {
+        baseURL: `${import.meta.env.VITE_API_URL}/api`,
+        headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       })
     );

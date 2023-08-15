@@ -1,5 +1,5 @@
 import { SetErrorStatus, catchAxiosErrors } from '../controllers/axiosController';
-import { axiosPrivate } from './axios';
+import { axiosInstance } from './axiosInstance';
 
 export default {
   async send(
@@ -9,7 +9,7 @@ export default {
     setErrorStatus?: SetErrorStatus
   ): Promise<void> {
     await catchAxiosErrors<null>(
-      () => axiosPrivate.post('/feedback/', { username, body, email }),
+      () => axiosInstance.post('/feedback/', { username, body, email }),
       setErrorStatus
     );
   },

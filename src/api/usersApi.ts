@@ -1,6 +1,6 @@
 import { catchAxiosErrors, SetErrorStatus, SetLoading } from '../controllers/axiosController';
 import { Auth } from '../contexts/authContext';
-import { axiosPrivate, axiosPublic } from './axios';
+import { axiosInstance } from './axiosInstance';
 import { Kanji } from '../contexts/kanjiContext';
 import { parseServerKanjis, ServerKanji } from './kanjisApi';
 
@@ -19,7 +19,7 @@ export default {
     signal?: AbortSignal
   ): Promise<Auth | null> {
     const [responseData] = await catchAxiosErrors<Partial<Auth>>(
-      () => axiosPublic.post('/tokens/', { username, password }, { withCredentials: true, signal }),
+      () => axiosInstance.post('/tokens/', { username, password }, { signal }),
       setErrorStatus,
       setLoading
     );
@@ -48,7 +48,7 @@ export default {
     signal?: AbortSignal
   ): Promise<Auth | null> {
     const [responseData, errorStatus] = await catchAxiosErrors<Partial<Auth>>(
-      () => axiosPublic.post('/users/', { username, password }, { withCredentials: true, signal }),
+      () => axiosInstance.post('/users/', { username, password }, { signal }),
       setRegErrorStatus,
       setRegLoading
     );
@@ -71,7 +71,7 @@ export default {
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
       () =>
-        axiosPrivate.patch(
+        axiosInstance.patch(
           `/users/${userId}`,
           { ...editedData, passwordCheck: password },
           { signal }
@@ -88,7 +88,7 @@ export default {
     signal?: AbortSignal
   ): Promise<Kanji[] | null> {
     const [responseData] = await catchAxiosErrors(
-      () => axiosPrivate.get(`/users/me`, { signal }),
+      () => axiosInstance.get(`/users/me`, { signal }),
       setErrorStatus,
       setLoading
     );
@@ -103,7 +103,7 @@ export default {
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.patch(`/users/kanjis/add`, newKanjiIds, { signal }),
+      () => axiosInstance.patch(`/users/kanjis/add`, newKanjiIds, { signal }),
       setErrorStatus,
       setLoading
     );
@@ -117,7 +117,7 @@ export default {
     signal?: AbortSignal
   ): Promise<boolean> {
     const [, errorStatus] = await catchAxiosErrors(
-      () => axiosPrivate.patch(`/users/kanjis/remove`, removeKanjiIds, { signal }),
+      () => axiosInstance.patch(`/users/kanjis/remove`, removeKanjiIds, { signal }),
       setErrorStatus,
       setLoading
     );

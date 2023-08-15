@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useAuth from './useAuth';
 import useRefreshTokenFunction from './useRefreshTokenFunction';
-import { axiosPrivate } from '../api/axios';
+import { axiosInstance } from '../api/axiosInstance';
 import { AxiosError } from 'axios';
 
 export const useAxiosInterceptors = () => {
@@ -11,14 +11,14 @@ export const useAxiosInterceptors = () => {
   useEffect(() => {
     if (!auth) return;
 
-    const privateRequestInterceptorId = axiosPrivate.interceptors.request.use((requestConfig) => {
+    const privateRequestInterceptorId = axiosInstance.interceptors.request.use((requestConfig) => {
       if (!requestConfig.headers.Authorization && auth) {
         requestConfig.headers.Authorization = `Bearer ${auth.accessToken}`;
       }
       return requestConfig;
     });
 
-    const privateResponseInterceptorId = axiosPrivate.interceptors.response.use(
+    const privateResponseInterceptorId = axiosInstance.interceptors.response.use(
       undefined,
       async (
         axiosErr: (AxiosError & { config: { refreshed?: boolean } }) | null | undefined
@@ -31,7 +31,7 @@ export const useAxiosInterceptors = () => {
           if (newAccessToken) {
             requestConfig.refreshed = true;
             requestConfig.headers.Authorization = `Bearer ${newAccessToken}`;
-            return axiosPrivate(requestConfig);
+            return axiosInstance(requestConfig);
           }
         }
         return Promise.reject(axiosErr);
@@ -39,8 +39,8 @@ export const useAxiosInterceptors = () => {
     );
 
     return () => {
-      axiosPrivate.interceptors.request.eject(privateRequestInterceptorId);
-      axiosPrivate.interceptors.response.eject(privateResponseInterceptorId);
+      axiosInstance.interceptors.request.eject(privateRequestInterceptorId);
+      axiosInstance.interceptors.response.eject(privateResponseInterceptorId);
     };
   }, [auth, refresh]);
 };
