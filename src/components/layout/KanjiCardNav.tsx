@@ -12,7 +12,7 @@ type KanjiCardNavProps = {
   kanjis: Kanji[];
   currentIndex: number;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
-  navCardCount: number;
+  maxNavCardCount: number;
 };
 
 const KanjiCardNav = ({
@@ -20,7 +20,7 @@ const KanjiCardNav = ({
   kanjis,
   currentIndex,
   setCurrentIndex,
-  navCardCount,
+  maxNavCardCount,
 }: KanjiCardNavProps) => {
   const mousePosition = useMousePosition();
   const kanjiCardNavRef = useRef<HTMLElement>(null);
@@ -51,8 +51,8 @@ const KanjiCardNav = ({
     }
   };
 
-  let startIndex = Math.ceil(currentIndex - navCardCount / 2);
-  let endIndex = Math.ceil(currentIndex + navCardCount / 2);
+  let startIndex = Math.ceil(currentIndex - Math.min(maxNavCardCount, kanjis.length) / 2);
+  let endIndex = Math.ceil(currentIndex + Math.min(maxNavCardCount, kanjis.length) / 2);
   if (startIndex < 0 && endIndex > kanjis.length) {
     startIndex = 0;
     endIndex = kanjis.length;
@@ -73,7 +73,7 @@ const KanjiCardNav = ({
     >
       {kanjis.slice(startIndex, endIndex).map((kanji, index) => (
         <KanjiCardPreview
-          key={startIndex + index}
+          key={kanji.id}
           active={startIndex + index === currentIndex}
           mode={mode}
           kanji={kanji}

@@ -77,7 +77,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                   (kanji, index) =>
                     Math.abs(index - currentIndex) <= 6 && (
                       <KanjiCard
-                        key={index}
+                        key={kanji.id}
                         kanji={kanji}
                         frontSide={frontSide}
                         backSide={backSide}
@@ -96,7 +96,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                 )}
                 {repeatKanjis.length > 0 && (
                   <ActionCard
-                    key={maxIndex}
+                    key={-1}
                     shown={Math.abs(maxIndex - currentIndex) <= 1}
                     positionOnScreen={
                       maxIndex === currentIndex
@@ -119,7 +119,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                   kanjis={pageKanjis}
                   currentIndex={currentIndex}
                   setCurrentIndex={setCurrentIndex}
-                  navCardCount={navCardCount}
+                  maxNavCardCount={navCardCount}
                 />
               </ShowAtMedia>
             </section>

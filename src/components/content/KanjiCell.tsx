@@ -45,7 +45,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const [loading, setLoading] = useState(false);
   const { showPopup } = useToast();
 
-  const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
+  const selectDeselectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 
   const saveKanji = async () => {
     if (loading || !auth) return;
@@ -81,7 +81,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   useOnClick(
     cellButtonRef,
     () => {
-      selectKanji();
+      selectDeselectKanji();
       if (setFocus) setFocus();
     },
     'inside'
@@ -93,7 +93,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   }, [focus]);
 
   useOnKeyUp('Enter', () => focus && saveKanji(), [focus]);
-  useOnKeyUp(' ', () => focus && selectKanji(), [focus]);
+  useOnKeyUp(' ', () => focus && selectDeselectKanji(), [focus]);
 
   const waitAndShowTooltip = () => {
     const showTooltip = () => {

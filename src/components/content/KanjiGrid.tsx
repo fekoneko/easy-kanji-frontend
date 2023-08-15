@@ -73,7 +73,7 @@ const KanjiGrid = ({
       }}
     >
       {kanjis.map((kanji, index) => (
-        <DisplayInViewport key={index} forceDisplay={kanjis.length < 500}>
+        <DisplayInViewport key={kanji.id} forceDisplay={kanjis.length < 500}>
           {kanjiChoiceMode ? (
             <KanjiChoiceCell
               kanji={kanji}
