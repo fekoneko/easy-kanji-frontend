@@ -10,7 +10,7 @@ const COLUMNS_DEFAULT = 2;
 
 type KanjiGridProps = {
   kanjis: Kanji[];
-  maxCellWidth?: number;
+  minCellWidth?: number;
   maxColumns?: number;
   detailedMode?: boolean;
   kanjiChoiceMode?: boolean;
@@ -20,7 +20,7 @@ type KanjiGridProps = {
 
 const KanjiGrid = ({
   kanjis,
-  maxCellWidth,
+  minCellWidth,
   maxColumns,
   detailedMode,
   kanjiChoiceMode,
@@ -33,9 +33,9 @@ const KanjiGrid = ({
   const size = useResizeObserver(gridRef);
 
   const columns =
-    maxCellWidth !== undefined
+    minCellWidth !== undefined
       ? Math.min(
-          Math.ceil((size?.contentRect.width ?? window.innerWidth) / maxCellWidth),
+          Math.max(Math.floor((size?.contentRect.width ?? window.innerWidth) / minCellWidth), 1),
           maxColumns ?? 99999
         )
       : maxColumns ?? COLUMNS_DEFAULT;

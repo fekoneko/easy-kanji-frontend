@@ -27,7 +27,7 @@ const SelectedPage = () => {
       </div>
 
       {selectedKanjis.length > 0 ? (
-        <KanjiGrid kanjis={selectedKanjis} maxCellWidth={500} maxColumns={3} />
+        <KanjiGrid kanjis={selectedKanjis} minCellWidth={220} maxColumns={3} />
       ) : selectedKanjisLoading ? (
         <div className="content-placeholder">
           <LoadingSpinner />
