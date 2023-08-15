@@ -1,16 +1,18 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
 import { AuthContextProvider } from './contexts/authContext';
 import { ModalContextProvider } from './contexts/modalContext';
 import { KanjiContextProvider } from './contexts/kanjiContext';
 import { ToastContextProvider } from './contexts/toastContext';
 import { SettingsContextProvider } from './contexts/settingsContext';
 import { HelmetProvider } from 'react-helmet-async';
+import AppLoading from './pages/AppLoading';
 
 import './styles/index.css';
 import './i18n';
+
+const App = lazy(() => import('./App'));
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
@@ -18,13 +20,15 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <HelmetProvider>
         <SettingsContextProvider>
           <AuthContextProvider>
-            <ToastContextProvider>
-              <ModalContextProvider>
-                <KanjiContextProvider>
-                  <App />
-                </KanjiContextProvider>
-              </ModalContextProvider>
-            </ToastContextProvider>
+            <Suspense fallback={<AppLoading />}>
+              <ToastContextProvider>
+                <ModalContextProvider>
+                  <KanjiContextProvider>
+                    <App />
+                  </KanjiContextProvider>
+                </ModalContextProvider>
+              </ToastContextProvider>
+            </Suspense>
           </AuthContextProvider>
         </SettingsContextProvider>
       </HelmetProvider>

@@ -5,9 +5,9 @@ import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
 import useToast from '../hooks/useToast';
-import LoadingSpinner from '../components/animations/LoadingSpinner';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
+import Loading from '../components/layout/Loading';
 
 const SearchPage = () => {
   const { t } = useTranslation();
@@ -70,9 +70,7 @@ const SearchPage = () => {
       {pageKanjis.length > 0 ? (
         <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} detailedMode />
       ) : loading ? (
-        <div className="content-placeholder">
-          <LoadingSpinner />
-        </div>
+        <Loading />
       ) : (
         <div className="content-placeholder">
           {searchRequest.length > 0 ? (

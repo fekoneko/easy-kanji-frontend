@@ -41,7 +41,7 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
       >
         <div
           ref={modalWindowRef}
-          className="min-w-[48vw] rounded-sm border-2 border-blue bg-white p-4 shadow-md shadow-black dark:bg-soft-black dark:text-soft-white sm:min-w-[300px]"
+          className="min-w-[48vw] rounded-sm border-2 border-blue bg-white p-4 shadow-md shadow-black dark:bg-soft-black sm:min-w-[300px]"
         >
           {children}
         </div>

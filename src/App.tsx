@@ -1,23 +1,23 @@
+import { useRef } from 'react';
 import { Route } from 'react-router-dom';
-import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import Nav from './components/layout/Nav';
-import LearnByMeaningPage from './pages/LearnByMeaningPage';
-import LearnByWritingPage from './pages/LearnByWritingPage';
+import Footer from './components/layout/Footer';
+import AnimatedRoutes from './components/routing/AnimatedRoutes';
+import NavigateOnce from './components/routing/NavigateOnce';
+import useAxiosInterceptors from './hooks/useAxiosInterceptors';
+import AuthRequired from './components/routing/AuthRequired';
 import PopularPage from './pages/PopularPage';
 import SavedKanjiPage from './pages/SavedKanjiPage';
 import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
-import AnimatedRoutes from './components/routing/AnimatedRoutes';
-import PageNotFound from './pages/PageNotFound';
-import NavigateOnce from './components/routing/NavigateOnce';
-import AuthRequired from './components/routing/AuthRequired';
-import ProfilePage from './pages/ProfilePage';
-import useAxiosInterceptors from './hooks/useAxiosInterceptors';
+import LearnByMeaningPage from './pages/LearnByMeaningPage';
+import LearnByWritingPage from './pages/LearnByWritingPage';
 import FeedbackPage from './pages/FeedbackPage';
+import ProfilePage from './pages/ProfilePage';
 import EditKanjisPage from './pages/EditKanjisPage';
 import EditUserPage from './pages/EditUserPage';
-import { useRef } from 'react';
+import PageNotFound from './pages/PageNotFound';
 
 const App = () => {
   const mainRef = useRef<HTMLElement>(null);
@@ -25,7 +25,7 @@ const App = () => {
   useAxiosInterceptors();
 
   return (
-    <div className="flex h-[100dvh] min-h-[27rem] w-screen min-w-[17rem] flex-col justify-between transition-colors dark:bg-soft-black dark:text-soft-white">
+    <div className="flex h-full w-full flex-col">
       <Header />
       <Nav />
       <main

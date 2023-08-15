@@ -3,10 +3,10 @@ import kanjiContext from '../contexts/kanjiContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
-import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
+import Loading from '../components/layout/Loading';
 
 const SelectedPage = () => {
   const { t } = useTranslation();
@@ -29,9 +29,7 @@ const SelectedPage = () => {
       {selectedKanjis.length > 0 ? (
         <KanjiGrid kanjis={selectedKanjis} minCellWidth={220} maxColumns={3} />
       ) : selectedKanjisLoading ? (
-        <div className="content-placeholder">
-          <LoadingSpinner />
-        </div>
+        <Loading />
       ) : (
         <div className="content-placeholder">
           <Trans

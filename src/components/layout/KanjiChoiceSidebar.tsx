@@ -6,8 +6,8 @@ import useDynamicScroll from '../../hooks/useDynamicScroll';
 import kanjisApi from '../../api/kanjisApi';
 import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
-import LoadingSpinner from '../animations/LoadingSpinner';
 import { Trans, useTranslation } from 'react-i18next';
+import Loading from './Loading';
 
 type Link = { title: string; to: string };
 
@@ -69,9 +69,7 @@ const KanjiChoiceSidebar = ({
           />
         </div>
       ) : loading ? (
-        <div className="content-placeholder">
-          <LoadingSpinner small />
-        </div>
+        <Loading />
       ) : (
         <div className="content-placeholder">
           <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />

@@ -24,7 +24,11 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
   }, [language]);
 
   return (
-    <div className={theme === 'dark' ? 'dark' : ''}>
+    <div
+      className={`flex h-[100dvh] min-h-[27rem] w-screen min-w-[17rem] flex-col transition-colors ${
+        theme === 'dark' ? 'dark bg-soft-black text-soft-white' : ''
+      }`}
+    >
       <settingsContext.Provider value={{ theme, setTheme, language, setLanguage }}>
         {children}
       </settingsContext.Provider>

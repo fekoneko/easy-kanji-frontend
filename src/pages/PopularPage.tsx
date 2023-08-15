@@ -5,10 +5,10 @@ import kanjisApi from '../api/kanjisApi';
 import useAbortController from '../hooks/useAbortController';
 import usePageKanjis from '../hooks/usePageKanjis';
 import useToast from '../hooks/useToast';
-import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
+import Loading from '../components/layout/Loading';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -53,9 +53,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
       {pageKanjis.length > 0 ? (
         <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
       ) : loading ? (
-        <div className="content-placeholder">
-          <LoadingSpinner />
-        </div>
+        <Loading />
       ) : (
         <div className="content-placeholder">
           <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
