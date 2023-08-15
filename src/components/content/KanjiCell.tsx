@@ -12,7 +12,7 @@ import ProtectedContent from './ProtectedContent';
 import useModal from '../../hooks/useModal';
 import AuthModal from '../overlays/AuthModal';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import authContext from '../../contexts/authContext';
 import useOnKeyUp from '../../hooks/useOnKeyUp';
@@ -43,7 +43,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const [saveKanjiErrorStatus, setSaveKanjiErrorStatus] = useState<number | null>(null);
   const [removeKanjiErrorStatus, setRemoveKanjiErrorStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   const selectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 

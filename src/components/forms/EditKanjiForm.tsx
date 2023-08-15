@@ -3,7 +3,7 @@ import TextArrayInputs from './TextArrayInputs';
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import Tooltip from '../overlays/Tooltip';
 import kanjisApi from '../../api/kanjisApi';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import { editKanjiInList } from '../../controllers/kanjiController';
 import useAbortController from '../../hooks/useAbortController';
 import LoadingSpinner from '../animations/LoadingSpinner';
@@ -29,7 +29,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   const [editOrAddErrorStatus, setEditOrAddErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
   const [loading, setLoading] = useState(false);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
   const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
 
   useEffect(() => {

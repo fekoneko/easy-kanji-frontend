@@ -4,7 +4,7 @@ import useDynamicScroll from '../hooks/useDynamicScroll';
 import kanjisApi from '../api/kanjisApi';
 import useAbortController from '../hooks/useAbortController';
 import usePageKanjis from '../hooks/usePageKanjis';
-import usePopup from '../hooks/usePopup';
+import useToast from '../hooks/useToast';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
@@ -18,7 +18,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { t } = useTranslation();
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const titleRef = useRef<HTMLDivElement>(null);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
   const [loading, setLoading] = useState(false);
   const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();

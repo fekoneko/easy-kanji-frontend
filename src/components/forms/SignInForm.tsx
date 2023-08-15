@@ -3,7 +3,7 @@ import Tooltip from '../overlays/Tooltip';
 import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const [loading, setLoading] = useState(false);
   const [signInErrorStatus, setSignInErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   useEffect(() => {
     if (signInErrorStatus) setSignInErrorStatus(null);

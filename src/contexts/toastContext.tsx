@@ -1,24 +1,24 @@
 import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
-import PopupMessage from '../components/overlays/PopupMessage';
+import ToastMessage from '../components/overlays/ToastMessage';
 
 const POPUP_TIMEOUT = 1500;
 
-export type ShowPopupFunction = (modalContents: ReactNode) => void;
+export type ShowToastFunction = (toastContents: ReactNode) => void;
 
-type PopupContextValue = {
-  showPopup: ShowPopupFunction;
+type ToastContextValue = {
+  showPopup: ShowToastFunction;
 };
-type PopupContextProviderProps = { children: ReactNode };
+type ToastContextProviderProps = { children: ReactNode };
 
-const popupContext = createContext({} as PopupContextValue);
+const toastContext = createContext({} as ToastContextValue);
 
-export const PopupContextProvider = ({ children }: PopupContextProviderProps) => {
+export const ToastContextProvider = ({ children }: ToastContextProviderProps) => {
   const [popupMessageShown, setPopupMessageShown] = useState(false);
   const [popupContent, setPopupContent] = useState<ReactNode>(null);
   const [popupKey, setPopupKey] = useState(0);
   const popupTimeoutRef = useRef<number | null>(null);
 
-  const showPopup: ShowPopupFunction = (popupContent: ReactNode) => {
+  const showPopup: ShowToastFunction = (popupContent: ReactNode) => {
     setPopupMessageShown(true);
     setPopupContent(popupContent);
     setPopupKey((prev) => prev + 1);
@@ -35,13 +35,13 @@ export const PopupContextProvider = ({ children }: PopupContextProviderProps) =>
   }, [popupKey]);
 
   return (
-    <popupContext.Provider value={{ showPopup }}>
+    <toastContext.Provider value={{ showPopup }}>
       {children}
-      <PopupMessage popupKey={popupKey} shown={popupMessageShown}>
+      <ToastMessage popupKey={popupKey} shown={popupMessageShown}>
         {popupContent}
-      </PopupMessage>
-    </popupContext.Provider>
+      </ToastMessage>
+    </toastContext.Provider>
   );
 };
 
-export default popupContext;
+export default toastContext;

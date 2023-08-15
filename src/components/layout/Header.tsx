@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import UserButton from './UserButton';
 import { useTranslation } from 'react-i18next';
 import LearnButton from './LearnButton';
+import ShowAtMedia from './ShowAtMedia';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -16,7 +17,10 @@ const Header = () => {
         {t('SiteTitle')}
       </Link>
       <LearnButton />
-      <UserButton />
+
+      <ShowAtMedia min="xs">
+        <UserButton />
+      </ShowAtMedia>
     </header>
   );
 };

@@ -10,6 +10,7 @@ import KanjiCardNav from './KanjiCardNav';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
 import ActionCard from '../content/ActionCard';
 import { Trans, useTranslation } from 'react-i18next';
+import ShowAtMedia from './ShowAtMedia';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -110,13 +111,16 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                   />
                 )}
               </div>
-              <KanjiCardNav
-                mode={frontSide.writing ? 'writing' : 'meaning'}
-                kanjis={pageKanjis}
-                currentIndex={currentIndex}
-                setCurrentIndex={setCurrentIndex}
-                navCardCount={navCardCount}
-              />
+
+              <ShowAtMedia min="xs">
+                <KanjiCardNav
+                  mode={frontSide.writing ? 'writing' : 'meaning'}
+                  kanjis={pageKanjis}
+                  currentIndex={currentIndex}
+                  setCurrentIndex={setCurrentIndex}
+                  navCardCount={navCardCount}
+                />
+              </ShowAtMedia>
             </section>
           </CSSTransition>
         </SwitchTransition>

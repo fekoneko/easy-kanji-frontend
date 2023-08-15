@@ -3,7 +3,7 @@ import Tooltip from '../overlays/Tooltip';
 import usersApi, { EditedUserData } from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
 
@@ -44,7 +44,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   const abortControllerRef = useAbortController();
   const [editUserErrorStatus, setEditUserErrorStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   const validateNewUsername = (): boolean => !newUsername || USERNAME_REGEX.test(newUsername);
   const validateNewPassword = (): boolean => !newPassword || PASSWORD_REGEX.test(newPassword);

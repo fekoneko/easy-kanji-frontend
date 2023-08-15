@@ -4,7 +4,7 @@ import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
 import usePageKanjis from '../hooks/usePageKanjis';
-import usePopup from '../hooks/usePopup';
+import useToast from '../hooks/useToast';
 import LoadingSpinner from '../components/animations/LoadingSpinner';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ const SearchPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [searchErrorStatus, setSearchErrorStatus] = useState<number | null>(null);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   useEffect(() => {
     setSearchErrorStatus(null);

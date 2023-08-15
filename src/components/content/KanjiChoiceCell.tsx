@@ -4,7 +4,7 @@ import ProtectedContent from './ProtectedContent';
 import ControlButton from './ControlButton';
 import { ReactComponent as DeleteKanjiIcon } from '../../assets/deleteKanji.svg';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import kanjisApi from '../../api/kanjisApi';
 import { removeKanjiFromList } from '../../controllers/kanjiController';
 import LoadingSpinner from '../animations/LoadingSpinner';
@@ -36,7 +36,7 @@ const KanjiChoiceCell = ({
   const abortControllerRef = useAbortController();
   const [deleteKanjiErrorStatus, setDeleteKanjiErrorStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   useEffect(() => {
     if (focus) cellButtonRef.current?.focus();

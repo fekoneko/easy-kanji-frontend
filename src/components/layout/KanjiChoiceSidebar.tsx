@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import useDynamicScroll from '../../hooks/useDynamicScroll';
 import kanjisApi from '../../api/kanjisApi';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -26,7 +26,7 @@ const KanjiChoiceSidebar = ({
 }: KanjiSelectionSidebarProps) => {
   const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
   const [loading, setLoading] = useState(false);
   const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();

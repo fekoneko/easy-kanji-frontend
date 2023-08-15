@@ -7,7 +7,7 @@ type PopupMessageProps = {
   children?: ReactNode;
 };
 
-const PopupMessage = ({ popupKey, shown, children }: PopupMessageProps) => {
+const ToastMessage = ({ popupKey, shown, children }: PopupMessageProps) => {
   const popupMessageRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -36,4 +36,4 @@ const PopupMessage = ({ popupKey, shown, children }: PopupMessageProps) => {
     </TransitionGroup>
   );
 };
-export default PopupMessage;
+export default ToastMessage;

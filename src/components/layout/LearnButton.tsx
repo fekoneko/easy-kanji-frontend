@@ -9,7 +9,7 @@ const LearnButton = () => {
   if (location.pathname.split('/')[1] === 'learn') {
     return (
       <Link
-        className="rounded-md border-[1.5px] px-7 py-1 text-white hover:bg-white hover:text-primary"
+        className="rounded-md border-[1.5px] px-7 py-1 text-center text-white hover:bg-white hover:text-primary"
         to={location.state?.from ?? '/popular'}
       >
         <div>{t('Layout.Header.LeaveLearnMode')}</div>
@@ -18,7 +18,7 @@ const LearnButton = () => {
   } else {
     return (
       <Link
-        className="rounded-md border-[1.5px] px-7 py-1 text-white hover:bg-white hover:text-primary"
+        className="rounded-md border-[1.5px] px-7 py-1 text-center text-white hover:bg-white hover:text-primary"
         to="/learn/by-meaning"
         state={{ from: location.pathname }}
       >

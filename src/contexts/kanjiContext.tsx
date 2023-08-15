@@ -12,7 +12,7 @@ import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
 import kanjisApi from '../api/kanjisApi';
 import useAuth from '../hooks/useAuth';
 import usersApi from '../api/usersApi';
-import usePopup from '../hooks/usePopup';
+import useToast from '../hooks/useToast';
 import { useTranslation } from 'react-i18next';
 
 export type Kanji = {
@@ -53,7 +53,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
 
   const [getSelectedErrorStatus, setGetSelectedErrorStatus] = useState<number | null>(null);
   const [getSavedErrorStatus, setGetSavedErrorStatus] = useState<number | null>(null);
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
   const { auth } = useAuth();
 
   useEffect(() => {

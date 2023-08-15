@@ -78,7 +78,8 @@
       "Popular": "Популярные",
       "Saved": "Сохранённые",
       "Search": "Поиск",
-      "Selected": "Выбранные"
+      "Selected": "Выбранные",
+      "Navigation": "Навигация"
     },
     "Footer": {
       "SelectedOf": "выделено {{selected}} из {{of}}",
@@ -91,6 +92,13 @@
       "CardsShuffled": "карточки перемешаны",
       "LeaveFeedback": "оставить отзыв"
     }
+  },
+
+  "Settings": {
+    "LightTheme": "Тема: светлая",
+    "DarkTheme": "Тема: тёмная",
+    "Language": "Language: русский",
+    "LanguageMini": "rus"
   },
 
   "LearnUI": {

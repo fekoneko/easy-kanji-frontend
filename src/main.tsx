@@ -5,7 +5,7 @@ import App from './App';
 import { AuthContextProvider } from './contexts/authContext';
 import { ModalContextProvider } from './contexts/modalContext';
 import { KanjiContextProvider } from './contexts/kanjiContext';
-import { PopupContextProvider } from './contexts/popupContext';
+import { ToastContextProvider } from './contexts/toastContext';
 import { SettingsContextProvider } from './contexts/settingsContext';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -18,13 +18,13 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <HelmetProvider>
         <SettingsContextProvider>
           <AuthContextProvider>
-            <PopupContextProvider>
+            <ToastContextProvider>
               <ModalContextProvider>
                 <KanjiContextProvider>
                   <App />
                 </KanjiContextProvider>
               </ModalContextProvider>
-            </PopupContextProvider>
+            </ToastContextProvider>
           </AuthContextProvider>
         </SettingsContextProvider>
       </HelmetProvider>

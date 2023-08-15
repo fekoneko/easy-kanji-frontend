@@ -2,13 +2,13 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import feedbackApi from '../../api/feedbackApi';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import { useTranslation } from 'react-i18next';
 
 const FeedbackForm = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
   const [feedbackBody, setFeedbackBody] = useState('');
   const [feedbackEmail, setFeedbackEmail] = useState('');
   const [feedbackAnonimus, setFeedbackAnonimus] = useState(false);

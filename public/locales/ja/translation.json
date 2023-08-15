@@ -78,7 +78,8 @@
       "Popular": "よく使う",
       "Saved": "保存された",
       "Search": "検索",
-      "Selected": "選択した"
+      "Selected": "選択した",
+      "Navigation": "ナビゲーション"
     },
     "Footer": {
       "SelectedOf": "{{of}}文字のうち {{selected}}文字を選択した",
@@ -91,6 +92,13 @@
       "CardsShuffled": "カードが切った",
       "LeaveFeedback": "フィードバック"
     }
+  },
+
+  "Settings": {
+    "LightTheme": "ダークモード: オフ",
+    "DarkTheme": "ダークモード: オン",
+    "Language": "Language: 日本語",
+    "LanguageMini": "jap"
   },
 
   "LearnUI": {

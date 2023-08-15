@@ -3,7 +3,7 @@ import Tooltip from '../overlays/Tooltip';
 import usersApi from '../../api/usersApi';
 import useAuth from '../../hooks/useAuth';
 import useAbortController from '../../hooks/useAbortController';
-import usePopup from '../../hooks/usePopup';
+import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
 
@@ -36,7 +36,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const [loading, setLoading] = useState(false);
   const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
   const abortControllerRef = useAbortController();
-  const { showPopup } = usePopup();
+  const { showPopup } = useToast();
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
