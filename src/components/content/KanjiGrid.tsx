@@ -6,7 +6,6 @@ import KanjiChoiceCell from './KanjiChoiceCell';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
 import DisplayInViewport from '../layout/DisplayInViewport';
 
-const GRID_GAP = 8;
 const COLUMNS_DEFAULT = 2;
 
 type KanjiGridProps = {
@@ -34,8 +33,11 @@ const KanjiGrid = ({
   const size = useResizeObserver(gridRef);
 
   const columns =
-    size && maxCellWidth
-      ? Math.min(Math.floor(size.contentRect.width / maxCellWidth), maxColumns ?? 99999)
+    maxCellWidth !== undefined
+      ? Math.min(
+          Math.ceil((size?.contentRect.width ?? window.innerWidth) / maxCellWidth),
+          maxColumns ?? 99999
+        )
       : maxColumns ?? COLUMNS_DEFAULT;
 
   const moveFocus = (offset: number) => {
@@ -65,12 +67,9 @@ const KanjiGrid = ({
   return (
     <section
       ref={gridRef}
-      className="grid"
+      className="grid gap-2"
       style={{
-        gridTemplateColumns: `repeat(${columns}, calc(${100 / columns}% - ${
-          GRID_GAP - GRID_GAP / columns
-        }px))`,
-        gap: GRID_GAP,
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
       }}
     >
       {kanjis.map((kanji, index) => (

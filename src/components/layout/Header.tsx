@@ -8,9 +8,9 @@ const Header = () => {
   const { t } = useTranslation();
 
   return (
-    <header className="app-paddings flex items-center gap-5 bg-primary py-2 text-white">
+    <header className="app-paddings flex justify-center gap-x-5 gap-y-2 bg-primary py-2 text-white [@media(max-width:420px)]:flex-col [@media(min-width:420px)]:items-center">
       <Link
-        className="flex-grow text-3xl font-bold text-white hover:no-underline"
+        className="text-center text-3xl font-bold text-white hover:no-underline [@media(min-width:420px)]:mr-auto"
         to="/popular"
         role="banner"
       >

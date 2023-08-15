@@ -22,7 +22,7 @@ const ProfilePage = () => {
           </p>
         </div>
       </figure>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-x-4">
         <Link to="/user/edit">{t('Pages.User.Links.EditProfile')}</Link>
         <ProtectedContent allowedRoles={['Admin']}>
           <Link to="/edit/popular">{t('Pages.User.Links.EditKanji')}</Link>

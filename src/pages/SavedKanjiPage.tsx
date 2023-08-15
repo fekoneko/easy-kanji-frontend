@@ -27,7 +27,7 @@ const SavedKanjiPage = () => {
       </div>
 
       {savedKanjis.length > 0 ? (
-        <KanjiGrid kanjis={savedKanjis} maxCellWidth={280} maxColumns={3} />
+        <KanjiGrid kanjis={savedKanjis} maxCellWidth={500} maxColumns={3} />
       ) : savedKanjisLoading ? (
         <div className="content-placeholder">
           <LoadingSpinner />

@@ -68,7 +68,7 @@ const SearchPage = () => {
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
 
       {pageKanjis.length > 0 ? (
-        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} detailedMode />
+        <KanjiGrid kanjis={pageKanjis} maxCellWidth={500} maxColumns={3} detailedMode />
       ) : loading ? (
         <div className="content-placeholder">
           <LoadingSpinner />

@@ -73,8 +73,8 @@ const KanjiCard = ({
       nodeRef={cardContainerRef}
     >
       <figure
-        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center ${
-          positionOnScreen === 'center' ? 'z-10' : ''
+        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center transition-all ${
+          positionOnScreen === 'center' ? 'z-20' : shown ? 'z-10 opacity-70' : 'z-0 opacity-0'
         }`}
         ref={cardContainerRef}
         style={{
@@ -83,13 +83,13 @@ const KanjiCard = ({
       >
         <button
           className={[
-            'h-full w-full rounded-lg border-2 p-2 shadow-md transition-all [&>*]:break-words [&>*]:rounded-lg [&>*]:border-2 [&>*]:border-dashed',
+            'h-full w-full rounded-lg border-2 p-2 shadow-xl transition-all [&>*]:break-words [&>*]:rounded-lg [&>*]:border-2 [&>*]:border-dashed',
             side === 'front'
               ? '[&>*]:bg-soft-white dark:[&>*]:bg-softer-black'
               : '[&>*]:bg-white dark:[&>*]:bg-soft-black',
             positionOnScreen !== 'center' ? 'scale-75' : '',
             zoom ? 'scale-105' : '',
-            cardRepeated ? 'bg-blue' : '',
+            cardRepeated ? 'bg-blue' : 'bg-white dark:bg-soft-black',
           ].join(' ')}
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {

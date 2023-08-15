@@ -33,13 +33,13 @@ const KanjiCardPreview = ({ active, mode, kanji, getSize, onClick }: KanjiCardPr
   return (
     <button
       ref={kanjiCardPreviewRef}
-      className={`overflow-hidden rounded-t-sm border-[1.5px] text-sm text-dark-gray transition-none [border-bottom-width:0!important] dark:text-gray ${
+      className={`overflow-hidden rounded-t-sm border-x-[1.5px] border-t-[1.5px] text-sm text-dark-gray transition-none [border-bottom-width:0!important] dark:text-gray ${
         cardRepeated
           ? 'border-dark-gray bg-dark-gray [color:theme("colors.white")!important] dark:border-gray dark:bg-gray dark:[color:theme("colors.soft-black")!important]'
           : ''
       } ${
         active
-          ? 'text-black [border-color:theme("colors.black")!important] [border-width:2px!important] [zoom:1.15] dark:text-soft-white dark:[border-color:theme("colors.soft-white")!important]'
+          ? 'text-black [border-color:theme("colors.black")!important] [border-width:2px_2px_0_2px!important] [zoom:1.15] dark:text-soft-white dark:[border-color:theme("colors.soft-white")!important]'
           : ''
       }`}
       onClick={(e) => {

@@ -51,7 +51,7 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
       </div>
 
       {pageKanjis.length > 0 ? (
-        <KanjiGrid kanjis={pageKanjis} maxCellWidth={280} maxColumns={3} />
+        <KanjiGrid kanjis={pageKanjis} maxCellWidth={500} maxColumns={3} />
       ) : loading ? (
         <div className="content-placeholder">
           <LoadingSpinner />

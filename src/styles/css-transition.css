@@ -22,23 +22,6 @@
     transition: opacity 0.15s ease-in, transform 0.15s ease-in;
   }
 
-  .cardContainer-enter .kanjiCard,
-  .cardContainer-enter .actionCard {
-    opacity: 0;
-  }
-  .cardContainer-enter-active .kanjiCard,
-  .cardContainer-enter-active .actionCard {
-    opacity: 1;
-  }
-  .cardContainer-exit .kanjiCard,
-  .cardContainer-exit .actionCard {
-    opacity: 1;
-  }
-  .cardContainer-exit-active .kanjiCard,
-  .cardContainer-exit-active .actionCard {
-    opacity: 0;
-  }
-
   .tooltip-enter,
   .modalWindowTransition-enter .modalWindow,
   .popupMessage-enter {

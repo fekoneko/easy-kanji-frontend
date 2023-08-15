@@ -106,6 +106,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                         : 'right'
                     }
                     cardIndex={maxIndex}
+                    handleFocus={() => setCurrentIndex(maxIndex)}
                     action={selectRepeatKanjis}
                     caption={t('LearnUI.RepeatMarked')}
                   />

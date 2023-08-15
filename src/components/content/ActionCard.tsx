@@ -40,8 +40,8 @@ const ActionCard = ({
       nodeRef={cardContainerRef}
     >
       <figure
-        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center ${
-          positionOnScreen === 'center' ? 'z-10' : ''
+        className={`absolute flex aspect-[2/3] w-[--card-width] flex-col items-center transition-all ${
+          positionOnScreen === 'center' ? 'z-20' : shown ? 'z-10 opacity-70' : 'z-0 opacity-0'
         }`}
         ref={cardContainerRef}
         style={{
@@ -49,22 +49,20 @@ const ActionCard = ({
         }}
       >
         <button
-          className={`h-full w-full rounded-lg border-2 p-2 shadow-md transition-all ${
+          className={`h-full w-full rounded-lg border-2 border-dashed bg-white p-2 shadow-md transition-all dark:bg-soft-black ${
             positionOnScreen !== 'center' ? 'scale-75' : ''
           }`}
           onClick={(e) => e.preventDefault()}
           onMouseDown={(e) => {
             if (e.button === 0) {
-              action();
-
-              if (positionOnScreen !== 'center' && handleFocus) {
-                handleFocus();
-              }
+              if (positionOnScreen === 'center') {
+                action();
+              } else if (handleFocus) handleFocus();
             }
           }}
           tabIndex={-1}
         >
-          <figcaption>{caption}</figcaption>
+          <figcaption className="text-lg">{caption}</figcaption>
         </button>
       </figure>
     </CSSTransition>
