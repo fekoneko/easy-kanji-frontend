@@ -6,11 +6,11 @@ import usePageKanjis from '../hooks/usePageKanjis';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
-import Loading from '../components/layout/Loading';
+import Loading from '../components/content/Loading';
 
 const SelectedPage = () => {
   const { t } = useTranslation();
-  const { selectedKanjis, selectedKanjisLoading } = useContext(kanjiContext);
+  const { selectedKanjis, selectedLoadingStatus } = useContext(kanjiContext);
   usePageKanjis(selectedKanjis);
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -26,18 +26,18 @@ const SelectedPage = () => {
         </Info>
       </div>
 
-      {selectedKanjis.length > 0 ? (
-        <KanjiGrid kanjis={selectedKanjis} minCellWidth={220} maxColumns={3} />
-      ) : selectedKanjisLoading ? (
-        <Loading />
-      ) : (
-        <div className="content-placeholder">
-          <Trans
-            i18nKey="Pages.Selected.Placeholder"
-            components={{ linkElement: <Link to="/popular" />, p: <p /> }}
-          />
-        </div>
-      )}
+      <Loading status={selectedLoadingStatus}>
+        {selectedKanjis.length > 0 ? (
+          <KanjiGrid kanjis={selectedKanjis} minCellWidth={220} maxColumns={3} />
+        ) : (
+          <div className="content-placeholder">
+            <Trans
+              i18nKey="Pages.Selected.Placeholder"
+              components={{ linkElement: <Link to="/popular" />, p: <p /> }}
+            />
+          </div>
+        )}
+      </Loading>
     </TitledPage>
   );
 };

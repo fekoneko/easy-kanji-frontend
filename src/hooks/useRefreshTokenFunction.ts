@@ -1,27 +1,26 @@
+import { axiosInstance } from '../api/axiosInstance';
 import useAuth from './useAuth';
-import { catchAxiosErrors } from '../controllers/axiosController';
-import axios from 'axios';
+
+export type RefreshFunction = () => Promise<string | null>;
 
 export const useRefreshTokenFunction = () => {
   const { auth, setAuth } = useAuth();
 
-  const refresh = async (): Promise<string | null> => {
+  const refresh: RefreshFunction = async () => {
     if (!auth) return null;
 
-    const [newAccessToken, errorStatus] = await catchAxiosErrors<string>(() =>
-      axios.get('/tokens/', {
-        baseURL: `${import.meta.env.VITE_API_URL}/api`,
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      })
-    );
-    if (newAccessToken) {
-      setAuth({ ...auth, accessToken: newAccessToken });
-      return newAccessToken;
+    try {
+      const response = await axiosInstance.get<string>('/tokens/');
+      if (response.data) {
+        setAuth({ ...auth, accessToken: response.data });
+        return response.data;
+      }
+    } catch {
+      setAuth(null);
     }
-    if (errorStatus) setAuth(null);
     return null;
   };
+
   return refresh;
 };
 export default useRefreshTokenFunction;

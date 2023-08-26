@@ -8,7 +8,9 @@ import useToast from '../hooks/useToast';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
-import Loading from '../components/layout/Loading';
+import Loading from '../components/content/Loading';
+import useLoading from '../hooks/useLoading';
+import { Kanji } from '../contexts/kanjiContext';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -18,25 +20,24 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { t } = useTranslation();
   const [pageKanjis, setPageKanjis] = usePageKanjis();
   const titleRef = useRef<HTMLDivElement>(null);
-  const { showPopup } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
+  const { showToast } = useToast();
+  const [trackKanjiLoading, kanjiLoadingStatus] = useLoading();
   const abortControllerRef = useAbortController();
 
-  useDynamicScroll(mainRef, pageKanjis, setPageKanjis, (startIndex, endIndex) =>
-    kanjisApi.getKanjiListPart(
-      'popular',
-      startIndex,
-      endIndex,
-      setGetKanjisErrorStatus,
-      setLoading,
-      abortControllerRef.current.signal
-    )
-  );
-
-  useEffect(() => {
-    if (getKanjisErrorStatus) showPopup(t('KanjiGrid.Errors.LoadingFailed'));
-  }, [getKanjisErrorStatus]);
+  useDynamicScroll(mainRef, pageKanjis, setPageKanjis, async (startIndex, endIndex) => {
+    const [kanjis] = await trackKanjiLoading(
+      () =>
+        kanjisApi.getKanjiListPart(
+          'popular',
+          startIndex,
+          endIndex,
+          abortControllerRef.current.signal
+        ),
+      undefined,
+      () => showToast(t('KanjiGrid.Errors.LoadingFailed'))
+    );
+    return kanjis as Kanji[] | null;
+  });
 
   return (
     <TitledPage title={t('Pages.Popular.Title')}>
@@ -50,15 +51,15 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
         </Info>
       </div>
 
-      {pageKanjis.length > 0 ? (
-        <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
-      ) : loading ? (
-        <Loading />
-      ) : (
-        <div className="content-placeholder">
-          <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
-        </div>
-      )}
+      <Loading status={kanjiLoadingStatus}>
+        {pageKanjis.length > 0 ? (
+          <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
+        ) : (
+          <div className="content-placeholder">
+            <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
+          </div>
+        )}
+      </Loading>
     </TitledPage>
   );
 };

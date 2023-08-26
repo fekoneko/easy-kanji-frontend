@@ -1,12 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import { getFromLocalStorage, setInLocalStorage } from '../controllers/localStorageController';
 import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
 import kanjisApi from '../api/kanjisApi';
@@ -14,6 +6,9 @@ import useAuth from '../hooks/useAuth';
 import usersApi from '../api/usersApi';
 import useToast from '../hooks/useToast';
 import { useTranslation } from 'react-i18next';
+import useLoading, { Status } from '../hooks/useLoading';
+import useAbortController from '../hooks/useAbortController';
+import { ApiErrorMessage } from '../api/ApiError';
 
 export type Kanji = {
   id: number;
@@ -33,8 +28,10 @@ type KanjiContextValue = {
   repeatKanjis: Kanji[];
   setRepeatKanjis: Dispatch<SetStateAction<Kanji[]>>;
 
-  savedKanjisLoading: boolean;
-  selectedKanjisLoading: boolean;
+  savedLoadingStatus: Status | null;
+  savedLoadingError: ApiErrorMessage | null;
+  selectedLoadingStatus: Status | null;
+  selectedLoadingError: ApiErrorMessage | null;
 };
 type KanjiContextProviderProps = { children: ReactNode };
 
@@ -48,75 +45,41 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [selectedKanjis, setSelectedKanjis] = useState<Kanji[]>([]);
   const [repeatKanjis, setRepeatKanjis] = useState<Kanji[]>([]);
 
-  const [savedKanjisLoading, setSavedKanjisLoading] = useState(false);
-  const [selectedKanjisLoading, setSelectedKanjisLoading] = useState(true);
-
-  const [getSelectedErrorStatus, setGetSelectedErrorStatus] = useState<number | null>(null);
-  const [getSavedErrorStatus, setGetSavedErrorStatus] = useState<number | null>(null);
-  const { showPopup } = useToast();
+  const [trackSelectedLoading, selectedLoadingStatus, selectedLoadingError] = useLoading();
+  const [trackSavedLoading, savedLoadingStatus, savedLoadingError] = useLoading();
+  const abortControllerRef = useAbortController();
+  const { showToast } = useToast();
   const { auth } = useAuth();
 
   useEffect(() => {
-    const abortController = new AbortController();
-
-    const loadSelectedKanjis = async () => {
-      const newSelectedIds = getFromLocalStorage<number[]>('selected');
-      if (newSelectedIds && newSelectedIds.length > 0) {
-        const newSelectedKanjis = await kanjisApi.getKanjisByIds(
-          newSelectedIds,
-          setGetSelectedErrorStatus,
-          setSelectedKanjisLoading,
-          abortController.signal
-        );
-        if (newSelectedKanjis) addKanjisToList(setSelectedKanjis, newSelectedKanjis);
-      }
-    };
-    loadSelectedKanjis();
-
-    return () => {
-      abortController.abort();
-      setSelectedKanjisLoading(false);
-    };
+    const newSelectedIds = getFromLocalStorage<number[]>('selected');
+    if (newSelectedIds && newSelectedIds.length > 0) {
+      trackSelectedLoading(
+        () => kanjisApi.getKanjisByIds(newSelectedIds, abortControllerRef.current.signal),
+        (newSelectedKanjis) => addKanjisToList(setSelectedKanjis, newSelectedKanjis as Kanji[]),
+        () => showToast(t('KanjiGrid.Errors.SelectedLoadingFailed'))
+      );
+    }
   }, []);
 
   useEffect(() => {
-    if (selectedKanjisLoading) return;
+    if (selectedLoadingStatus !== 'done') return;
 
-    const saveSelectedKanjis = () => {
-      const selectedKanjisIds = getKanjisIds(selectedKanjis);
-      setInLocalStorage('selected', selectedKanjisIds);
-    };
-    saveSelectedKanjis();
-  }, [selectedKanjis, selectedKanjisLoading]);
+    const selectedKanjisIds = getKanjisIds(selectedKanjis);
+    setInLocalStorage('selected', selectedKanjisIds);
+  }, [selectedKanjis, selectedLoadingStatus]);
 
   useEffect(() => {
     if (!auth) return;
-    const abortController = new AbortController();
 
-    const fetchSavedKanjis = async () => {
-      const newSavedKanjis = await usersApi.getSavedKanjis(
-        setGetSavedErrorStatus,
-        setSavedKanjisLoading,
-        abortController.signal
-      );
-      setSavedKanjis(newSavedKanjis ?? []);
-    };
-    fetchSavedKanjis();
+    trackSavedLoading(
+      () => usersApi.getSavedKanjis(abortControllerRef.current.signal),
+      (newSavedKanjis) => setSavedKanjis(newSavedKanjis as Kanji[]),
+      () => showToast(t('KanjiGrid.Errors.SavedLoadingFailed'))
+    );
 
-    return () => {
-      setSavedKanjis([]);
-      abortController.abort();
-      setSavedKanjisLoading(false);
-    };
+    return () => setSavedKanjis([]);
   }, [auth]);
-
-  useEffect(() => {
-    if (getSelectedErrorStatus) showPopup(t('KanjiGrid.Errors.SelectedLoadingFailed'));
-  }, [getSelectedErrorStatus]);
-
-  useEffect(() => {
-    if (getSavedErrorStatus) showPopup(t('KanjiGrid.Errors.SavedLoadingFailed'));
-  }, [getSavedErrorStatus]);
 
   return (
     <kanjiContext.Provider
@@ -130,8 +93,10 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
         repeatKanjis,
         setRepeatKanjis,
 
-        selectedKanjisLoading,
-        savedKanjisLoading,
+        selectedLoadingStatus,
+        selectedLoadingError,
+        savedLoadingStatus,
+        savedLoadingError,
       }}
     >
       {children}

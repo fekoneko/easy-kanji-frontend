@@ -6,6 +6,8 @@ import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
+import useLoading from '../../hooks/useLoading';
+import { Auth } from '../../contexts/authContext';
 
 const USERNAME_REGEX = /^.{2,16}$/;
 const PASSWORD_REGEX = /^.{6,24}$/;
@@ -33,10 +35,9 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [signUpErrorStatus, setSignUpErrorStatus] = useState<number | null>(null);
+  const [trackSubmit, submitStatus, submitError] = useLoading();
   const abortControllerRef = useAbortController();
-  const { showPopup } = useToast();
+  const { showToast } = useToast();
 
   const validateUsername = (): boolean => USERNAME_REGEX.test(username);
   const validatePassword = (): boolean => PASSWORD_REGEX.test(password);
@@ -54,21 +55,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     setConfirmValid(validateConfirm());
   }, [confirm, password]);
 
-  useEffect(() => {
-    setSignUpErrorStatus(null);
-  }, [username, password, confirm]);
-
-  useEffect(() => {
-    if (!signUpErrorStatus) return;
-
-    if (signUpErrorStatus === 400) {
-      usernameRef.current?.focus();
-    } else {
-      showPopup(t('Forms.SignUp.Errors.Unknown'));
-    }
-  }, [signUpErrorStatus]);
-
-  const handleSubmit = async (e: FormEvent): Promise<void> => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const curUsernameValid = validateUsername();
     const curPasswordValid = validatePassword();
@@ -77,18 +64,29 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     setPasswordValid(curPasswordValid);
     setConfirmValid(curConfirmValid);
     if (curUsernameValid && curPasswordValid && curConfirmValid) {
-      const newAuth = await usersApi.signUp(
-        username,
-        password,
-        setSignUpErrorStatus,
-        undefined,
-        setLoading,
-        setLoading,
-        abortControllerRef.current.signal
+      trackSubmit(
+        () => usersApi.signUp(username, password, abortControllerRef.current.signal),
+        (newAuth) => {
+          setAuth(newAuth as Auth);
+          if (onSignedUp) onSignedUp(e);
+        },
+        (error) => {
+          setAuth(null);
+
+          if (error === 'usernameOccupied') {
+            setUsernameValid(false);
+            usernameRef.current?.focus();
+          } else if (error === 'invalidUsername') {
+            setUsernameValid(false);
+            usernameRef.current?.focus();
+          } else if (error === 'invalidPassword') {
+            setPasswordValid(false);
+            passwordRef.current?.focus();
+          } else {
+            showToast(t('Forms.SignUp.Errors.Unknown'));
+          }
+        }
       );
-      if (!newAuth) return;
-      setAuth(newAuth);
-      if (onSignedUp) onSignedUp(e);
     } else {
       if (!curUsernameValid) usernameRef.current?.focus();
       else if (!curPasswordValid) passwordRef.current?.focus();
@@ -96,10 +94,11 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
     }
   };
 
-  const usernameHintShown = usernameFocus && (!!username || !!signUpErrorStatus) && !usernameValid;
-  const passwordHintShown = passwordFocus && (!!password || !!signUpErrorStatus) && !passwordValid;
-  const confirmHintShown = confirmFocus && (!!confirm || !!signUpErrorStatus) && !confirmValid;
-  const usernameOccupied = signUpErrorStatus === 400 && usernameValid && passwordValid;
+  const usernameHintShown =
+    usernameFocus && (!!username || submitStatus === 'error') && !usernameValid;
+  const passwordHintShown =
+    passwordFocus && (!!password || submitStatus === 'error') && !passwordValid;
+  const confirmHintShown = confirmFocus && (!!confirm || submitStatus === 'error') && !confirmValid;
 
   return (
     <form
@@ -118,18 +117,18 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         onChange={(e) => setUsername(e.target.value)}
         value={username}
         aria-describedby="usernameHint"
-        aria-invalid={(!usernameValid || usernameOccupied) && !!username}
+        aria-invalid={(!usernameValid || submitError === 'usernameOccupied') && !!username}
         onFocus={() => setUsernameFocus(true)}
         onBlur={() => setUsernameFocus(false)}
       />
       <Tooltip
         id="usernameHint"
-        shown={usernameHintShown && !usernameOccupied}
+        shown={usernameHintShown && submitError !== 'usernameOccupied'}
         anchorRef={usernameRef}
       >
         {t('Forms.SignUp.Errors.UsernameHint')}
       </Tooltip>
-      <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
+      <Tooltip id="usernameHint" shown={submitError === 'usernameOccupied'} anchorRef={usernameRef}>
         {t('Forms.SignUp.Errors.UsernameOccupied')}
       </Tooltip>
 
@@ -172,7 +171,7 @@ const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner small /> : t('Forms.SignUp.SignUp')}
+        {submitStatus === 'pending' ? <LoadingSpinner small /> : t('Forms.SignUp.SignUp')}
       </button>
     </form>
   );

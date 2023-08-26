@@ -18,6 +18,7 @@ import authContext from '../../contexts/authContext';
 import useOnKeyUp from '../../hooks/useOnKeyUp';
 import { useTranslation } from 'react-i18next';
 import KanjiCellContent from './KanjiCellContent';
+import useLoading from '../../hooks/useLoading';
 
 type KanjiCellProps = {
   kanji: Kanji;
@@ -40,43 +41,29 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
   const kanjiSelected = useMemo(() => isKanjiInList(selectedKanjis, kanji), [selectedKanjis]);
 
   const abortControllerRef = useAbortController();
-  const [saveKanjiErrorStatus, setSaveKanjiErrorStatus] = useState<number | null>(null);
-  const [removeKanjiErrorStatus, setRemoveKanjiErrorStatus] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const { showPopup } = useToast();
+  const [trackKanjiSaving, kanjiSavingStatus] = useLoading();
+  const [trackKanjiRemoval, kanjiRemovalStatus] = useLoading();
+  const { showToast } = useToast();
 
   const selectDeselectKanji = () => changeKanjiInList(setSelectedKanjis, kanji);
 
-  const saveKanji = async () => {
-    if (loading || !auth) return;
+  const saveRemoveKanji = () => {
+    if (kanjiSavingStatus === 'pending' || kanjiRemovalStatus === 'pending' || !auth) return;
 
     if (kanjiSaved) {
-      const removeSuccess = await usersApi.removeKanjisFromSaved(
-        [kanji.id],
-        setRemoveKanjiErrorStatus,
-        setLoading,
-        abortControllerRef.current.signal
+      trackKanjiRemoval(
+        () => usersApi.removeKanjisFromSaved([kanji.id], abortControllerRef.current.signal),
+        () => changeKanjiInList(setSavedKanjis, kanji),
+        () => showToast(t('KanjiGrid.Errors.SaveFailed'))
       );
-      if (!removeSuccess) return;
     } else {
-      const saveSuccess = await usersApi.saveKanjis(
-        [kanji.id],
-        setSaveKanjiErrorStatus,
-        setLoading,
-        abortControllerRef.current.signal
+      trackKanjiSaving(
+        () => usersApi.saveKanjis([kanji.id], abortControllerRef.current.signal),
+        () => changeKanjiInList(setSavedKanjis, kanji),
+        () => showToast(t('KanjiGrid.Errors.RemoveFailed'))
       );
-      if (!saveSuccess) return;
     }
-    changeKanjiInList(setSavedKanjis, kanji);
   };
-
-  useEffect(() => {
-    if (saveKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.SaveFailed'));
-  }, [saveKanjiErrorStatus]);
-
-  useEffect(() => {
-    if (removeKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.RemoveFailed'));
-  }, [removeKanjiErrorStatus]);
 
   useOnClick(
     cellButtonRef,
@@ -92,7 +79,7 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
     else cellButtonRef.current?.blur();
   }, [focus]);
 
-  useOnKeyUp('Enter', () => focus && saveKanji(), [focus]);
+  useOnKeyUp('Enter', () => focus && saveRemoveKanji(), [focus]);
   useOnKeyUp(' ', () => focus && selectDeselectKanji(), [focus]);
 
   const waitAndShowTooltip = () => {
@@ -147,14 +134,20 @@ const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => 
           }
         >
           <ControlButton
-            shown={focus || showControls || kanjiSaved || loading}
+            shown={
+              focus ||
+              showControls ||
+              kanjiSaved ||
+              kanjiSavingStatus === 'pending' ||
+              kanjiRemovalStatus === 'pending'
+            }
             title={kanjiSaved ? t('KanjiGrid.Tooltips.Remove') : t('KanjiGrid.Tooltips.Save')}
             action={() => {
               cellButtonRef.current?.focus();
-              saveKanji();
+              saveRemoveKanji();
             }}
           >
-            {loading ? (
+            {kanjiSavingStatus === 'pending' || kanjiRemovalStatus === 'pending' ? (
               <LoadingSpinner small />
             ) : kanjiSaved ? (
               <KanjiSavedIcon />

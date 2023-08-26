@@ -1,6 +1,7 @@
-import { catchAxiosErrors, SetErrorStatus, SetLoading } from '../controllers/axiosController';
+import { AxiosError } from 'axios';
 import { Kanji } from '../contexts/kanjiContext';
 import { axiosInstance } from './axiosInstance';
+import ApiError from './ApiError';
 
 export type KanjiListName = 'popular';
 export type ServerKanji = {
@@ -30,44 +31,38 @@ export const formatKanjisForServer = (kanjis: Kanji[]): ServerKanji[] =>
   kanjis.map((kanji) => formatKanjiForServer(kanji));
 
 export default {
-  async getKanjiById(
-    kanjiId: number,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<Kanji | null> {
-    const [serverKanji] = await catchAxiosErrors(
-      () => axiosInstance.get<ServerKanji>(`/kanjis/${kanjiId}`, { signal }),
-      setErrorStatus,
-      setLoading
-    );
-    return serverKanji && parseServerKanji(serverKanji);
+  async getKanjiById(kanjiId: number, signal?: AbortSignal): Promise<Kanji | unknown> {
+    try {
+      const response = await axiosInstance.get<ServerKanji>(`/kanjis/${kanjiId}`, { signal });
+      return parseServerKanji(response.data);
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
-  async getKanjisByIds(
-    kanjiIds: number[],
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<Kanji[] | null> {
+  async getKanjisByIds(kanjiIds: number[], signal?: AbortSignal): Promise<Kanji[]> {
     const serverKanjis: ServerKanji[] = [];
-    if (setLoading) setLoading(true);
 
     const getKanjiRange = async (startIndex: number) => {
       const idsToLoad = kanjiIds.slice(startIndex, startIndex + 200);
 
-      const [serverKanjisPart] = await catchAxiosErrors(
-        () =>
-          axiosInstance.get<ServerKanji[]>(
-            `/kanjis/?${idsToLoad.map((id) => `ids=${id}`).join('&')}`,
-            {
-              signal,
-            }
-          ),
-        setErrorStatus
-      );
-
-      serverKanjisPart?.forEach((kanji, index) => (serverKanjis[startIndex + index] = kanji));
+      try {
+        const response = await axiosInstance.get<ServerKanji[]>(
+          `/kanjis/?${idsToLoad.map((id) => `ids=${id}`).join('&')}`,
+          {
+            signal,
+          }
+        );
+        response.data?.forEach((kanji, index) => (serverKanjis[startIndex + index] = kanji));
+      } catch (err: any) {
+        if (signal?.aborted) throw new ApiError(undefined, true);
+        if ((err as AxiosError).status === 408) throw new ApiError('network');
+        if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+        throw new ApiError('unknown');
+      }
     };
 
     const promises: Promise<void>[] = [];
@@ -76,107 +71,95 @@ export default {
     }
 
     for (let i = 0; i < promises.length; i++) await promises[i];
-    if (setLoading) setLoading(false);
 
-    return serverKanjis && parseServerKanjis(serverKanjis);
+    return parseServerKanjis(serverKanjis);
   },
 
-  async getKanjiList(
-    listName: KanjiListName,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<Kanji[] | null> {
-    const [serverKanjis] = await catchAxiosErrors(
-      () => axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, { signal }),
-      setErrorStatus,
-      setLoading
-    );
-    return serverKanjis && parseServerKanjis(serverKanjis);
+  async getKanjiList(listName: KanjiListName, signal?: AbortSignal): Promise<Kanji[]> {
+    try {
+      const response = await axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, {
+        signal,
+      });
+      return parseServerKanjis(response.data);
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
   async getKanjiListPart(
     listName: KanjiListName,
     startIndex: number,
     endIndex: number,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
     signal?: AbortSignal
-  ): Promise<Kanji[] | null> {
-    const [serverKanjis] = await catchAxiosErrors(
-      () =>
-        axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, {
-          params: { s: startIndex, e: endIndex },
-          signal,
-        }),
-      setErrorStatus,
-      setLoading
-    );
-    return serverKanjis && parseServerKanjis(serverKanjis);
+  ): Promise<Kanji[]> {
+    try {
+      const response = await axiosInstance.get<ServerKanji[]>(`/kanjis/${listName}`, {
+        params: { s: startIndex, e: endIndex },
+        signal,
+      });
+      return parseServerKanjis(response.data);
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
-  async searchKanjis(
-    request: string,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<Kanji[] | null> {
-    const [serverKanjis] = await catchAxiosErrors(
-      () =>
-        axiosInstance.get<ServerKanji[]>('/kanjis/search', {
-          params: { q: request },
-          signal,
-        }),
-      setErrorStatus,
-      setLoading
-    );
-    return serverKanjis && parseServerKanjis(serverKanjis);
+  async searchKanjis(request: string, signal?: AbortSignal): Promise<Kanji[]> {
+    try {
+      const response = await axiosInstance.get<ServerKanji[]>('/kanjis/search', {
+        params: { q: request },
+        signal,
+      });
+      return parseServerKanjis(response.data);
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
-  async addKanji(
-    newKanji: Kanji,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<boolean> {
+  async addKanji(newKanji: Kanji, signal?: AbortSignal): Promise<void> {
     const kanjiData: any = { ...newKanji };
     delete kanjiData.id;
-    const [, errorStatus] = await catchAxiosErrors(
-      () => axiosInstance.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal }),
-      setErrorStatus,
-      setLoading
-    );
-    return !errorStatus;
+
+    try {
+      await axiosInstance.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal });
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
-  async editKanji(
-    id: number,
-    editedKanji: Kanji,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<boolean> {
+  async editKanji(id: number, editedKanji: Kanji, signal?: AbortSignal): Promise<void> {
     const kanjiData: any = { ...editedKanji };
     delete kanjiData.id;
-    const [, errorStatus] = await catchAxiosErrors(
-      () => axiosInstance.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal }),
-      setErrorStatus,
-      setLoading
-    );
-    return !errorStatus;
+
+    try {
+      await axiosInstance.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal });
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 
-  async deleteKanji(
-    kanjiId: number,
-    setErrorStatus?: SetErrorStatus,
-    setLoading?: SetLoading,
-    signal?: AbortSignal
-  ): Promise<boolean> {
-    const [, errorStatus] = await catchAxiosErrors(
-      () => axiosInstance.delete(`/kanjis/${kanjiId}`, { signal }),
-      setErrorStatus,
-      setLoading
-    );
-    return !errorStatus;
+  async deleteKanji(kanjiId: number, signal?: AbortSignal): Promise<void> {
+    try {
+      await axiosInstance.delete(`/kanjis/${kanjiId}`, { signal });
+    } catch (err: any) {
+      if (signal?.aborted) throw new ApiError(undefined, true);
+      if ((err as AxiosError).status === 408) throw new ApiError('network');
+      if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+      throw new ApiError('unknown');
+    }
   },
 };

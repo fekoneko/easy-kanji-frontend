@@ -33,7 +33,7 @@
       "Code": "404",
       "Hint": "<linkElement>頻繁な漢字</linkElement>のページへ"
     },
-    "SavedKanji": {
+    "Saved": {
       "Title": "保存された漢字",
       "Info": "<p>このタブでは、あなたの保存された漢字があります。</p><ul><li><p><key>クリック</key>または<key>Space</key>を押して漢字を選択し、学習モードで表示します。</p></li><li><p>漢字の意味の右にあるアイコンをクリックまたは<key>Enter</key>を押して漢字をこのページから削除できます。</p></li></ul>",
       "Placeholder": "<p>まだ漢字を保存していません。</p><p><linkElement>頻繁な漢字</linkElement>のページへ</p>"
@@ -63,7 +63,8 @@
       "AuthRequiredHint": "<linkElement>ログインフォーム</linkElement>へ",
       "UnallowedRoleTitle": "問題があります",
       "UnallowedRoleHint": "このページにアクセスできません。"
-    }
+    },
+    "ErrorPlaceholder": "<p>読み込めません。</p><p>インターネット接続を確認してください。</p>"
   },
 
   "Layout": {

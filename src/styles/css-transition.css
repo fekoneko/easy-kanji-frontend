@@ -24,26 +24,26 @@
 
   .tooltip-enter,
   .modalWindowTransition-enter .modalWindow,
-  .popupMessage-enter {
+  .toastMessage-enter {
     transform: translateY(2rem);
     opacity: 0;
   }
   .tooltip-enter-active,
   .modalWindowTransition-enter-active .modalWindow,
-  .popupMessage-enter-active {
+  .toastMessage-enter-active {
     transform: translateY(0);
     opacity: 1;
     transition: opacity var(--transition-params), transform var(--transition-params);
   }
   .tooltip-exit,
   .modalWindowTransition-exit .modalWindow,
-  .popupMessage-exit {
+  .toastMessage-exit {
     transform: translateY(0);
     opacity: 1;
   }
   .tooltip-exit-active,
   .modalWindowTransition-exit-active .modalWindow,
-  .popupMessage-exit-active {
+  .toastMessage-exit-active {
     transform: translateY(2rem);
     opacity: 0;
     transition: opacity var(--transition-params), transform var(--transition-params);

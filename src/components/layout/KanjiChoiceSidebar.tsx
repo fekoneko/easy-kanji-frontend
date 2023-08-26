@@ -7,7 +7,8 @@ import kanjisApi from '../../api/kanjisApi';
 import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
 import { Trans, useTranslation } from 'react-i18next';
-import Loading from './Loading';
+import Loading from '../content/Loading';
+import useLoading from '../../hooks/useLoading';
 
 type Link = { title: string; to: string };
 
@@ -26,27 +27,27 @@ const KanjiChoiceSidebar = ({
 }: KanjiSelectionSidebarProps) => {
   const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { showPopup } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [getKanjisErrorStatus, setGetKanjisErrorStatus] = useState<number | null>(null);
+  const { showToast } = useToast();
+  const [trackKanjiLoading, kanjiLoadingStatus] = useLoading();
+
   const abortControllerRef = useAbortController();
 
   const links: Link[] = [{ title: 'Popular', to: '/edit/popular' }];
 
-  useDynamicScroll(scrollContainerRef, kanjis, setKanjis, (startIndex, endIndex) =>
-    kanjisApi.getKanjiListPart(
-      'popular',
-      startIndex,
-      endIndex,
-      setGetKanjisErrorStatus,
-      setLoading,
-      abortControllerRef.current.signal
-    )
-  );
-
-  useEffect(() => {
-    if (getKanjisErrorStatus) showPopup(t('KanjiGrid.Errors.LoadingFailed'));
-  }, [getKanjisErrorStatus]);
+  useDynamicScroll(scrollContainerRef, kanjis, setKanjis, async (startIndex, endIndex) => {
+    const [kanjis] = await trackKanjiLoading(
+      () =>
+        kanjisApi.getKanjiListPart(
+          'popular',
+          startIndex,
+          endIndex,
+          abortControllerRef.current.signal
+        ),
+      undefined,
+      () => showToast(t('KanjiGrid.Errors.LoadingFailed'))
+    );
+    return kanjis as Kanji[] | null;
+  });
 
   return (
     <aside className="flex h-[20rem] flex-col">
@@ -57,24 +58,24 @@ const KanjiChoiceSidebar = ({
           </NavLink>
         ))}
       </nav>
-      {kanjis.length > 0 ? (
-        <div ref={scrollContainerRef} className="overflow-y-scroll">
-          <KanjiGrid
-            kanjis={kanjis}
-            maxColumns={1}
-            kanjiChoiceMode
-            chosenKanji={chosenKanji}
-            setChosenKanji={setChosenKanji}
-            detailedMode
-          />
-        </div>
-      ) : loading ? (
-        <Loading />
-      ) : (
-        <div className="content-placeholder">
-          <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
-        </div>
-      )}
+      <Loading status={kanjiLoadingStatus}>
+        {kanjis.length > 0 ? (
+          <div ref={scrollContainerRef} className="overflow-y-scroll">
+            <KanjiGrid
+              kanjis={kanjis}
+              maxColumns={1}
+              kanjiChoiceMode
+              chosenKanji={chosenKanji}
+              setChosenKanji={setChosenKanji}
+              detailedMode
+            />
+          </div>
+        ) : (
+          <div className="content-placeholder">
+            <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
+          </div>
+        )}
+      </Loading>
     </aside>
   );
 };

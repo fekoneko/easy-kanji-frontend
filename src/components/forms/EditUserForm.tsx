@@ -6,6 +6,8 @@ import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
+import useLoading from '../../hooks/useLoading';
+import { Auth } from '../../contexts/authContext';
 
 const USERNAME_REGEX = /^.{2,16}$/;
 const PASSWORD_REGEX = /^.{6,24}$/;
@@ -34,17 +36,16 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   const [confirmValid, setConfirmValid] = useState<boolean>(false);
   const [confirmFocus, setConfirmFocus] = useState<boolean>(false);
 
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const newUsernameRef = useRef<HTMLInputElement>(null);
   const oldPasswordRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const newPasswordRef = useRef<HTMLInputElement>(null);
   const confirmRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
   const abortControllerRef = useAbortController();
-  const [editUserErrorStatus, setEditUserErrorStatus] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const { showPopup } = useToast();
+  const [trackSubmit, submitStatus, submitError] = useLoading();
+  const { showToast } = useToast();
 
   const validateNewUsername = (): boolean => !newUsername || USERNAME_REGEX.test(newUsername);
   const validateNewPassword = (): boolean => !newPassword || PASSWORD_REGEX.test(newPassword);
@@ -59,22 +60,12 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
   }, [newPassword]);
 
   useEffect(() => {
+    setOldPasswordValid(true);
+  }, [oldPassword]);
+
+  useEffect(() => {
     setConfirmValid(validateConfirm());
   }, [confirm, newPassword]);
-
-  useEffect(() => {
-    setEditUserErrorStatus(null);
-  }, [newUsername, newPassword, confirm]);
-
-  useEffect(() => {
-    if (!editUserErrorStatus) return;
-
-    if (editUserErrorStatus === 400) {
-      usernameRef.current?.focus();
-    } else {
-      showPopup(t('Forms.EditUser.Errors.EditFailed'));
-    }
-  }, [editUserErrorStatus]);
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -93,41 +84,56 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       if (newPassword) editedData.password = newPassword;
       if (!editedData.username && !editedData.password) return;
 
-      const userEditSuccess = await usersApi.editUser(
-        auth.id,
-        oldPassword,
-        editedData,
-        setEditUserErrorStatus,
-        setLoading,
-        abortControllerRef.current.signal
-      );
-      if (!userEditSuccess) return;
-      // TODO: handle wrong old password error
-
-      const newAuth = await usersApi.signIn(
-        newUsername,
-        !!newPassword ? newPassword : oldPassword,
+      const [, status] = await trackSubmit(
+        () =>
+          usersApi.editUser(auth.id, oldPassword, editedData, abortControllerRef.current.signal),
         undefined,
-        setLoading,
-        abortControllerRef.current.signal
+        (error) => {
+          if (error === 'unauthorized') {
+            setOldPasswordValid(false);
+            oldPasswordRef.current?.focus();
+          } else if (error === 'usernameOccupied' || error === 'invalidUsername') {
+            setNewUsernameValid(false);
+            newUsernameRef.current?.focus();
+          } else if (error === 'invalidPassword') {
+            setNewPasswordValid(false);
+            newPasswordRef.current?.focus();
+          } else {
+            showToast(t('Forms.EditUser.Errors.EditFailed'));
+          }
+        }
       );
-      setAuth(newAuth);
+      if (status === 'error') return;
 
-      if (onUserEdited) onUserEdited(e);
+      await trackSubmit(
+        () =>
+          usersApi.signIn(
+            newUsername,
+            !!newPassword ? newPassword : oldPassword,
+            abortControllerRef.current.signal
+          ),
+        (newAuth) => {
+          setAuth(newAuth as Auth);
+          if (onUserEdited) onUserEdited(e);
+        },
+        () => {
+          setAuth(null);
+          showToast(t('Forms.SignIn.Errors.Unknown'));
+        }
+      );
     } else {
-      if (!curUsernameValid) usernameRef.current?.focus();
-      else if (!curPasswordValid) passwordRef.current?.focus();
+      if (!curUsernameValid) newUsernameRef.current?.focus();
+      else if (!curPasswordValid) newPasswordRef.current?.focus();
       else if (!curConfirmValid) confirmRef.current?.focus();
     }
   };
 
-  const usernameHintShown =
-    newUsernameFocus && (!!newUsername || !!editUserErrorStatus) && !newUsernameValid;
+  const newUsernameHintShown =
+    newUsernameFocus && (!!newUsername || submitStatus === 'error') && !newUsernameValid;
   const oldPasswordHintShown = oldPasswordFocus && !oldPasswordValid;
-  const passwordHintShown =
-    newPasswordFocus && (!!newPassword || !!editUserErrorStatus) && !newPasswordValid;
-  const confirmHintShown = confirmFocus && (!!confirm || !!editUserErrorStatus) && !confirmValid;
-  const usernameOccupied = !!newUsername && editUserErrorStatus === 400 && newUsernameValid;
+  const newPasswordHintShown =
+    newPasswordFocus && (!!newPassword || submitStatus === 'error') && !newPasswordValid;
+  const confirmHintShown = confirmFocus && (!!confirm || submitStatus === 'error') && !confirmValid;
 
   return (
     <form
@@ -136,7 +142,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
     >
       <label htmlFor="usernameInput">{t('Forms.EditUser.Username')}</label>
       <input
-        ref={usernameRef}
+        ref={newUsernameRef}
         id="usernameInput"
         type="text"
         autoFocus
@@ -145,18 +151,22 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         onChange={(e) => setNewUsername(e.target.value)}
         value={newUsername}
         aria-describedby="usernameHint"
-        aria-invalid={(!newUsernameValid || usernameOccupied) && !!newUsername}
+        aria-invalid={(!newUsernameValid || submitError === 'usernameOccupied') && !!newUsername}
         onFocus={() => setNewUsernameFocus(true)}
         onBlur={() => setNewUsernameFocus(false)}
       />
       <Tooltip
         id="usernameHint"
-        shown={usernameHintShown && !usernameOccupied}
-        anchorRef={usernameRef}
+        shown={newUsernameHintShown && submitError !== 'usernameOccupied'}
+        anchorRef={newUsernameRef}
       >
         {t('Forms.EditUser.Errors.UsernameHint')}
       </Tooltip>
-      <Tooltip id="usernameHint" shown={usernameOccupied} anchorRef={usernameRef}>
+      <Tooltip
+        id="usernameHint"
+        shown={submitError === 'usernameOccupied'}
+        anchorRef={newUsernameRef}
+      >
         {t('Forms.EditUser.Errors.UsernameOccupied')}
       </Tooltip>
 
@@ -181,7 +191,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
 
       <label htmlFor="passwordInput">{t('Forms.EditUser.NewPassword')}</label>
       <input
-        ref={passwordRef}
+        ref={newPasswordRef}
         id="passwordInput"
         type="password"
         placeholder={t('Forms.EditUser.NewPasswordPlaceholder')}
@@ -193,7 +203,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         onFocus={() => setNewPasswordFocus(true)}
         onBlur={() => setNewPasswordFocus(false)}
       />
-      <Tooltip id="passwordHint" shown={passwordHintShown} anchorRef={passwordRef}>
+      <Tooltip id="passwordHint" shown={newPasswordHintShown} anchorRef={newPasswordRef}>
         {t('Forms.EditUser.Errors.NewPasswordHint')}
       </Tooltip>
 
@@ -217,7 +227,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner small /> : t('Forms.EditUser.Edit')}
+        {submitStatus === 'pending' ? <LoadingSpinner small /> : t('Forms.EditUser.Edit')}
       </button>
     </form>
   );

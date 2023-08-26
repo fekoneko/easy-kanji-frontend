@@ -4,35 +4,32 @@ import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import useToast from '../../hooks/useToast';
 import { useTranslation } from 'react-i18next';
+import useLoading from '../../hooks/useLoading';
+import LoadingSpinner from '../animations/LoadingSpinner';
 
 const FeedbackForm = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { showPopup } = useToast();
+  const { showToast } = useToast();
   const [feedbackBody, setFeedbackBody] = useState('');
   const [feedbackEmail, setFeedbackEmail] = useState('');
   const [feedbackAnonimus, setFeedbackAnonimus] = useState(false);
-  const [sendErrorStatus, setSendErrorStatus] = useState<number | null>(null);
+  const [trackSubmit, submitStatus] = useLoading();
   const submitRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setSendErrorStatus(null);
-  }, [feedbackBody, feedbackEmail, feedbackAnonimus, auth?.username]);
-
-  useEffect(() => {
-    if (sendErrorStatus) showPopup(t('Forms.Feedback.Errors.SendFailed'));
-  }, [sendErrorStatus]);
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    feedbackApi.send(
-      feedbackBody,
-      !feedbackAnonimus ? auth?.username : undefined,
-      !feedbackAnonimus ? feedbackEmail : undefined,
-      setSendErrorStatus
+    trackSubmit(
+      () =>
+        feedbackApi.send(
+          feedbackBody,
+          !feedbackAnonimus ? auth?.username : undefined,
+          !feedbackAnonimus ? feedbackEmail : undefined
+        ),
+      () => navigate('/popular'),
+      () => showToast(t('Forms.Feedback.Errors.SendFailed'))
     );
-    navigate('/popular');
   };
 
   return (
@@ -74,7 +71,7 @@ const FeedbackForm = () => {
       <label htmlFor="feedbackAnonimus">{t('Forms.Feedback.Anonimus')}</label>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {t('Forms.Feedback.Send')}
+        {submitStatus === 'pending' ? <LoadingSpinner small /> : t('Forms.Feedback.Send')}
       </button>
     </form>
   );

@@ -6,6 +6,8 @@ import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
+import useLoading from '../../hooks/useLoading';
+import { Auth } from '../../contexts/authContext';
 
 type SignInFormProps = {
   onLoggedIn?: (e: FormEvent) => any;
@@ -26,45 +28,36 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setAuth } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [signInErrorStatus, setSignInErrorStatus] = useState<number | null>(null);
+  const [trackSubmit, submitStatus] = useLoading();
   const abortControllerRef = useAbortController();
-  const { showPopup } = useToast();
+  const { showToast } = useToast();
 
-  useEffect(() => {
-    if (signInErrorStatus) setSignInErrorStatus(null);
-  }, [username, password]);
-
-  useEffect(() => {
-    if (!signInErrorStatus) return;
-
-    if (signInErrorStatus === 404) {
-      setUsernameValid(false);
-      setPasswordValid(true);
-      usernameRef.current?.focus();
-    } else if (signInErrorStatus === 400) {
-      setUsernameValid(true);
-      setPasswordValid(false);
-      passwordRef.current?.focus();
-    } else {
-      showPopup(t('Forms.SignIn.Errors.Unknown'));
-    }
-  }, [signInErrorStatus]);
-
-  const handleSubmit = async (e: FormEvent): Promise<void> => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setUsernameValid(true);
     setPasswordValid(true);
-    const newAuth = await usersApi.signIn(
-      username,
-      password,
-      setSignInErrorStatus,
-      setLoading,
-      abortControllerRef.current.signal
+    trackSubmit(
+      () => usersApi.signIn(username, password, abortControllerRef.current.signal),
+      (newAuth) => {
+        setAuth(newAuth as Auth);
+        if (onLoggedIn) onLoggedIn(e);
+      },
+      (error) => {
+        setAuth(null);
+
+        if (error === 'userNotFound') {
+          setUsernameValid(false);
+          setPasswordValid(true);
+          usernameRef.current?.focus();
+        } else if (error === 'invalidPassword') {
+          setUsernameValid(true);
+          setPasswordValid(false);
+          passwordRef.current?.focus();
+        } else {
+          showToast(t('Forms.SignIn.Errors.Unknown'));
+        }
+      }
     );
-    if (!newAuth) return;
-    setAuth(newAuth);
-    if (onLoggedIn) onLoggedIn(e);
   };
 
   return (
@@ -111,7 +104,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       </Tooltip>
 
       <button ref={submitRef} type="submit" className="col-span-2">
-        {loading ? <LoadingSpinner small /> : t('Forms.SignIn.SignIn')}
+        {submitStatus === 'pending' ? <LoadingSpinner small /> : t('Forms.SignIn.SignIn')}
       </button>
     </form>
   );

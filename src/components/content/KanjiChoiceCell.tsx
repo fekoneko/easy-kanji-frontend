@@ -10,6 +10,7 @@ import { removeKanjiFromList } from '../../controllers/kanjiController';
 import LoadingSpinner from '../animations/LoadingSpinner';
 import { useTranslation } from 'react-i18next';
 import KanjiCellContent from './KanjiCellContent';
+import useLoading from '../../hooks/useLoading';
 
 type KanjiChoiceCellProps = {
   kanji: Kanji;
@@ -34,38 +35,31 @@ const KanjiChoiceCell = ({
   const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
 
   const abortControllerRef = useAbortController();
-  const [deleteKanjiErrorStatus, setDeleteKanjiErrorStatus] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const { showPopup } = useToast();
+  const [trackKanjiDeletion, kanjiDeletionStatus] = useLoading();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (focus) cellButtonRef.current?.focus();
     else cellButtonRef.current?.blur();
   }, [focus]);
 
-  useEffect(() => {
-    if (deleteKanjiErrorStatus) showPopup(t('KanjiGrid.Errors.DeleteFailed'));
-  }, [deleteKanjiErrorStatus]);
-
   const chooseKanji = () => {
     if (setFocus) setFocus();
     if (setChosenKanji) setChosenKanji((prev) => (prev?.id === kanji.id ? null : kanji));
   };
 
-  const deleteKanji = async () => {
-    if (loading) return;
+  const deleteKanji = () => {
+    if (kanjiDeletionStatus === 'pending') return;
 
-    const deleteSuccess = await kanjisApi.deleteKanji(
-      kanji.id,
-      setDeleteKanjiErrorStatus,
-      setLoading,
-      abortControllerRef.current.signal
+    trackKanjiDeletion(
+      () => kanjisApi.deleteKanji(kanji.id, abortControllerRef.current.signal),
+      () => {
+        removeKanjiFromList(setPageKanjis, kanji);
+        removeKanjiFromList(setSavedKanjis, kanji);
+        removeKanjiFromList(setSelectedKanjis, kanji);
+      },
+      () => showToast(t('KanjiGrid.Errors.DeleteFailed'))
     );
-
-    if (!deleteSuccess) return;
-    removeKanjiFromList(setPageKanjis, kanji);
-    removeKanjiFromList(setSavedKanjis, kanji);
-    removeKanjiFromList(setSelectedKanjis, kanji);
   };
 
   return (
@@ -90,14 +84,14 @@ const KanjiChoiceCell = ({
       </button>
       <ProtectedContent allowedRoles={['Admin']}>
         <ControlButton
-          shown={focus || showControls || loading}
+          shown={focus || showControls || kanjiDeletionStatus === 'pending'}
           title={t('KanjiGrid.Tooltips.Delete')}
           action={() => {
             cellButtonRef.current?.focus();
             deleteKanji();
           }}
         >
-          {loading ? <LoadingSpinner small /> : <DeleteKanjiIcon />}
+          {kanjiDeletionStatus === 'pending' ? <LoadingSpinner small /> : <DeleteKanjiIcon />}
         </ControlButton>
       </ProtectedContent>
     </div>

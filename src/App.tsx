@@ -8,7 +8,7 @@ import NavigateOnce from './components/routing/NavigateOnce';
 import useAxiosInterceptors from './hooks/useAxiosInterceptors';
 import AuthRequired from './components/routing/AuthRequired';
 import PopularPage from './pages/PopularPage';
-import SavedKanjiPage from './pages/SavedKanjiPage';
+import SavedPage from './pages/SavedPage';
 import SearchPage from './pages/SearchPage';
 import SelectedPage from './pages/SelectedPage';
 import LearnByMeaningPage from './pages/LearnByMeaningPage';
@@ -50,7 +50,7 @@ const App = () => {
               <Route index element={<ProfilePage />} />
               <Route path="edit" element={<EditUserPage />} />
             </Route>
-            <Route path="saved" element={<SavedKanjiPage />} />
+            <Route path="saved" element={<SavedPage />} />
             <Route path="feedback" element={<FeedbackPage />} />
           </Route>
           <Route element={<AuthRequired allowedRoles={['Admin']} />}>
