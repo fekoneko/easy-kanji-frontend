@@ -1,13 +1,10 @@
 export type ApiErrorMessage =
-  | 'network'
   | 'unauthorized'
   | 'unknown'
-  | 'kanjiAlreadyExists'
-  | 'kanjiNotFound'
   | 'invalidUsername'
   | 'invalidPassword'
   | 'usernameOccupied'
-  | 'userNotFound';
+  | 'incorrectOldPassword';
 
 export default class ApiError {
   message?: ApiErrorMessage;

@@ -1,4 +1,4 @@
-import { axiosInstance } from '../api/axiosInstance';
+import axios from 'axios';
 import useAuth from './useAuth';
 
 export type RefreshFunction = () => Promise<string | null>;
@@ -10,7 +10,15 @@ export const useRefreshTokenFunction = () => {
     if (!auth) return null;
 
     try {
-      const response = await axiosInstance.get<string>('/tokens/');
+      const response = await axios.get<string>('/tokens/', {
+        baseURL: `${import.meta.env.VITE_API_URL}/api`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+        withCredentials: true,
+      });
+
       if (response.data) {
         setAuth({ ...auth, accessToken: response.data });
         return response.data;

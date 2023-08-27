@@ -37,7 +37,6 @@ export default {
       return parseServerKanji(response.data);
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -59,7 +58,6 @@ export default {
         response.data?.forEach((kanji, index) => (serverKanjis[startIndex + index] = kanji));
       } catch (err: any) {
         if (signal?.aborted) throw new ApiError(undefined, true);
-        if ((err as AxiosError).status === 408) throw new ApiError('network');
         if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
         throw new ApiError('unknown');
       }
@@ -83,7 +81,6 @@ export default {
       return parseServerKanjis(response.data);
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -103,7 +100,6 @@ export default {
       return parseServerKanjis(response.data);
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -118,7 +114,6 @@ export default {
       return parseServerKanjis(response.data);
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -132,7 +127,6 @@ export default {
       await axiosInstance.post(`/kanjis/`, formatKanjiForServer(kanjiData), { signal });
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -146,7 +140,6 @@ export default {
       await axiosInstance.patch(`/kanjis/${id}`, formatKanjiForServer(kanjiData), { signal });
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
@@ -157,7 +150,6 @@ export default {
       await axiosInstance.delete(`/kanjis/${kanjiId}`, { signal });
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }

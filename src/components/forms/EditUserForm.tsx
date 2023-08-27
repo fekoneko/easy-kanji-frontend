@@ -72,13 +72,13 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
     if (!auth) return;
 
     const curUsernameValid = validateNewUsername();
-    const curPasswordValid = validateNewPassword();
+    const curNewPasswordValid = validateNewPassword();
     const curConfirmValid = validateConfirm();
     setNewUsernameValid(curUsernameValid);
-    setNewPasswordValid(curPasswordValid);
+    setNewPasswordValid(curNewPasswordValid);
     setConfirmValid(curConfirmValid);
 
-    if (curUsernameValid && curPasswordValid && curConfirmValid) {
+    if (curUsernameValid && curNewPasswordValid && curConfirmValid) {
       const editedData: EditedUserData = {};
       if (newUsername && newUsername !== auth.username) editedData.username = newUsername;
       if (newPassword) editedData.password = newPassword;
@@ -89,7 +89,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
           usersApi.editUser(auth.id, oldPassword, editedData, abortControllerRef.current.signal),
         undefined,
         (error) => {
-          if (error === 'unauthorized') {
+          if (error === 'incorrectOldPassword') {
             setOldPasswordValid(false);
             oldPasswordRef.current?.focus();
           } else if (error === 'usernameOccupied' || error === 'invalidUsername') {
@@ -123,7 +123,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       );
     } else {
       if (!curUsernameValid) newUsernameRef.current?.focus();
-      else if (!curPasswordValid) newPasswordRef.current?.focus();
+      else if (!curNewPasswordValid) newPasswordRef.current?.focus();
       else if (!curConfirmValid) confirmRef.current?.focus();
     }
   };
@@ -151,7 +151,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
         onChange={(e) => setNewUsername(e.target.value)}
         value={newUsername}
         aria-describedby="usernameHint"
-        aria-invalid={(!newUsernameValid || submitError === 'usernameOccupied') && !!newUsername}
+        aria-invalid={!newUsernameValid && !!newUsername}
         onFocus={() => setNewUsernameFocus(true)}
         onBlur={() => setNewUsernameFocus(false)}
       />
@@ -164,7 +164,7 @@ const EditUserForm = ({ onSignedUp: onUserEdited }: EditUserFormProps) => {
       </Tooltip>
       <Tooltip
         id="usernameHint"
-        shown={submitError === 'usernameOccupied'}
+        shown={newUsernameHintShown && submitError === 'usernameOccupied'}
         anchorRef={newUsernameRef}
       >
         {t('Forms.EditUser.Errors.UsernameOccupied')}

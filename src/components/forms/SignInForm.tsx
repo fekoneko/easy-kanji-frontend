@@ -45,7 +45,7 @@ const SignInForm = ({ onLoggedIn }: SignInFormProps) => {
       (error) => {
         setAuth(null);
 
-        if (error === 'userNotFound') {
+        if (error === 'invalidUsername') {
           setUsernameValid(false);
           setPasswordValid(true);
           usernameRef.current?.focus();

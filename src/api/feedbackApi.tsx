@@ -8,7 +8,6 @@ export default {
       await axiosInstance.post('/feedback/', { username, body, email }, { signal });
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
-      if ((err as AxiosError).status === 408) throw new ApiError('network');
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
       throw new ApiError('unknown');
     }
