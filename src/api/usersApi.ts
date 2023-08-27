@@ -4,6 +4,7 @@ import { Kanji } from '../contexts/kanjiContext';
 import { parseServerKanjis, ServerKanji } from './kanjisApi';
 import ApiError from './ApiError';
 import { AxiosError } from 'axios';
+import { setInLocalStorage } from '../controllers/localStorageController';
 
 export type EditedUserData = {
   username?: string;
@@ -14,11 +15,13 @@ export type EditedUserData = {
 export default {
   async signIn(username: string, password: string, signal?: AbortSignal): Promise<Auth> {
     try {
-      const response = await axiosInstance.post<Auth>(
+      const response = await axiosInstance.post<Auth & { refreshToken: string }>(
         '/tokens/',
         { username, password },
-        { signal }
+        { signal, headers: { Authorization: '' } }
       );
+
+      setInLocalStorage('_rt', response.data.refreshToken);
 
       return {
         id: response.data.id,

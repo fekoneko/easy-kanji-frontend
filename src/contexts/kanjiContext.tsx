@@ -79,7 +79,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
     );
 
     return () => setSavedKanjis([]);
-  }, [auth]);
+  }, [auth?.id]);
 
   return (
     <kanjiContext.Provider
