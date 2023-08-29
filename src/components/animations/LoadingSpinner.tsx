@@ -5,15 +5,15 @@ type LoadingSpinnerProps = {
 
 const LoadingSpinner = ({ small, className }: LoadingSpinnerProps) => {
   return (
-    <div className={`loadingSpinner ${className ?? ''} ${small ? '[zoom:0.4]' : ''}`}>
-      <div className="loadingSpinnerPoint_1 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_2 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_3 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_4 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_5 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_6 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_7 loadingSpinnerPoint"></div>
-      <div className="loadingSpinnerPoint_8 loadingSpinnerPoint"></div>
+    <div className={`loading-spinner ${className ?? ''} ${small ? '[zoom:0.4]' : ''}`}>
+      <div className="loading-spinner-point-1 loading-spinner-point"></div>
+      <div className="loading-spinner-point-2 loading-spinner-point"></div>
+      <div className="loading-spinner-point-3 loading-spinner-point"></div>
+      <div className="loading-spinner-point-4 loading-spinner-point"></div>
+      <div className="loading-spinner-point-5 loading-spinner-point"></div>
+      <div className="loading-spinner-point-6 loading-spinner-point"></div>
+      <div className="loading-spinner-point-7 loading-spinner-point"></div>
+      <div className="loading-spinner-point-8 loading-spinner-point"></div>
     </div>
   );
 };

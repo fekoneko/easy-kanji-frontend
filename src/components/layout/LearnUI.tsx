@@ -66,7 +66,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
             <CSSTransition
               key={pageKanjis.map((kanji) => kanji.id).join(' ')}
               timeout={150}
-              classNames="learnUI"
+              classNames="vertical-slide-transition"
               nodeRef={learnUIRef}
             >
               <section

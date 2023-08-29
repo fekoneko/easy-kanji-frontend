@@ -112,7 +112,7 @@ const KanjiCard = ({
           in={positionOnScreen === 'center' && side === 'back'}
           unmountOnExit
           timeout={300}
-          classNames="fade"
+          classNames="fade-transition"
           nodeRef={cardActionButtonRef}
         >
           <button

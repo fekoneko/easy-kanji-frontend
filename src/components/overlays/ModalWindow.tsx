@@ -29,7 +29,7 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
       in={shown}
       unmountOnExit
       timeout={200}
-      classNames="modalWindowTransition"
+      classNames="vertical-slide-transition"
       nodeRef={modalWindowBGRef}
     >
       <div
@@ -37,7 +37,7 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute left-0 top-0 z-[99000] flex h-screen w-screen items-center justify-center bg-black bg-opacity-40"
+        className="absolute left-[-4rem] top-[-4rem] z-[99000] flex h-[calc(100dvh+8rem)] w-[calc(100vw+8rem)] items-center justify-center bg-black bg-opacity-40"
       >
         <div
           ref={modalWindowRef}

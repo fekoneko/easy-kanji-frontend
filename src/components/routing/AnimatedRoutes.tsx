@@ -12,10 +12,10 @@ const AnimatedRoutes = ({ ...routesProps }: RoutesProps) => {
         <CSSTransition
           key={location.pathname}
           timeout={150}
-          classNames="animatedRoute"
+          classNames="vertical-slide-transition"
           nodeRef={nodeRef}
         >
-          <div className="animatedRoute flex flex-grow flex-col" ref={nodeRef}>
+          <div className="flex flex-grow flex-col" ref={nodeRef}>
             <Routes {...routesProps} location={location} />
           </div>
         </CSSTransition>

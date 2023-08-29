@@ -51,7 +51,13 @@ const Tooltip = ({ anchorRef, shown, handleClose, className, id, children }: Too
   );
 
   return (
-    <CSSTransition in={shown} unmountOnExit timeout={200} classNames="tooltip" nodeRef={tooltipRef}>
+    <CSSTransition
+      in={shown}
+      unmountOnExit
+      timeout={200}
+      classNames="vertical-slide-transition"
+      nodeRef={tooltipRef}
+    >
       <div
         ref={tooltipRef}
         className="pointer-events-none absolute z-[100000] flex flex-col"

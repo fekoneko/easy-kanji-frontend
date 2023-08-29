@@ -16,7 +16,7 @@ const ToastMessage = ({ toastKey, shown, children }: ToastMessageProps) => {
         <CSSTransition
           key={shown ? toastKey : -1}
           timeout={150}
-          classNames="toastMessage"
+          classNames="vertical-slide-transition"
           nodeRef={toastMessageRef}
         >
           {shown ? (

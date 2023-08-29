@@ -18,7 +18,7 @@ const ControlButton = ({ shown, disabled, title, action, children }: ControlButt
       in={shown || buttonHover}
       unmountOnExit
       timeout={200}
-      classNames="fade"
+      classNames="fade-transition"
       nodeRef={buttonRef}
     >
       <button

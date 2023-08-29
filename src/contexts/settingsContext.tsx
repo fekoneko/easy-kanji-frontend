@@ -25,7 +25,7 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
 
   return (
     <div
-      className={`flex h-[100dvh] min-h-[27rem] w-screen min-w-[17rem] flex-col transition-colors ${
+      className={`transition-colors ${
         theme === 'dark' ? 'dark bg-soft-black text-soft-white' : ''
       }`}
     >

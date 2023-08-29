@@ -1,119 +1,35 @@
 @layer css-transition {
-  :root {
-    --transition-params: 0.2s ease;
-  }
-
-  .animatedRoute-enter {
+  .vertical-slide-transition-enter {
     transform: translateY(2rem);
     opacity: 0;
   }
-  .animatedRoute-enter-active {
+  .vertical-slide-transition-enter-active {
     transform: translateY(0);
     opacity: 1;
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .animatedRoute-exit {
+  .vertical-slide-transition-exit {
     transform: translateY(0);
     opacity: 1;
   }
-  .animatedRoute-exit-active {
+  .vertical-slide-transition-exit-active {
     transform: translateY(2rem);
     opacity: 0;
-    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
-  .tooltip-enter,
-  .modalWindowTransition-enter .modalWindow,
-  .toastMessage-enter {
-    transform: translateY(2rem);
+  .fade-transition-enter {
     opacity: 0;
   }
-  .tooltip-enter-active,
-  .modalWindowTransition-enter-active .modalWindow,
-  .toastMessage-enter-active {
-    transform: translateY(0);
+  .fade-transition-enter-active {
     opacity: 1;
-    transition: opacity var(--transition-params), transform var(--transition-params);
+    transition: opacity 0.2s ease;
   }
-  .tooltip-exit,
-  .modalWindowTransition-exit .modalWindow,
-  .toastMessage-exit {
-    transform: translateY(0);
+  .fade-transition-exit {
     opacity: 1;
   }
-  .tooltip-exit-active,
-  .modalWindowTransition-exit-active .modalWindow,
-  .toastMessage-exit-active {
-    transform: translateY(2rem);
+  .fade-transition-exit-active {
     opacity: 0;
-    transition: opacity var(--transition-params), transform var(--transition-params);
-  }
-
-  .modalWindowTransition-enter .modalWindowBG {
-    opacity: 0;
-  }
-  .modalWindowTransition-enteractive .modalWindowBG {
-    opacity: 1;
-    transition: opacity var(--transition-params);
-  }
-  .modalWindowTransition-exit .modalWindowBG {
-    opacity: 1;
-  }
-  .modalWindowTransition-exit-active .modalWindowBG {
-    opacity: 0;
-    transition: opacity var(--transition-params);
-  }
-
-  .inputHint-enter {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  .inputHint-enter-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity var(--transition-params), transform var(--transition-params);
-  }
-  .inputHint-exit {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-  .inputHint-exit-active {
-    opacity: 0;
-    transform: scaleY(0);
-    transition: opacity var(--transition-params), transform var(--transition-params);
-  }
-
-  .fade-enter {
-    opacity: 0;
-  }
-  .fade-enter-active {
-    opacity: 1;
-    transition: opacity var(--transition-params);
-  }
-  .fade-exit {
-    opacity: 1;
-  }
-  .fade-exit-active {
-    opacity: 0;
-    transition: opacity var(--transition-params);
-  }
-
-  .learnUI-enter {
-    transform: translateY(2rem);
-    opacity: 0;
-  }
-  .learnUI-enter-active {
-    transform: translateY(0);
-    opacity: 1;
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-  }
-  .learnUI-exit {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  .learnUI-exit-active {
-    transform: translateY(2rem);
-    opacity: 0;
-    transition: opacity 0.15s ease-in, transform 0.15s ease-in;
+    transition: opacity 0.2s ease;
   }
 }

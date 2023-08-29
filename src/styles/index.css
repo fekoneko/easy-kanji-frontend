@@ -15,6 +15,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: none;
     -webkit-text-size-adjust: none;
+
+    --card-width: max(min(55vw, 15rem), 11rem);
+    --card-shrink: 0.75;
   }
 
   ::-webkit-scrollbar {
@@ -32,6 +35,12 @@
     background-color: #979797;
   }
 
+  body {
+    @apply [@media(min-height:27rem)]:overflow-y-hidden [@media(min-width:17rem)]:overflow-x-hidden;
+  }
+  #root > * {
+    @apply flex h-[100dvh] min-h-[27rem] w-screen min-w-[17rem] flex-col;
+  }
   h1 {
     @apply text-3xl font-bold;
   }
@@ -68,11 +77,6 @@
 }
 
 @layer components {
-  :root {
-    --card-width: max(min(55vw, 15rem), 11rem);
-    --card-shrink: 0.75;
-  }
-
   .content-placeholder {
     @apply m-2 flex flex-grow flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray dark:border-dark-gray;
   }
