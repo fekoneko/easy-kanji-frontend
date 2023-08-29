@@ -58,24 +58,24 @@ const KanjiChoiceSidebar = ({
           </NavLink>
         ))}
       </nav>
-      <Loading status={kanjiLoadingStatus}>
-        {kanjis.length > 0 ? (
-          <div ref={scrollContainerRef} className="overflow-y-scroll">
-            <KanjiGrid
-              kanjis={kanjis}
-              maxColumns={1}
-              kanjiChoiceMode
-              chosenKanji={chosenKanji}
-              setChosenKanji={setChosenKanji}
-              detailedMode
-            />
-          </div>
-        ) : (
+      {kanjis.length > 0 ? (
+        <div ref={scrollContainerRef} className="overflow-y-scroll">
+          <KanjiGrid
+            kanjis={kanjis}
+            maxColumns={1}
+            kanjiChoiceMode
+            chosenKanji={chosenKanji}
+            setChosenKanji={setChosenKanji}
+            detailedMode
+          />
+        </div>
+      ) : (
+        <Loading status={kanjiLoadingStatus}>
           <div className="content-placeholder">
             <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
           </div>
-        )}
-      </Loading>
+        </Loading>
+      )}
     </aside>
   );
 };

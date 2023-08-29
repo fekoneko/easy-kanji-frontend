@@ -51,15 +51,15 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
         </Info>
       </div>
 
-      <Loading status={kanjiLoadingStatus}>
-        {pageKanjis.length > 0 ? (
-          <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
-        ) : (
+      {pageKanjis.length > 0 ? (
+        <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
+      ) : (
+        <Loading status={kanjiLoadingStatus}>
           <div className="content-placeholder">
             <Trans i18nKey="Pages.Popular.Placeholder" components={{ p: <p /> }} />
           </div>
-        )}
-      </Loading>
+        </Loading>
+      )}
     </TitledPage>
   );
 };
