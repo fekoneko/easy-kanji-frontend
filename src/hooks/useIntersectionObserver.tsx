@@ -9,10 +9,9 @@ const useIntersectionObserver = (
 
   useEffect(() => {
     if (!elementRef.current) return;
-    const intersectionObserver = new IntersectionObserver(
-      (entries) => setIntersectionObserverEntry(entries[0]),
-      options
-    );
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      setIntersectionObserverEntry(entries.at(-1)), options;
+    });
     intersectionObserver.observe(elementRef.current);
 
     return () => intersectionObserver.disconnect();

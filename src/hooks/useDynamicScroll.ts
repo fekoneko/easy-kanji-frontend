@@ -19,7 +19,7 @@ const useDynamicScroll = <T extends { id: number }>(
   const isLoading = useRef(false);
   const allContentLoaded = useRef(false);
 
-  const updateContent = async (override: boolean = false) => {
+  const addContent = async (override: boolean = false) => {
     isLoading.current = true;
     if (onLoading) onLoading();
     const newContent = await loadContent(
@@ -45,21 +45,21 @@ const useDynamicScroll = <T extends { id: number }>(
     }
   };
 
-  useEventListener(scrollContainerRef, 'scroll', (e) => {
-    if (isLoading.current || allContentLoaded.current || !e.target) return;
-    const scrollContainer = e.target as HTMLElement;
+  useEventListener(scrollContainerRef, 'scroll', () => {
+    const scrollContainer = scrollContainerRef.current;
+    if (isLoading.current || allContentLoaded.current || !scrollContainer) return;
 
     if (
       scrollContainer.scrollTop + scrollContainer.offsetHeight + 200 >=
       scrollContainer.scrollHeight
     ) {
-      updateContent();
+      addContent();
     }
   });
 
   useEffect(() => {
-    // TODO: make shure scroll bar apears and stay on resize
-    updateContent(true);
+    addContent(true);
+
     return () => {
       isLoading.current = false;
       setContent([]);

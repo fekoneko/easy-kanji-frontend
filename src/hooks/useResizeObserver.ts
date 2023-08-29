@@ -5,7 +5,7 @@ const useResizeObserver = (elementRef: RefObject<HTMLElement>) => {
 
   useEffect(() => {
     if (!elementRef.current) return;
-    const resizeObserver = new ResizeObserver((entries) => setResizeObserverEntry(entries[0]));
+    const resizeObserver = new ResizeObserver((entries) => setResizeObserverEntry(entries.at(-1)));
     resizeObserver.observe(elementRef.current);
 
     return () => resizeObserver.disconnect();

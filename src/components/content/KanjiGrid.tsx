@@ -7,6 +7,15 @@ import useOnKeyDown from '../../hooks/useOnKeyDown';
 import DisplayInViewport from '../layout/DisplayInViewport';
 
 const COLUMNS_DEFAULT = 2;
+const CHUNK_SIZE = 100;
+
+const splitIntoChunks = <T,>(array: T[], chunkSize: number): T[][] => {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + 100));
+  }
+  return chunks;
+};
 
 type KanjiGridProps = {
   kanjis: Kanji[];
@@ -65,31 +74,35 @@ const KanjiGrid = ({
   useOnKeyDown('ArrowDown', () => moveFocus(3 * columns), [], { shift: true });
 
   return (
-    <section
-      ref={gridRef}
-      className="grid gap-2"
-      style={{
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-      }}
-    >
-      {kanjis.map((kanji, index) => (
-        <DisplayInViewport key={kanji.id} forceDisplay={kanjis.length < 500}>
-          {kanjiChoiceMode ? (
-            <KanjiChoiceCell
-              kanji={kanji}
-              focus={focusIndex === index}
-              setFocus={() => setFocusIndex(index)}
-              detailedMode={detailedMode}
-              chosenKanji={chosenKanji}
-              setChosenKanji={setChosenKanji}
-            />
-          ) : (
-            <KanjiCell
-              kanji={kanji}
-              focus={focusIndex === index}
-              setFocus={() => setFocusIndex(index)}
-              detailedMode={detailedMode}
-            />
+    <section ref={gridRef} className="grid grid-cols-1 gap-2">
+      {splitIntoChunks(kanjis, CHUNK_SIZE).map((kanjiChunk, chunkIndex) => (
+        <DisplayInViewport
+          key={chunkIndex}
+          className="grid gap-2"
+          style={{
+            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          }}
+        >
+          {kanjiChunk.map((kanji, kanjiIndex) =>
+            kanjiChoiceMode ? (
+              <KanjiChoiceCell
+                key={kanjiIndex}
+                kanji={kanji}
+                focus={focusIndex === chunkIndex + kanjiIndex}
+                setFocus={() => setFocusIndex(chunkIndex + kanjiIndex)}
+                detailedMode={detailedMode}
+                chosenKanji={chosenKanji}
+                setChosenKanji={setChosenKanji}
+              />
+            ) : (
+              <KanjiCell
+                key={kanjiIndex}
+                kanji={kanji}
+                focus={focusIndex === chunkIndex + kanjiIndex}
+                setFocus={() => setFocusIndex(chunkIndex + kanjiIndex)}
+                detailedMode={detailedMode}
+              />
+            )
           )}
         </DisplayInViewport>
       ))}
