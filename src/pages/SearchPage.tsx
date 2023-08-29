@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import KanjiGrid from '../components/content/KanjiGrid';
 import SearchBar from '../components/forms/SearchBar';
 import kanjisApi from '../api/kanjisApi';
 import { useSearchParams } from 'react-router-dom';
-import usePageKanjis from '../hooks/usePageKanjis';
 import useToast from '../hooks/useToast';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
 import Loading from '../components/content/Loading';
 import useLoading from '../hooks/useLoading';
 import useAbortController from '../hooks/useAbortController';
-import { Kanji } from '../contexts/kanjiContext';
+import kanjiContext, { Kanji } from '../contexts/kanjiContext';
 
 const SearchPage = () => {
   const { t } = useTranslation();
-  const [pageKanjis, setPageKanjis] = usePageKanjis();
+  const { searchKanjis, setSearchKanjis } = useContext(kanjiContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
 
@@ -25,13 +24,13 @@ const SearchPage = () => {
   useEffect(() => {
     const searchParamsRequest = searchParams.get('s');
     if (!searchParamsRequest) {
-      setPageKanjis([]);
+      setSearchKanjis([]);
       return;
     }
 
     trackSearch(
       () => kanjisApi.searchKanjis(searchParamsRequest, abortControllerRef.current.signal),
-      (newSearchKanjis) => setPageKanjis(newSearchKanjis as Kanji[]),
+      (newSearchKanjis) => setSearchKanjis(newSearchKanjis as Kanji[]),
       () => showToast(t('KanjiGrid.Errors.LoadingFailed'))
     );
   }, [searchParams]);
@@ -50,8 +49,8 @@ const SearchPage = () => {
       <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest} />
 
       <Loading status={searchStatus}>
-        {pageKanjis.length > 0 ? (
-          <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} detailedMode />
+        {searchKanjis.length > 0 ? (
+          <KanjiGrid kanjis={searchKanjis} minCellWidth={220} maxColumns={3} detailedMode />
         ) : (
           <div className="content-placeholder">
             {searchRequest.length > 0 ? (

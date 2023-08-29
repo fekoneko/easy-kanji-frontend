@@ -30,7 +30,11 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
   const abortControllerRef = useAbortController();
   const [trackSubmit, submitStatus] = useLoading();
   const { showToast } = useToast();
-  const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const {
+    setPopularKanjis: setPageKanjis,
+    setSavedKanjis,
+    setSelectedKanjis,
+  } = useContext(kanjiContext);
 
   useEffect(() => {
     setKanjWriting(initialKanji?.writing ?? '');

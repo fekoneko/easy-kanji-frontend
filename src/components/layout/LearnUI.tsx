@@ -4,7 +4,6 @@ import kanjiContext from '../../contexts/kanjiContext';
 import KanjiCard from '../content/KanjiCard';
 import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
-import usePageKanjis from '../../hooks/usePageKanjis';
 import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
 import KanjiCardNav from './KanjiCardNav';
 import useOnKeyDown from '../../hooks/useOnKeyDown';
@@ -12,6 +11,7 @@ import ActionCard from '../content/ActionCard';
 import { Trans, useTranslation } from 'react-i18next';
 import ShowAtMedia from './ShowAtMedia';
 import Loading from '../content/Loading';
+import { compareKanjiLists } from '../../controllers/kanjiController';
 
 type LearnUIProps = {
   frontSide: ViewContent;
@@ -23,17 +23,22 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
   const {
     selectedKanjis,
     setSelectedKanjis,
+    learnKanjis,
+    setLearnKanjis,
     repeatKanjis,
     setRepeatKanjis,
     selectedLoadingStatus,
   } = useContext(kanjiContext);
-  const [pageKanjis] = usePageKanjis(selectedKanjis);
   const learnUIRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });
   const navCardCount = useMemo(() => Math.ceil(windowWidth / 50), [windowWidth]);
 
-  const maxIndex = pageKanjis.length - (repeatKanjis.length > 0 ? 0 : 1);
+  useEffect(() => {
+    if (!compareKanjiLists(learnKanjis, selectedKanjis)) setLearnKanjis(selectedKanjis);
+  }, []);
+
+  const maxIndex = learnKanjis.length - (repeatKanjis.length > 0 ? 0 : 1);
 
   useEffect(() => {
     if ((document.activeElement as any)?.blur) (document.activeElement as any).blur();
@@ -41,7 +46,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
 
   useEffect(() => {
     setCurrentIndex(0);
-  }, [pageKanjis]);
+  }, [learnKanjis]);
 
   useOnKeyDown('ArrowLeft', () => currentIndex > 0 && setCurrentIndex((prev) => prev - 1), [
     currentIndex,
@@ -64,7 +69,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
         <TransitionGroup component={null}>
           <SwitchTransition mode={'out-in'}>
             <CSSTransition
-              key={pageKanjis.map((kanji) => kanji.id).join(' ')}
+              key={learnKanjis.map((kanji) => kanji.id).join(' ')}
               timeout={150}
               classNames="vertical-slide-transition"
               nodeRef={learnUIRef}
@@ -81,7 +86,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                     }px - var(--card-width) / 2))`,
                   }}
                 >
-                  {pageKanjis.map(
+                  {learnKanjis.map(
                     (kanji, index) =>
                       Math.abs(index - currentIndex) <= 6 && (
                         <KanjiCard
@@ -124,7 +129,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
                 <ShowAtMedia min="xs">
                   <KanjiCardNav
                     mode={frontSide.writing ? 'writing' : 'meaning'}
-                    kanjis={pageKanjis}
+                    kanjis={learnKanjis}
                     currentIndex={currentIndex}
                     setCurrentIndex={setCurrentIndex}
                     maxNavCardCount={navCardCount}

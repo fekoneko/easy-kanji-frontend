@@ -1,5 +1,5 @@
 import { RefObject, useContext, useEffect, useState } from 'react';
-import kanjiContext from '../../contexts/kanjiContext';
+import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import {
   removeKanjisFromList,
   isKanjisInList,
@@ -19,25 +19,38 @@ type FooterControlsProps = {
 const FooterControls = ({ footerRef }: FooterControlsProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { pageKanjis, setPageKanjis, selectedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const {
+    popularKanjis,
+    savedKanjis,
+    searchKanjis,
+    selectedKanjis,
+    setSelectedKanjis,
+    learnKanjis,
+    setLearnKanjis,
+  } = useContext(kanjiContext);
   const [learnModeShuffleFlag, setLearnModeShuffleFlag] = useState<boolean>(false);
 
   const section = location.pathname.split('/')[1];
 
   useEffect(() => {
-    if (section !== 'learn') return;
-    setPageKanjis(selectedKanjis);
-  }, [selectedKanjis]);
-
-  useEffect(() => {
-    if (section !== 'learn') return;
-    if (learnModeShuffleFlag) shuffleKanjiList(setPageKanjis);
-    else setPageKanjis(selectedKanjis);
+    if (section === 'learn') {
+      if (learnModeShuffleFlag) shuffleKanjiList(setLearnKanjis);
+      else setLearnKanjis(selectedKanjis);
+    }
   }, [learnModeShuffleFlag]);
 
   useEffect(() => {
     setLearnModeShuffleFlag(false);
-  }, [location]);
+  }, [selectedKanjis]);
+
+  let pageKanjis: Kanji[] | null;
+
+  if (section === 'popular') pageKanjis = popularKanjis;
+  else if (section === 'saved') pageKanjis = savedKanjis;
+  else if (section === 'search') pageKanjis = searchKanjis;
+  else if (section === 'selected') pageKanjis = selectedKanjis;
+  else if (section === 'learn') pageKanjis = learnKanjis;
+  else pageKanjis = null;
 
   const deselectAll = () => pageKanjis && removeKanjisFromList(setSelectedKanjis, pageKanjis);
   const selectAll = () => pageKanjis && addKanjisToList(setSelectedKanjis, pageKanjis);

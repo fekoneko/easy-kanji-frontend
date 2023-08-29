@@ -19,13 +19,10 @@ const useDynamicScroll = <T extends { id: number }>(
   const isLoading = useRef(false);
   const allContentLoaded = useRef(false);
 
-  const addContent = async (override: boolean = false) => {
+  const addContent = async () => {
     isLoading.current = true;
     if (onLoading) onLoading();
-    const newContent = await loadContent(
-      (override ? 0 : content.length) + 1,
-      (override ? 0 : content.length) + loadCount
-    );
+    const newContent = await loadContent(content.length + 1, content.length + loadCount);
     isLoading.current = false;
     if (onLoaded) onLoaded();
 
@@ -34,15 +31,12 @@ const useDynamicScroll = <T extends { id: number }>(
       allContentLoaded.current = true;
       return;
     }
-    if (override) {
-      setContent(newContent.sort((item) => item.id));
-    } else {
-      setContent((prev) =>
-        prev
-          .concat(newContent.filter((newItem) => prev.every((item) => newItem.id !== item.id)))
-          .sort((item) => item.id)
-      );
-    }
+
+    setContent((prev) =>
+      prev
+        .concat(newContent.filter((newItem) => prev.every((item) => newItem.id !== item.id)))
+        .sort((item) => item.id)
+    );
   };
 
   useEventListener(scrollContainerRef, 'scroll', () => {
@@ -58,11 +52,10 @@ const useDynamicScroll = <T extends { id: number }>(
   });
 
   useEffect(() => {
-    addContent(true);
+    addContent();
 
     return () => {
       isLoading.current = false;
-      setContent([]);
     };
   }, []);
 };

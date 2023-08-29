@@ -1,16 +1,15 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useContext, useRef } from 'react';
 import KanjiGrid from '../components/content/KanjiGrid';
 import useDynamicScroll from '../hooks/useDynamicScroll';
 import kanjisApi from '../api/kanjisApi';
 import useAbortController from '../hooks/useAbortController';
-import usePageKanjis from '../hooks/usePageKanjis';
 import useToast from '../hooks/useToast';
 import Info from '../components/content/Info';
 import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
 import Loading from '../components/content/Loading';
 import useLoading from '../hooks/useLoading';
-import { Kanji } from '../contexts/kanjiContext';
+import kanjiContext, { Kanji } from '../contexts/kanjiContext';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -18,13 +17,13 @@ type PopularPageProps = {
 
 const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { t } = useTranslation();
-  const [pageKanjis, setPageKanjis] = usePageKanjis();
+  const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
   const titleRef = useRef<HTMLDivElement>(null);
   const { showToast } = useToast();
   const [trackKanjiLoading, kanjiLoadingStatus] = useLoading();
   const abortControllerRef = useAbortController();
 
-  useDynamicScroll(mainRef, pageKanjis, setPageKanjis, async (startIndex, endIndex) => {
+  useDynamicScroll(mainRef, popularKanjis, setPopularKanjis, async (startIndex, endIndex) => {
     const [kanjis] = await trackKanjiLoading(
       () =>
         kanjisApi.getKanjiListPart(
@@ -51,8 +50,8 @@ const PopularPage = ({ mainRef }: PopularPageProps) => {
         </Info>
       </div>
 
-      {pageKanjis.length > 0 ? (
-        <KanjiGrid kanjis={pageKanjis} minCellWidth={220} maxColumns={3} />
+      {popularKanjis.length > 0 ? (
+        <KanjiGrid kanjis={popularKanjis} minCellWidth={220} maxColumns={3} />
       ) : (
         <Loading status={kanjiLoadingStatus}>
           <div className="content-placeholder">

@@ -32,7 +32,11 @@ const KanjiChoiceCell = ({
   const { t } = useTranslation();
   const [showControls, setShowControls] = useState(false);
   const cellButtonRef = useRef<HTMLButtonElement>(null);
-  const { setPageKanjis, setSavedKanjis, setSelectedKanjis } = useContext(kanjiContext);
+  const {
+    setPopularKanjis: setPageKanjis,
+    setSavedKanjis,
+    setSelectedKanjis,
+  } = useContext(kanjiContext);
 
   const abortControllerRef = useAbortController();
   const [trackKanjiDeletion, kanjiDeletionStatus] = useLoading();

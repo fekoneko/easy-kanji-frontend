@@ -76,3 +76,7 @@ export const shuffleKanjiList = (setKanjiList: setKanjiList): void => {
 
   setKanjiList((prev) => shuffleKanjis(prev));
 };
+
+export const compareKanjiLists = (kanjiList1: Kanji[], kanjiList2: Kanji[]) =>
+  kanjiList1.length === kanjiList2.length &&
+  kanjiList1.every((kanji1) => kanjiList2.some((kanji2) => kanji1.id === kanji2.id));

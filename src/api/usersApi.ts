@@ -110,7 +110,7 @@ export default {
       return {
         id: response.data.id,
         username: response.data.username,
-        roles: response.data.roles,
+        roles: [response.data.role],
         savedKanjis: serverKanjis ? parseServerKanjis(serverKanjis) : [],
       };
     } catch (err: any) {
