@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } fro
 import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
 import ProtectedContent from './ProtectedContent';
 import ControlButton from './ControlButton';
-import { ReactComponent as DeleteKanjiIcon } from '../../assets/deleteKanji.svg';
+import { ReactComponent as DeleteKanjiIcon } from '../../assets/images/deleteKanji.svg';
 import useAbortController from '../../hooks/useAbortController';
 import useToast from '../../hooks/useToast';
 import kanjisApi from '../../api/kanjisApi';

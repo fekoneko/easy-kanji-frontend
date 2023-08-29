@@ -4,8 +4,8 @@ import { isKanjiInList, changeKanjiInList } from '../../controllers/kanjiControl
 import ControlButton from './ControlButton';
 import KanjiView from './KanjiView';
 import Tooltip from '../overlays/Tooltip';
-import { ReactComponent as SaveKanjiIcon } from '../../assets/saveKanji.svg';
-import { ReactComponent as KanjiSavedIcon } from '../../assets/kanjiSaved.svg';
+import { ReactComponent as SaveKanjiIcon } from '../../assets/images/saveKanji.svg';
+import { ReactComponent as KanjiSavedIcon } from '../../assets/images/kanjiSaved.svg';
 import useOnClick from '../../hooks/useOnClick';
 import usersApi from '../../api/usersApi';
 import ProtectedContent from './ProtectedContent';

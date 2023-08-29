@@ -1,7 +1,7 @@
 import { ReactNode, useRef, useState } from 'react';
 import useOnClick from '../../hooks/useOnClick';
-import { ReactComponent as OpenMenuIcon } from '../../assets/menu.svg';
-import { ReactComponent as CloseMenuIcon } from '../../assets/close.svg';
+import { ReactComponent as OpenMenuIcon } from '../../assets/images/menu.svg';
+import { ReactComponent as CloseMenuIcon } from '../../assets/images/close.svg';
 
 type DropDownMenuProps = {
   title?: string;

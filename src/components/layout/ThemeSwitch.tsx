@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import settingsContext from '../../contexts/settingsContext';
-import { ReactComponent as LightThemeIcon } from '../../assets/lightTheme.svg';
-import { ReactComponent as DarkThemeIcon } from '../../assets/darkTheme.svg';
+import { ReactComponent as LightThemeIcon } from '../../assets/images/lightTheme.svg';
+import { ReactComponent as DarkThemeIcon } from '../../assets/images/darkTheme.svg';
 import { useTranslation } from 'react-i18next';
 
 type ThemeSwitchProps = {

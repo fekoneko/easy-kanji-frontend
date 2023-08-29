@@ -1,5 +1,5 @@
 import useAuth from '../hooks/useAuth';
-import { ReactComponent as UserAvatar } from '../assets/userAvatar.svg';
+import { ReactComponent as UserAvatar } from '../assets/images/userAvatar.svg';
 import { Link } from 'react-router-dom';
 import ProtectedContent from '../components/content/ProtectedContent';
 import TitledPage from '../components/routing/TitledPage';

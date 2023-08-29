@@ -1,5 +1,5 @@
 import { ReactNode, RefObject, useRef, useState } from 'react';
-import { ReactComponent as InfoIcon } from '../../assets/infoIcon.svg';
+import { ReactComponent as InfoIcon } from '../../assets/images/infoIcon.svg';
 import Tooltip from '../overlays/Tooltip';
 
 type InfoHoverProps = {
