@@ -1,4 +1,4 @@
-import { Auth } from '../contexts/authContext';
+import { Auth, Role } from '../contexts/authContext';
 import { axiosInstance } from './axiosInstance';
 import { Kanji } from '../contexts/kanjiContext';
 import { parseServerKanjis, ServerKanji } from './kanjisApi';
@@ -11,6 +11,8 @@ export type EditedUserData = {
   password?: string;
   roles?: string[];
 };
+
+export type UserInfo = { id: number; username: string; roles: Role[]; savedKanjis: Kanji[] };
 
 export default {
   async signIn(username: string, password: string, signal?: AbortSignal): Promise<Auth> {
@@ -101,11 +103,16 @@ export default {
     }
   },
 
-  async getSavedKanjis(signal?: AbortSignal): Promise<Kanji[]> {
+  async getUserInfo(signal?: AbortSignal): Promise<UserInfo> {
     try {
       const response = await axiosInstance.get(`/users/me`, { signal });
       const serverKanjis: ServerKanji[] = response.data?.kanjis;
-      return serverKanjis ? parseServerKanjis(serverKanjis) : [];
+      return {
+        id: response.data.id,
+        username: response.data.username,
+        roles: response.data.roles,
+        savedKanjis: serverKanjis ? parseServerKanjis(serverKanjis) : [],
+      };
     } catch (err: any) {
       if (signal?.aborted) throw new ApiError(undefined, true);
       if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');

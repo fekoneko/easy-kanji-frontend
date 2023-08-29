@@ -10,8 +10,6 @@ export const useRefreshFunction = () => {
   const { auth, setAuth } = useAuth();
 
   const refresh: RefreshFunction = async () => {
-    if (!auth) return null;
-
     const refreshToken = getFromLocalStorage<string>('_rt');
     if (!refreshToken) return null;
 
@@ -23,14 +21,18 @@ export const useRefreshFunction = () => {
           baseURL: `${import.meta.env.VITE_API_URL}/api`,
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${auth.accessToken}`,
+            Authorization: auth ? `Bearer ${auth.accessToken}` : undefined,
           },
           withCredentials: true,
         }
       );
       if (!response.data.accessToken) return null;
 
-      setAuth({ ...auth, accessToken: response.data.accessToken });
+      setAuth((prev) =>
+        prev
+          ? { ...prev, accessToken: response.data.accessToken }
+          : { id: 0, username: '', roles: [], accessToken: response.data.accessToken }
+      );
       setInLocalStorage('_rt', response.data.refreshToken);
 
       return response.data.accessToken;

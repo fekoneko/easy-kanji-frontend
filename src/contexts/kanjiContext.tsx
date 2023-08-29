@@ -3,7 +3,7 @@ import { getFromLocalStorage, setInLocalStorage } from '../controllers/localStor
 import { addKanjisToList, getKanjisIds } from '../controllers/kanjiController';
 import kanjisApi from '../api/kanjisApi';
 import useAuth from '../hooks/useAuth';
-import usersApi from '../api/usersApi';
+import usersApi, { UserInfo } from '../api/usersApi';
 import useToast from '../hooks/useToast';
 import { useTranslation } from 'react-i18next';
 import useLoading, { Status } from '../hooks/useLoading';
@@ -49,7 +49,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   const [trackSavedLoading, savedLoadingStatus, savedLoadingError] = useLoading();
   const abortControllerRef = useAbortController();
   const { showToast } = useToast();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   useEffect(() => {
     const newSelectedIds = getFromLocalStorage<number[]>('selected');
@@ -70,13 +70,17 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   }, [selectedKanjis, selectedLoadingStatus]);
 
   useEffect(() => {
-    if (!auth) return;
-
-    trackSavedLoading(
-      () => usersApi.getSavedKanjis(abortControllerRef.current.signal),
-      (newSavedKanjis) => setSavedKanjis(newSavedKanjis as Kanji[]),
-      () => showToast(t('KanjiGrid.Errors.SavedLoadingFailed'))
-    );
+    if (auth) {
+      trackSavedLoading(
+        () => usersApi.getUserInfo(abortControllerRef.current.signal),
+        (userInfo) => {
+          if (!auth.accessToken) return;
+          setAuth((prev) => (prev ? { ...prev, ...(userInfo as UserInfo) } : null));
+          setSavedKanjis((userInfo as UserInfo).savedKanjis);
+        },
+        () => showToast(t('KanjiGrid.Errors.SavedLoadingFailed'))
+      );
+    }
 
     return () => setSavedKanjis([]);
   }, [auth?.id]);

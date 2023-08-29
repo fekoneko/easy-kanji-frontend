@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ShowAtMedia from './ShowAtMedia';
 import DropDownMenu from './DropDownMenu';
-import { Link as Tab } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import UserButton from './UserButton';
 import ThemeSwitch from './ThemeSwitch';
 import LanguageSwitch from './LanguageSwitch';
@@ -34,7 +34,7 @@ const Nav = () => {
         <div className="flex">
           {tabs.map((link, index) => (
             <NavLink
-              className="w-5 flex-grow rounded-b-sm p-0.5 text-center text-black hover:bg-black hover:bg-opacity-20 dark:text-soft-white dark:hover:bg-white dark:hover:bg-opacity-10 [&.active]:text-white [&.active]:[background:theme('colors.primary')!important]"
+              className="w-5 flex-grow rounded-b-sm p-0.5 text-center text-black transition-colors hover:bg-black hover:bg-opacity-20 dark:text-soft-white dark:hover:bg-white dark:hover:bg-opacity-10 [&.active]:text-white [&.active]:[background:theme('colors.primary')!important]"
               to={link.to}
               key={index}
             >
@@ -52,9 +52,9 @@ const Nav = () => {
         >
           <div className="flex flex-col">
             {tabs.map((link, index) => (
-              <Tab to={link.to} key={index}>
+              <Link to={link.to} key={index}>
                 {link.title}
-              </Tab>
+              </Link>
             ))}
           </div>
 

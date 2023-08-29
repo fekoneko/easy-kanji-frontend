@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Nav from './components/layout/Nav';
@@ -18,11 +18,17 @@ import ProfilePage from './pages/ProfilePage';
 import EditKanjisPage from './pages/EditKanjisPage';
 import EditUserPage from './pages/EditUserPage';
 import PageNotFound from './pages/PageNotFound';
+import useRefreshFunction from './hooks/useRefreshFunction';
 
 const App = () => {
   const mainRef = useRef<HTMLElement>(null);
+  const refresh = useRefreshFunction();
 
   useAxiosInterceptors();
+
+  useEffect(() => {
+    refresh();
+  }, []);
 
   return (
     <div className="flex h-full w-full flex-col">
