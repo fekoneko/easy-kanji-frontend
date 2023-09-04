@@ -33,9 +33,7 @@ const useDynamicScroll = <T extends { id: number }>(
     }
 
     setContent((prev) =>
-      prev
-        .concat(newContent.filter((newItem) => prev.every((item) => newItem.id !== item.id)))
-        .sort((item) => item.id)
+      prev.concat(newContent.filter((newItem) => prev.every((item) => newItem.id !== item.id)))
     );
   };
 

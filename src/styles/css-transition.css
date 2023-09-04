@@ -1,6 +1,6 @@
 @layer css-transition {
   .vertical-slide-transition-enter {
-    transform: translateY(2rem);
+    transform: translateY(1rem);
     opacity: 0;
   }
   .vertical-slide-transition-enter-active {
@@ -13,9 +13,34 @@
     opacity: 1;
   }
   .vertical-slide-transition-exit-active {
-    transform: translateY(2rem);
+    transform: translateY(1rem);
     opacity: 0;
     transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .animated-route-transition-enter {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  .animated-route-transition-enter-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .animated-route-transition-exit {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .animated-route-transition-exit-active {
+    transform: translateY(1rem);
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  main:has(.animated-route-transition-enter),
+  main:has(.animated-route-transition-enter-active),
+  main:has(.animated-route-transition-exit),
+  main:has(.animated-route-transition-exit-active) {
+    overflow-y: hidden !important;
   }
 
   .fade-transition-enter {

@@ -6,15 +6,19 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: NotoSansJP;
+  font-family: 'Noto Sans JP';
   src: url(../assets/fonts/NotoSansJP.ttf);
   unicode-range: U+3000-303f, U+3040-309f, U+30a0-30ff, U+ff00-ffef, U+4e00-9faf;
+}
+@font-face {
+  font-family: 'Segoe UI';
+  src: url(../assets/fonts/SegoeUI.ttf);
 }
 
 @layer base {
   :root {
-    font-family: NotoSansJP, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-weight: 500;
+    font-family: 'Noto Sans JP', 'Segoe UI', Arial, sans-serif;
+    font-weight: 600;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -92,10 +96,20 @@
 }
 
 @layer utilities {
-  .app-paddings {
-    @apply px-[1.25rem] sm:px-[10vw] md:px-[15vw] 2xl:px-[calc((50vw-540px))];
-  }
   main.app-paddings {
     @apply pl-[1.25rem] pr-[calc(1.25rem-10px)] sm:pl-[10vw] sm:pr-[calc(10vw-10px)] md:pl-[15vw] md:pr-[calc(15vw-10px)] 2xl:pl-[calc((50vw-540px))] 2xl:pr-[calc((50vw-550px))];
+  }
+  :not(main).app-paddings,
+  main.app-paddings:has(.animated-route-transition-enter),
+  main.app-paddings:has(.animated-route-transition-enter-active),
+  main.app-paddings:has(.animated-route-transition-exit),
+  main.app-paddings:has(.animated-route-transition-exit-active) {
+    @apply px-[1.25rem] sm:px-[10vw] md:px-[15vw] 2xl:px-[calc((50vw-540px))];
+  }
+
+  @-moz-document url-prefix() {
+    .app-paddings {
+      @apply px-[1.25rem] sm:px-[10vw] md:px-[15vw] 2xl:px-[calc((50vw-540px))] !important;
+    }
   }
 }

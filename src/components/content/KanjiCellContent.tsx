@@ -12,7 +12,7 @@ const KanjiCellContent = ({ kanji, detailedMode }: KanjiCellContentProps) => {
       <p className="p-2 text-3xl font-bold">{kanji.writing}</p>
       <div className="flex flex-col items-start">
         <p className="overflow-hidden text-left">
-          {kanji.meaning.length > 30 ? `${kanji.meaning.slice(0, 30)}...` : kanji.meaning}
+          {kanji.meaning.length > 25 ? `${kanji.meaning.slice(0, 22)}...` : kanji.meaning}
         </p>
         {detailedMode && (
           <>

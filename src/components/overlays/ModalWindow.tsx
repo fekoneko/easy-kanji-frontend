@@ -37,13 +37,15 @@ const ModalWindow = ({ shown, children }: ModalWindowProps) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute left-[-4rem] top-[-4rem] z-[99000] flex h-[calc(100dvh+8rem)] w-[calc(100vw+8rem)] items-center justify-center bg-black bg-opacity-40"
+        className="absolute left-[-4rem] top-[-4rem] z-[99000] h-[calc(100dvh+8rem)] w-[calc(100vw+8rem)] bg-black bg-opacity-40"
       >
-        <div
-          ref={modalWindowRef}
-          className="min-w-[48vw] rounded-sm border-2 border-blue bg-white p-4 shadow-md shadow-black dark:bg-soft-black sm:min-w-[300px]"
-        >
-          {children}
+        <div className="absolute left-[4rem] top-[4rem] flex h-[100dvh] w-screen items-center justify-center">
+          <div
+            ref={modalWindowRef}
+            className="min-w-[48vw] rounded-sm border-2 border-blue bg-white p-4 shadow-md shadow-black dark:bg-soft-black sm:min-w-[300px]"
+          >
+            {children}
+          </div>
         </div>
       </div>
     </CSSTransition>

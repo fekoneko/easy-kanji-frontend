@@ -98,6 +98,12 @@ export const KanjisContextProvider = ({ children }: KanjisContextProviderProps) 
     return () => setSavedKanjis([]);
   }, [auth?.id]);
 
+  useEffect(() => {
+    setRepeatKanjis((prev) =>
+      prev.filter((repeatKanji) => learnKanjis.some((learnKanji) => repeatKanji === learnKanji))
+    );
+  }, [learnKanjis]);
+
   return (
     <kanjisContext.Provider
       value={{

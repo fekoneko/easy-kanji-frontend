@@ -59,6 +59,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
 
   const selectRepeatKanjis = () => {
     setSelectedKanjis(repeatKanjis);
+    setCurrentIndex(0);
     setRepeatKanjis([]);
   };
 
