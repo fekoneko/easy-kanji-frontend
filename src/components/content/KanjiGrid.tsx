@@ -8,6 +8,7 @@ import DisplayInViewport from '../layout/DisplayInViewport';
 
 const COLUMNS_DEFAULT = 2;
 const CHUNK_ROWS = 50;
+const CHUNK_FALLBACK_HEIGHT = '150rem';
 
 const splitIntoChunks = <T,>(array: T[], chunkSize: number): T[][] => {
   const chunks: T[][] = [];
@@ -77,6 +78,7 @@ const KanjiGrid = ({
     <section ref={gridRef} className="grid grid-cols-1 gap-2">
       {splitIntoChunks(kanjis, CHUNK_ROWS * columns).map((kanjiChunk, chunkIndex) => (
         <DisplayInViewport
+          fallbackHeight={CHUNK_FALLBACK_HEIGHT}
           key={chunkIndex}
           className="grid gap-2"
           style={{

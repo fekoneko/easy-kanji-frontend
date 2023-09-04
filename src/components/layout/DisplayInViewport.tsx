@@ -5,12 +5,21 @@ type Size = { width: number; height: number };
 
 type DisplayInViewportProps = {
   viewportRef?: RefObject<HTMLElement>;
+  fallbackWidth?: string | number;
+  fallbackHeight?: string | number;
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
 };
 
-const DisplayInViewport = ({ viewportRef, className, style, children }: DisplayInViewportProps) => {
+const DisplayInViewport = ({
+  viewportRef,
+  fallbackWidth,
+  fallbackHeight,
+  className,
+  style,
+  children,
+}: DisplayInViewportProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<Size>();
 
@@ -26,7 +35,7 @@ const DisplayInViewport = ({ viewportRef, className, style, children }: DisplayI
     root: viewportRef?.current,
   });
 
-  if (intersection?.isIntersecting || !size) {
+  if (intersection?.isIntersecting) {
     return (
       <div ref={elementRef} className={className} style={style}>
         {children}
@@ -38,8 +47,8 @@ const DisplayInViewport = ({ viewportRef, className, style, children }: DisplayI
         ref={elementRef}
         className={className}
         style={{
-          width: size?.width ?? (intersection?.target as HTMLElement)?.offsetWidth,
-          height: size?.height ?? (intersection?.target as HTMLElement)?.offsetHeight,
+          width: size?.width ?? fallbackWidth,
+          height: size?.height ?? fallbackHeight,
           ...style,
         }}
       ></div>
