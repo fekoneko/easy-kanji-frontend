@@ -7,12 +7,12 @@ import useOnKeyDown from '../../hooks/useOnKeyDown';
 import DisplayInViewport from '../layout/DisplayInViewport';
 
 const COLUMNS_DEFAULT = 2;
-const CHUNK_SIZE = 100;
+const CHUNK_ROWS = 50;
 
 const splitIntoChunks = <T,>(array: T[], chunkSize: number): T[][] => {
   const chunks: T[][] = [];
   for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + 100));
+    chunks.push(array.slice(i, i + chunkSize));
   }
   return chunks;
 };
@@ -75,7 +75,7 @@ const KanjiGrid = ({
 
   return (
     <section ref={gridRef} className="grid grid-cols-1 gap-2">
-      {splitIntoChunks(kanjis, CHUNK_SIZE).map((kanjiChunk, chunkIndex) => (
+      {splitIntoChunks(kanjis, CHUNK_ROWS * columns).map((kanjiChunk, chunkIndex) => (
         <DisplayInViewport
           key={chunkIndex}
           className="grid gap-2"
