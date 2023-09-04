@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import TextArrayInputs from './TextArrayInputs';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import Tooltip from '../overlays/Tooltip';
 import kanjisApi from '../../api/kanjisApi';
 import useToast from '../../hooks/useToast';
@@ -34,7 +34,7 @@ const EditKanjiForm = ({ initialKanji }: EditKanjiFormProps) => {
     setPopularKanjis: setPageKanjis,
     setSavedKanjis,
     setSelectedKanjis,
-  } = useContext(kanjiContext);
+  } = useContext(kanjisContext);
 
   useEffect(() => {
     setKanjWriting(initialKanji?.writing ?? '');

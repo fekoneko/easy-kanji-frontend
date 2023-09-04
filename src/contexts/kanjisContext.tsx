@@ -18,7 +18,7 @@ export type Kanji = {
   meaning: string;
 };
 
-type KanjiContextValue = {
+type KanjisContextValue = {
   popularKanjis: Kanji[];
   setPopularKanjis: Dispatch<SetStateAction<Kanji[]>>;
   savedKanjis: Kanji[];
@@ -37,11 +37,11 @@ type KanjiContextValue = {
   selectedLoadingStatus: Status | null;
   selectedLoadingError: ApiErrorMessage | null;
 };
-type KanjiContextProviderProps = { children: ReactNode };
+type KanjisContextProviderProps = { children: ReactNode };
 
-const kanjiContext = createContext({} as KanjiContextValue);
+const kanjisContext = createContext({} as KanjisContextValue);
 
-export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) => {
+export const KanjisContextProvider = ({ children }: KanjisContextProviderProps) => {
   const { t } = useTranslation();
 
   const [popularKanjis, setPopularKanjis] = useState<Kanji[]>([]);
@@ -99,7 +99,7 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
   }, [auth?.id]);
 
   return (
-    <kanjiContext.Provider
+    <kanjisContext.Provider
       value={{
         popularKanjis,
         setPopularKanjis,
@@ -121,8 +121,8 @@ export const KanjiContextProvider = ({ children }: KanjiContextProviderProps) =>
       }}
     >
       {children}
-    </kanjiContext.Provider>
+    </kanjisContext.Provider>
   );
 };
 
-export default kanjiContext;
+export default kanjisContext;

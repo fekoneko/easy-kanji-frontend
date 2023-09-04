@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { Kanji } from '../contexts/kanjiContext';
+import { Kanji } from '../contexts/kanjisContext';
 import { axiosInstance } from './axiosInstance';
 import ApiError from './ApiError';
 
@@ -44,6 +44,7 @@ export default {
 
   async getKanjisByIds(kanjiIds: number[], signal?: AbortSignal): Promise<Kanji[]> {
     const serverKanjis: ServerKanji[] = [];
+    let error = false;
 
     const getKanjiRange = async (startIndex: number) => {
       const idsToLoad = kanjiIds.slice(startIndex, startIndex + 200);
@@ -57,20 +58,26 @@ export default {
         );
         response.data?.forEach((kanji, index) => (serverKanjis[startIndex + index] = kanji));
       } catch (err: any) {
-        if (signal?.aborted) throw new ApiError(undefined, true);
-        if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
-        throw new ApiError('unknown');
+        if (!error) {
+          error = true;
+          if (signal?.aborted) throw new ApiError(undefined, true);
+          if ((err as AxiosError).status === 401) throw new ApiError('unauthorized');
+          throw new ApiError('unknown');
+        }
       }
     };
 
-    const promises: Promise<void>[] = [];
-    for (let i = 0; i < kanjiIds.length; i += 200) {
-      promises.push(getKanjiRange(i));
+    try {
+      const promises: Promise<void>[] = [];
+      for (let i = 0; i < kanjiIds.length; i += 200) {
+        promises.push(getKanjiRange(i));
+      }
+      for (let i = 0; i < promises.length; i++) await promises[i];
+
+      return parseServerKanjis(serverKanjis);
+    } catch (apiErr) {
+      throw apiErr;
     }
-
-    for (let i = 0; i < promises.length; i++) await promises[i];
-
-    return parseServerKanjis(serverKanjis);
   },
 
   async getKanjiList(listName: KanjiListName, signal?: AbortSignal): Promise<Kanji[]> {

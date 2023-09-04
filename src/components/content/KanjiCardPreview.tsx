@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEvent, useContext, useMemo, useRef } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import { isKanjiInList } from '../../controllers/kanjiController';
 
 export type KanjiCardPreviewMode = 'writing' | 'meaning';
@@ -13,7 +13,7 @@ type KanjiCardPreviewProps = {
 };
 
 const KanjiCardPreview = ({ active, mode, kanji, getSize, onClick }: KanjiCardPreviewProps) => {
-  const { repeatKanjis } = useContext(kanjiContext);
+  const { repeatKanjis } = useContext(kanjisContext);
   const kanjiCardPreviewRef = useRef<HTMLButtonElement>(null);
 
   const cardRepeated = useMemo(() => isKanjiInList(repeatKanjis, kanji), [repeatKanjis, kanji]);

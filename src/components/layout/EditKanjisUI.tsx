@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Kanji } from '../../contexts/kanjiContext';
+import { Kanji } from '../../contexts/kanjisContext';
 import KanjiChoiceSidebar from './KanjiChoiceSidebar';
 import EditKanjiForm from '../forms/EditKanjiForm';
 

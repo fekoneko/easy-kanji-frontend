@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import ProtectedContent from './ProtectedContent';
 import ControlButton from './ControlButton';
 import { ReactComponent as DeleteKanjiIcon } from '../../assets/images/deleteKanji.svg';
@@ -36,7 +36,7 @@ const KanjiChoiceCell = ({
     setPopularKanjis: setPageKanjis,
     setSavedKanjis,
     setSelectedKanjis,
-  } = useContext(kanjiContext);
+  } = useContext(kanjisContext);
 
   const abortControllerRef = useAbortController();
   const [trackKanjiDeletion, kanjiDeletionStatus] = useLoading();

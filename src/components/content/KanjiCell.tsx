@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import { isKanjiInList, changeKanjiInList } from '../../controllers/kanjiController';
 import ControlButton from './ControlButton';
 import KanjiView from './KanjiView';
@@ -30,7 +30,7 @@ type KanjiCellProps = {
 const KanjiCell = ({ kanji, focus, setFocus, detailedMode }: KanjiCellProps) => {
   const { t } = useTranslation();
   const { selectedKanjis, setSelectedKanjis, savedKanjis, setSavedKanjis } =
-    useContext(kanjiContext);
+    useContext(kanjisContext);
   const { auth } = useContext(authContext);
   const { showModal } = useModal();
   const cellButtonRef = useRef<HTMLButtonElement>(null);

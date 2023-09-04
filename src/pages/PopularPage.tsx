@@ -9,7 +9,7 @@ import TitledPage from '../components/routing/TitledPage';
 import { Trans, useTranslation } from 'react-i18next';
 import Loading from '../components/content/Loading';
 import useLoading from '../hooks/useLoading';
-import kanjiContext, { Kanji } from '../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../contexts/kanjisContext';
 
 type PopularPageProps = {
   mainRef: RefObject<HTMLElement>;
@@ -17,7 +17,7 @@ type PopularPageProps = {
 
 const PopularPage = ({ mainRef }: PopularPageProps) => {
   const { t } = useTranslation();
-  const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
+  const { popularKanjis, setPopularKanjis } = useContext(kanjisContext);
   const titleRef = useRef<HTMLDivElement>(null);
   const { showToast } = useToast();
   const [trackKanjiLoading, kanjiLoadingStatus] = useLoading();

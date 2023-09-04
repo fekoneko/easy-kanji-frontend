@@ -1,5 +1,5 @@
 import { RefObject, useContext, useEffect, useState } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import {
   removeKanjisFromList,
   isKanjisInList,
@@ -27,7 +27,7 @@ const FooterControls = ({ footerRef }: FooterControlsProps) => {
     setSelectedKanjis,
     learnKanjis,
     setLearnKanjis,
-  } = useContext(kanjiContext);
+  } = useContext(kanjisContext);
   const [learnModeShuffleFlag, setLearnModeShuffleFlag] = useState<boolean>(false);
 
   const section = location.pathname.split('/')[1];

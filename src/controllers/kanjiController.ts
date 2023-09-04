@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Kanji } from '../contexts/kanjiContext';
+import { Kanji } from '../contexts/kanjisContext';
 
 type setKanjiList = Dispatch<SetStateAction<Kanji[]>>;
 

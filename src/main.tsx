@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthContextProvider } from './contexts/authContext';
 import { ModalContextProvider } from './contexts/modalContext';
-import { KanjiContextProvider } from './contexts/kanjiContext';
+import { KanjisContextProvider } from './contexts/kanjisContext';
 import { ToastContextProvider } from './contexts/toastContext';
 import { SettingsContextProvider } from './contexts/settingsContext';
 import { HelmetProvider } from 'react-helmet-async';
@@ -23,9 +23,9 @@ createRoot(document.getElementById('root') as HTMLElement).render(
             <Suspense fallback={<AppLoading />}>
               <ToastContextProvider>
                 <ModalContextProvider>
-                  <KanjiContextProvider>
+                  <KanjisContextProvider>
                     <App />
-                  </KanjiContextProvider>
+                  </KanjisContextProvider>
                 </ModalContextProvider>
               </ToastContextProvider>
             </Suspense>

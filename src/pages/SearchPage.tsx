@@ -9,11 +9,11 @@ import { Trans, useTranslation } from 'react-i18next';
 import Loading from '../components/content/Loading';
 import useLoading from '../hooks/useLoading';
 import useAbortController from '../hooks/useAbortController';
-import kanjiContext, { Kanji } from '../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../contexts/kanjisContext';
 
 const SearchPage = () => {
   const { t } = useTranslation();
-  const { searchKanjis, setSearchKanjis } = useContext(kanjiContext);
+  const { searchKanjis, setSearchKanjis } = useContext(kanjisContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchRequest, setSearchRequest] = useState<string>(searchParams.get('s') ?? '');
 

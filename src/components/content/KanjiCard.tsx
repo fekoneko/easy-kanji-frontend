@@ -1,7 +1,7 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import useKeyPressed from '../../hooks/useKeyPressed';
 import KanjiView, { ViewContent } from './KanjiView';
 import { changeKanjiInList, isKanjiInList } from '../../controllers/kanjiController';
@@ -29,7 +29,7 @@ const KanjiCard = ({
   handleFocus,
 }: KanjiCardProps) => {
   const { t } = useTranslation();
-  const { repeatKanjis, setRepeatKanjis } = useContext(kanjiContext);
+  const { repeatKanjis, setRepeatKanjis } = useContext(kanjisContext);
   const cardContainerRef = useRef<HTMLElement>(null);
   const cardActionButtonRef = useRef<HTMLButtonElement>(null);
   const [side, setSide] = useState<Side>('front');

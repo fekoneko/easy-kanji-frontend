@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { Kanji } from '../../contexts/kanjiContext';
+import { Kanji } from '../../contexts/kanjisContext';
 import KanjiCell from './KanjiCell';
 import useResizeObserver from '../../hooks/useResizeObserver';
 import KanjiChoiceCell from './KanjiChoiceCell';

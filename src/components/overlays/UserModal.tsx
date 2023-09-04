@@ -24,6 +24,7 @@ const UserModal = () => {
 
   const handleSignOut = () => {
     setAuth(null);
+    localStorage.removeItem('_rt');
     closeModal();
   };
 

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
-import kanjiContext, { Kanji } from '../../contexts/kanjiContext';
+import kanjisContext, { Kanji } from '../../contexts/kanjisContext';
 import KanjiGrid from '../content/KanjiGrid';
 import { NavLink } from 'react-router-dom';
 import useDynamicScroll from '../../hooks/useDynamicScroll';
@@ -20,7 +20,7 @@ type KanjiSelectionSidebarProps = {
 const KanjiChoiceSidebar = ({ chosenKanji, setChosenKanji }: KanjiSelectionSidebarProps) => {
   const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { popularKanjis, setPopularKanjis } = useContext(kanjiContext);
+  const { popularKanjis, setPopularKanjis } = useContext(kanjisContext);
   const { showToast } = useToast();
   const [trackKanjiLoading, kanjiLoadingStatus] = useLoading();
 

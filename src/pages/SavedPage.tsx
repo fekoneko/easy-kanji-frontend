@@ -1,5 +1,5 @@
 import { useContext, useRef } from 'react';
-import kanjiContext from '../contexts/kanjiContext';
+import kanjisContext from '../contexts/kanjisContext';
 import KanjiGrid from '../components/content/KanjiGrid';
 import { Link } from 'react-router-dom';
 import Info from '../components/content/Info';
@@ -9,7 +9,7 @@ import Loading from '../components/content/Loading';
 
 const SavedPage = () => {
   const { t } = useTranslation();
-  const { savedKanjis, savedLoadingStatus } = useContext(kanjiContext);
+  const { savedKanjis, savedLoadingStatus } = useContext(kanjisContext);
   const titleRef = useRef<HTMLDivElement>(null);
 
   return (

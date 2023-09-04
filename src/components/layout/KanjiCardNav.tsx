@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useMemo, useRef } from 'react';
-import { Kanji } from '../../contexts/kanjiContext';
+import { Kanji } from '../../contexts/kanjisContext';
 import KanjiCardPreview, { KanjiCardPreviewMode } from '../content/KanjiCardPreview';
 import useMousePosition from '../../hooks/useMousePosition';
 

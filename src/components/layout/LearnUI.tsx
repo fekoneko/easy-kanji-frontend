@@ -1,6 +1,6 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import kanjiContext from '../../contexts/kanjiContext';
+import kanjisContext from '../../contexts/kanjisContext';
 import KanjiCard from '../content/KanjiCard';
 import { ViewContent } from '../content/KanjiView';
 import { Link } from 'react-router-dom';
@@ -28,7 +28,7 @@ const LearnUI = ({ frontSide, backSide }: LearnUIProps) => {
     repeatKanjis,
     setRepeatKanjis,
     selectedLoadingStatus,
-  } = useContext(kanjiContext);
+  } = useContext(kanjisContext);
   const learnUIRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const windowWidth = useWindowWidth({ wait: 10 });

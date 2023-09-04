@@ -1,6 +1,6 @@
 import { Auth, Role } from '../contexts/authContext';
 import { axiosInstance } from './axiosInstance';
-import { Kanji } from '../contexts/kanjiContext';
+import { Kanji } from '../contexts/kanjisContext';
 import { parseServerKanjis, ServerKanji } from './kanjisApi';
 import ApiError from './ApiError';
 import { AxiosError } from 'axios';
